@@ -1,4 +1,3 @@
-var header = document.createElement('header');
 var nav = document.createElement('nav');
 nav.classList.add("p-4");
 var boxBrand = document.createElement('div');
@@ -37,7 +36,6 @@ boxBrand.appendChild(homeLink);
 nav.appendChild(boxBrand);
 nav.appendChild(boxNav);
 header.appendChild(nav);
-document.body.appendChild(header);
 //class
 nav.classList.add("navbar", "bg-success", "bg-gradient", "text-white", "container-fluid", "position-fixed");
 // boxNav.classList.add("container");

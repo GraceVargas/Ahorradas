@@ -46,7 +46,7 @@ header.appendChild(nav);
 
 
 //class
-nav.classList.add("navbar","bg-success","bg-gradient","text-white", "container-fluid" ,"position-fixed");
+nav.classList.add("navbar","bg-success","bg-gradient","text-white", "container-fluid"); // ,"position-fixed"
 // boxNav.classList.add("container");
 listNav.classList.add("navbar-nav", "me-auto","mb-2","mb-lg-0","list-group-horizontal")
 balance.classList.add("nav-item","ms-3");

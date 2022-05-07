@@ -71,7 +71,7 @@ const tableBody = document.createElement('tbody');
 categoriesTable.appendChild(tableBody);
 
 
-const categories = ["Comida", "Servicios", "Salidas", "Educación", "Transporte", "Trabajo"];
+const categories:string[] = ["Comida", "Servicios", "Salidas", "Educación", "Transporte", "Trabajo"];
 
 // const categoriesTable = createTable(6, 1);
 categoriesCard.appendChild(categoriesTable)

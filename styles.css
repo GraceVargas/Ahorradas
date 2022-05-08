@@ -28,3 +28,12 @@
 .display-none {
     display: none;
 }
+.card-operation.card{
+  
+    width:700px;
+    height: 500px;
+}
+/* .row-wrapper{
+    width: 1300px;
+    height: 600px;
+}  */

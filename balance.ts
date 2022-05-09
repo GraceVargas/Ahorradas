@@ -79,9 +79,11 @@ imgOperation.setAttribute('alt', "illustracion");
 cardOperation.appendChild(imgOperation);
 const textNoResults = document.createElement('p');
 textNoResults.appendChild(document.createTextNode("Sin resultados"));
+textNoResults.classList.add("fs-5","text-center","fw-bold","text-secondary");
 cardOperation.appendChild(textNoResults);
 const textAddOperations = document.createElement('p');
-textAddOperations.appendChild(document.createTextNode("Cambía los filtros o agrega operaciones"));
+textAddOperations.appendChild(document.createTextNode("Cambía los filtros o agregá operaciones"));
+textAddOperations.classList.add("text-center");
 cardOperation.appendChild(textAddOperations);
 
 rowWrapper.appendChild(cardOperation);

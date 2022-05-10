@@ -33,6 +33,14 @@
     width:700px;
     height: 500px;
 }
+.btn-link{
+    padding: 0;
+    text-decoration: none;
+   
+}
+.btn-link:hover{
+  color: black;
+}
 /* .row-wrapper{
     width: 1300px;
     height: 600px;

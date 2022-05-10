@@ -1,7 +1,7 @@
 var container = document.createElement('div');
 container.classList.add("container", "p-5"); //,"p-5" el padding del container
 var rowWrapper = document.createElement('div'); //revisar nombre
-rowWrapper.classList.add("row"); //,"justify-content-center" borrar el rowrapper si no se usa
+rowWrapper.classList.add("row", "row-cols-2"); //,"justify-content-center" borrar el rowrapper si no se usa
 container.appendChild(rowWrapper);
 main.appendChild(container);
 var cardBalance = document.createElement('div');
@@ -75,6 +75,50 @@ textAddOperations.appendChild(document.createTextNode("Cambía los filtros o agr
 textAddOperations.classList.add("text-center");
 cardOperation.appendChild(textAddOperations);
 rowWrapper.appendChild(cardOperation);
-// const cardFilters=document.createElement('div');
-// cardFilters.classList.add("card-filters","card","col");
-// rowWrapper.appendChild(cardFilters);
+var cardFilters = document.createElement('div');
+cardFilters.classList.add("card", "p-3"); //"d-inline-flex"
+rowWrapper.appendChild(cardFilters);
+var cardTitle = document.createElement('h3');
+cardTitle.appendChild(document.createTextNode("Filtros"));
+cardTitle.classList.add("fw-bolder", "text-dark", "text-opacity-75");
+cardFilters.appendChild(cardTitle);
+var hideFilters = document.createElement('a');
+hideFilters.setAttribute('role', "button");
+hideFilters.appendChild(document.createTextNode("Ocultar filtros"));
+hideFilters.classList.add("btn", "btn-link", "ms-3", "mt-1");
+var boxTitleLink = document.createElement('div');
+boxTitleLink.classList.add("d-flex");
+boxTitleLink.appendChild(cardTitle);
+boxTitleLink.appendChild(hideFilters);
+cardFilters.appendChild(boxTitleLink);
+// type Filters ={
+//     title:string[],
+//     type:string[],
+//     category:string[],
+//     sortBy: string[]
+// }
+// const filters ={
+//     title: [],
+//     type : [],
+//     category :[],
+//     sortBy :[]
+// }
+// const titleSelect = ["Tipo","Categoría","Desde","Ordenar por"];
+// const typeSelect = ["Todos","Gasto","Ganancias"];
+// const categorySelect = ["Todas"];
+// const sortSelect = ["Mas reciente","Menos reciente","Mayor monto","Menor monto","A/Z","Z/A"];
+// const createForm =(array: Filters)=>{
+//     const form = document.createElement('form');
+//     cardFilters.appendChild(form);
+//     for (let i = 0; i < filters.title.length; i++) {
+//         const element = array[i];
+//         const select = document.createElement('select');
+//         select.classList.add("form-select");
+//         const option = document.createAttribute('option');
+//         const label = document.createElement('label');
+//         label.setAttribute('for',element[filters.title]);
+//         // // option.appendChild(document.createTextNode(filters.tipo))
+//         // option.value = filters.tipo.toString();
+//         form.appendChild(select);
+//     }
+// }

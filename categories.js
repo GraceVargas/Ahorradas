@@ -1,6 +1,6 @@
 // Container
 var container = document.createElement('div');
-container.classList.add("container-md", "px-4", "d-flex", "justify-content-center");
+container.classList.add("container-xl", "px-4", "d-flex", "justify-content-center");
 document.body.appendChild(container); // borrar
 // main.appendChild(container)
 // Card 
@@ -15,6 +15,7 @@ container.appendChild(categoriesCard); // borrar
 var categoriesTitle = document.createElement('h2');
 categoriesTitle.appendChild(document.createTextNode("Categorías"));
 categoriesCard.appendChild(categoriesTitle);
+categoriesTitle.classList.add("cardTitle"); // para sumar el style del h2 de categorias y reportes
 var categoriesRow = document.createElement('div');
 categoriesRow.classList.add("row");
 categoriesCard.appendChild(categoriesRow);
@@ -26,6 +27,7 @@ var label = document.createElement('label');
 label.classList.add("form-label");
 label.setAttribute("name", "formLabel");
 label.appendChild(document.createTextNode("Nombre"));
+label.classList.add("fs-6", "fw-bold", "mt-4");
 form.appendChild(label);
 var formColText = document.createElement('div');
 formColText.classList.add("col-10");
@@ -49,12 +51,12 @@ categoriesTable.classList.add("table", "table-borderless");
 categoriesCard.appendChild(categoriesTable);
 var tableBody = document.createElement('tbody');
 categoriesTable.appendChild(tableBody);
+categoriesTable.classList.add("mt-5");
 var categories = ["Comida", "Servicios", "Salidas", "Educación", "Transporte", "Trabajo"];
-// const categoriesTable = createTable(6, 1);
-categoriesCard.appendChild(categoriesTable);
-categoriesTable.classList.add("table", "table-borderless");
-var createCategoryList = function (categories) {
+localStorage.setItem('storedCategories', JSON.stringify(categories));
+var createCategoryList = function () {
     tableBody.innerHTML = "";
+    var categories = JSON.parse(localStorage.getItem('storedCategories'));
     var _loop_1 = function (category) {
         var tRow = document.createElement('tr');
         tableBody.appendChild(tRow);
@@ -90,7 +92,7 @@ var createCategoryList = function (categories) {
                 formSubmit.classList.remove("display-none");
                 cancelSubmit.classList.add("display-none");
                 editSubmit.classList.add("display-none");
-                createCategoryList(categories);
+                createCategoryList();
             });
             var editSubmit = document.createElement('button');
             editSubmit.appendChild(document.createTextNode("Editar"));
@@ -101,7 +103,7 @@ var createCategoryList = function (categories) {
             editSubmit.addEventListener("click", function () {
                 var index = categories.indexOf(category);
                 categories.splice(index, 1, formInput.value);
-                return categories;
+                localStorage.setItem('storedCategories', JSON.stringify(categories));
             });
         });
         //Delete Button
@@ -115,17 +117,22 @@ var createCategoryList = function (categories) {
         delBtn.addEventListener('click', function () {
             var index = categories.indexOf(category);
             categories.splice(index, 1);
-            createCategoryList(categories);
+            localStorage.setItem('storedCategories', JSON.stringify(categories));
+            // aca debo borrar ese elemento del local storage
+            createCategoryList();
         });
     };
     for (var _i = 0, categories_1 = categories; _i < categories_1.length; _i++) {
         var category = categories_1[_i];
         _loop_1(category);
     }
+    localStorage.setItem('storedCategories', JSON.stringify(categories));
 };
-createCategoryList(categories);
+createCategoryList();
 form.addEventListener('submit', function (e) {
     e.preventDefault();
+    var categories = JSON.parse(localStorage.getItem('storedCategories'));
     categories.push(formInput.value);
-    createCategoryList(categories);
+    localStorage.setItem('storedCategories', JSON.stringify(categories));
+    createCategoryList();
 });

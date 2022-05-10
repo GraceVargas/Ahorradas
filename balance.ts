@@ -1,15 +1,17 @@
 const container = document.createElement('div');
 container.classList.add("container","p-5"); //,"p-5" el padding del container
 const rowWrapper = document.createElement('div'); //revisar nombre
-rowWrapper.classList.add("row","row-cols-2");//,"justify-content-center" borrar el rowrapper si no se usa
+rowWrapper.classList.add("row");//,"row-cols-3","g-2","justify-content-center""row-cols-2"borrar el rowrapper si no se usa
 container.appendChild(rowWrapper);
 
 
 main.appendChild(container);
 
+
+
 const cardBalance = document.createElement('div');
 rowWrapper.appendChild(cardBalance);
-cardBalance.classList.add("card","p-3", "col"); //, "mt-2"
+cardBalance.classList.add("card-balance","card","p-3"); //, "mt-2", "col-4"
 
 const balanceTitle = document.createElement('h2');
 balanceTitle.appendChild(document.createTextNode("Balance"));
@@ -17,6 +19,7 @@ balanceTitle.classList.add("fw-bold","mb-5", "text-dark","text-opacity-75");
 cardBalance.appendChild(balanceTitle);
 
 const tableBalance = document.createElement('table');
+tableBalance.classList.add("table","table-borderless");
 cardBalance.appendChild(tableBalance);
 const tbody = document.createElement('tbody');
 tableBalance.appendChild(tbody);
@@ -48,7 +51,6 @@ trBills.appendChild(tdNumberBills);
 tdNumberBills.appendChild(spanBills);
 
 const trSum = document.createElement('tr');
-
 tbody.appendChild(trSum);
 const tdSum = document.createElement('td');
 trSum.appendChild(tdSum);
@@ -61,36 +63,8 @@ spanSum.appendChild(document.createTextNode(" $0"));
 spanSum.classList.add("fw-bold");
 tdNumberSum.appendChild(spanSum);
 
-
-const cardOperation = document.createElement('div');
-cardOperation.classList.add("card-operation","card","p-3");
-const titleOperation = document.createElement('h3');
-titleOperation.appendChild(document.createTextNode("Operaciones"));
-titleOperation.classList.add("fw-bold", "text-dark","fs-4");
-cardOperation.appendChild(titleOperation);
-const btnNewOperation = document.createElement('button');
-btnNewOperation.appendChild(document.createTextNode("+ Nueva operación"));
-btnNewOperation.classList.add("btn", "btn-success");
-btnNewOperation.setAttribute('type', "button");
-cardOperation.appendChild(btnNewOperation);
-const imgOperation = document.createElement('img');
-imgOperation.setAttribute('src',"./assets/undraw_discount_d4bd.png");
-imgOperation.setAttribute('alt', "illustracion");
-cardOperation.appendChild(imgOperation);
-const textNoResults = document.createElement('p');
-textNoResults.appendChild(document.createTextNode("Sin resultados"));
-textNoResults.classList.add("fs-5","text-center","fw-bold","text-secondary");
-cardOperation.appendChild(textNoResults);
-const textAddOperations = document.createElement('p');
-textAddOperations.appendChild(document.createTextNode("Cambía los filtros o agregá operaciones"));
-textAddOperations.classList.add("text-center");
-cardOperation.appendChild(textAddOperations);
-
-rowWrapper.appendChild(cardOperation);
-
 const cardFilters=document.createElement('div');
-cardFilters.classList.add("card","p-3");//"d-inline-flex"
-rowWrapper.appendChild(cardFilters);
+cardFilters.classList.add("card-filters","card","p-3","mt-3");//"d-inline-flex","col-4"
 const cardTitle = document.createElement('h3');
 cardTitle.appendChild(document.createTextNode("Filtros"));
 cardTitle.classList.add("fw-bolder","text-dark","text-opacity-75");
@@ -104,6 +78,44 @@ boxTitleLink.classList.add("d-flex");
 boxTitleLink.appendChild(cardTitle);
 boxTitleLink.appendChild(hideFilters);
 cardFilters.appendChild(boxTitleLink);
+const column = document.createElement('div');
+column.classList.add("col-4","gx-5");
+column.appendChild(cardBalance);
+column.appendChild(cardFilters);
+rowWrapper.appendChild(column);
+
+
+const cardOperation = document.createElement('div');
+cardOperation.classList.add("card-operation","card","p-3","col-7");
+const titleOperation = document.createElement('h3');
+titleOperation.appendChild(document.createTextNode("Operaciones"));
+titleOperation.classList.add("fw-bold", "text-dark","fs-4");
+cardOperation.appendChild(titleOperation);
+const btnBox= document.createElement('div');
+btnBox.classList.add("d-flex","justify-content-end");
+const btnNewOperation = document.createElement('button');
+btnNewOperation.appendChild(document.createTextNode("+ Nueva operación"));
+btnNewOperation.classList.add("btn", "btn-success");
+btnNewOperation.setAttribute('type', "button");
+btnBox.appendChild(btnNewOperation);
+cardOperation.appendChild(btnBox);
+const imgOperation = document.createElement('img');
+imgOperation.setAttribute('src',"./assets/undraw_discount_d4bd.png");
+imgOperation.setAttribute('alt', "illustracion");
+
+cardOperation.appendChild(imgOperation);
+const textNoResults = document.createElement('p');
+textNoResults.appendChild(document.createTextNode("Sin resultados"));
+textNoResults.classList.add("fs-5","text-center","fw-bold","text-secondary");
+cardOperation.appendChild(textNoResults);
+const textAddOperations = document.createElement('p');
+textAddOperations.appendChild(document.createTextNode("Cambía los filtros o agregá operaciones"));
+textAddOperations.classList.add("text-center");
+cardOperation.appendChild(textAddOperations);
+
+rowWrapper.appendChild(cardOperation);
+
+
 
 // type Filters ={
 //     title:string[],

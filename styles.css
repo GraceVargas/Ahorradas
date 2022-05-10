@@ -4,13 +4,13 @@
  body{
     margin: 0px;
 }
-.container{
+/* .container{
     width: 100vw;
     height: 100vh;
-}
-.card{
-    max-width: 265px;
-    height:277px;
+} */
+.card-balance{
+    width: 265px;
+    /* height:277px; */
 } 
 .centralCard {
     width: 60%;
@@ -28,11 +28,12 @@
 .display-none {
     display: none;
 }
-.card-operation.card{
+.card-operation{
   
-    width:700px;
-    height: 500px;
+    width:661px;
+    height: 600px;
 }
+
 .btn-link{
     padding: 0;
     text-decoration: none;
@@ -41,6 +42,12 @@
 .btn-link:hover{
   color: black;
 }
+.card-filters{
+    width: 265px;
+    height: 424px;
+}
+
+
 /* .row-wrapper{
     width: 1300px;
     height: 600px;

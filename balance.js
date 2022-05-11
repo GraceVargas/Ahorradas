@@ -91,34 +91,63 @@ boxTitleLink.classList.add("d-flex");
 boxTitleLink.appendChild(cardTitle);
 boxTitleLink.appendChild(hideFilters);
 cardFilters.appendChild(boxTitleLink);
-// type Filters ={
-//     title:string[],
-//     type:string[],
-//     category:string[],
-//     sortBy: string[]
-// }
-// const filters ={
-//     title: [],
-//     type : [],
-//     category :[],
-//     sortBy :[]
-// }
-// const titleSelect = ["Tipo","Categoría","Desde","Ordenar por"];
-// const typeSelect = ["Todos","Gasto","Ganancias"];
-// const categorySelect = ["Todas"];
-// const sortSelect = ["Mas reciente","Menos reciente","Mayor monto","Menor monto","A/Z","Z/A"];
-// const createForm =(array: Filters)=>{
-//     const form = document.createElement('form');
-//     cardFilters.appendChild(form);
-//     for (let i = 0; i < filters.title.length; i++) {
-//         const element = array[i];
-//         const select = document.createElement('select');
-//         select.classList.add("form-select");
-//         const option = document.createAttribute('option');
-//         const label = document.createElement('label');
-//         label.setAttribute('for',element[filters.title]);
-//         // // option.appendChild(document.createTextNode(filters.tipo))
-//         // option.value = filters.tipo.toString();
-//         form.appendChild(select);
-//     }
-// }
+var filters = {
+    title: ["Tipo", "Categoría", "Desde", "Ordenar por"],
+    type: ["Todos", "Gasto", "Ganancias"],
+    category: ["Todas"],
+    sortBy: ["Mas reciente", "Menos reciente", "Mayor monto", "Menor monto", "A/Z", "Z/A"]
+};
+var createForm = function (array) {
+    var form = document.createElement('form');
+    cardFilters.appendChild(form);
+    filters.title.forEach(function (elem) {
+        if (elem != "Desde") {
+            var label = document.createElement('label');
+            label.setAttribute('for', elem);
+            label.appendChild(document.createTextNode(elem));
+            form.appendChild(label);
+            var select_1 = document.createElement('select');
+            select_1.classList.add("form-select");
+            switch (elem) {
+                case "Tipo":
+                    filters.type.forEach(function (type) {
+                        var option = document.createElement('option');
+                        option.appendChild(document.createTextNode(type));
+                        option.value = type;
+                        select_1.appendChild(option);
+                    });
+                    break;
+                case "Categoría":
+                    filters.category.forEach(function (category) {
+                        var option = document.createElement('option');
+                        option.appendChild(document.createTextNode(category));
+                        option.value = category;
+                        select_1.appendChild(option);
+                    });
+                    break;
+                case "Ordenar por":
+                    filters.sortBy.forEach(function (order) {
+                        var option = document.createElement('option');
+                        option.appendChild(document.createTextNode(order));
+                        option.value = order;
+                        select_1.appendChild(option);
+                    });
+                    break;
+                default:
+                    break;
+            }
+            form.appendChild(select_1);
+        }
+        else if (elem === "Desde") {
+            var input = document.createElement('input');
+            input.setAttribute('type', "date");
+            input.value = Date.now().toString();
+            var label = document.createElement('label');
+            label.setAttribute('for', elem);
+            label.appendChild(document.createTextNode(elem));
+            form.appendChild(label);
+            form.appendChild(input);
+        }
+    });
+};
+createForm(filters);

@@ -1,9 +1,10 @@
 var container = document.createElement('div');
-container.classList.add("container", "p-5"); //,"p-5" el padding del container
-var rowWrapper = document.createElement('div'); //revisar nombre
-rowWrapper.classList.add("row"); //,"row-cols-3","g-2","justify-content-center""row-cols-2"borrar el rowrapper si no se usa
+container.classList.add("container", "p-5");
+var rowWrapper = document.createElement('div');
+rowWrapper.classList.add("row");
 container.appendChild(rowWrapper);
 main.appendChild(container);
+//Card Balance
 var cardBalance = document.createElement('div');
 rowWrapper.appendChild(cardBalance);
 cardBalance.classList.add("card-balance", "card", "p-3"); //, "mt-2", "col-4"
@@ -52,8 +53,9 @@ var spanSum = document.createElement('span');
 spanSum.appendChild(document.createTextNode(" $0"));
 spanSum.classList.add("fw-bold");
 tdNumberSum.appendChild(spanSum);
+//Card Filters
 var cardFilters = document.createElement('div');
-cardFilters.classList.add("card-filters", "card", "p-3", "mt-3"); //"d-inline-flex","col-4"
+cardFilters.classList.add("card-filters", "card", "p-3", "mt-3");
 var cardTitle = document.createElement('h3');
 cardTitle.appendChild(document.createTextNode("Filtros"));
 cardTitle.classList.add("fw-bolder", "text-dark", "text-opacity-75");
@@ -61,7 +63,7 @@ cardFilters.appendChild(cardTitle);
 var hideFilters = document.createElement('a');
 hideFilters.setAttribute('role', "button");
 hideFilters.appendChild(document.createTextNode("Ocultar filtros"));
-hideFilters.classList.add("btn", "btn-link", "ms-3", "mt-1");
+hideFilters.classList.add("btn", "btn-link", "ms-5", "mt-1");
 var boxTitleLink = document.createElement('div');
 boxTitleLink.classList.add("d-flex");
 boxTitleLink.appendChild(cardTitle);
@@ -72,20 +74,21 @@ column.classList.add("col-4", "gx-5");
 column.appendChild(cardBalance);
 column.appendChild(cardFilters);
 rowWrapper.appendChild(column);
+//Card Operation
 var cardOperation = document.createElement('div');
 cardOperation.classList.add("card-operation", "card", "p-3", "col-7");
+var boxTitleBtn = document.createElement('div');
+boxTitleBtn.classList.add("d-flex", "justify-content-between");
 var titleOperation = document.createElement('h3');
 titleOperation.appendChild(document.createTextNode("Operaciones"));
-titleOperation.classList.add("fw-bold", "text-dark", "fs-4");
-cardOperation.appendChild(titleOperation);
-var btnBox = document.createElement('div');
-btnBox.classList.add("d-flex", "justify-content-end");
+titleOperation.classList.add("fw-bold", "text-dark", "fs-4", "text-opacity-75");
+boxTitleBtn.appendChild(titleOperation);
 var btnNewOperation = document.createElement('button');
 btnNewOperation.appendChild(document.createTextNode("+ Nueva operación"));
 btnNewOperation.classList.add("btn", "btn-success");
 btnNewOperation.setAttribute('type', "button");
-btnBox.appendChild(btnNewOperation);
-cardOperation.appendChild(btnBox);
+boxTitleBtn.appendChild(btnNewOperation);
+cardOperation.appendChild(boxTitleBtn);
 var imgOperation = document.createElement('img');
 imgOperation.setAttribute('src', "./assets/undraw_discount_d4bd.png");
 imgOperation.setAttribute('alt', "illustracion");
@@ -99,7 +102,6 @@ textAddOperations.appendChild(document.createTextNode("Cambía los filtros o agr
 textAddOperations.classList.add("text-center");
 cardOperation.appendChild(textAddOperations);
 rowWrapper.appendChild(cardOperation);
-
 var filters = {
     title: ["Tipo", "Categoría", "Desde", "Ordenar por"],
     type: ["Todos", "Gasto", "Ganancias"],
@@ -112,11 +114,12 @@ var createForm = function (array) {
     filters.title.forEach(function (elem) {
         if (elem != "Desde") {
             var label = document.createElement('label');
+            label.classList.add("fw-bold", "mb-2");
             label.setAttribute('for', elem);
             label.appendChild(document.createTextNode(elem));
             form.appendChild(label);
             var select_1 = document.createElement('select');
-            select_1.classList.add("form-select");
+            select_1.classList.add("form-select", "mb-3");
             switch (elem) {
                 case "Tipo":
                     filters.type.forEach(function (type) {
@@ -149,9 +152,11 @@ var createForm = function (array) {
         }
         else if (elem === "Desde") {
             var input = document.createElement('input');
+            input.classList.add("form-control", "mb-3");
             input.setAttribute('type', "date");
             input.value = Date.now().toString();
             var label = document.createElement('label');
+            label.classList.add("fw-bold", "mb-2");
             label.setAttribute('for', elem);
             label.appendChild(document.createTextNode(elem));
             form.appendChild(label);

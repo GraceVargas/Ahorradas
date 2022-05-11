@@ -75,11 +75,16 @@ const hideFilters = document.createElement('a');
 hideFilters.setAttribute('role', "button");
 hideFilters.appendChild(document.createTextNode("Ocultar filtros"));
 hideFilters.classList.add("btn","btn-link","ms-5","mt-1");
+const btnShowFilters = document.createElement('a');
+btnShowFilters.setAttribute('role', "button");
+btnShowFilters.appendChild(document.createTextNode("Mostrar filtros"));
+btnShowFilters.classList.add("btn","btn-link","ms-5","mt-1","display-none");
 
 const boxTitleLink = document.createElement('div');
 boxTitleLink.classList.add("d-flex");
 boxTitleLink.appendChild(cardTitle);
 boxTitleLink.appendChild(hideFilters);
+boxTitleLink.appendChild(btnShowFilters);
 cardFilters.appendChild(boxTitleLink);
 
 const column = document.createElement('div');
@@ -138,10 +143,10 @@ const filters ={
     sortBy :["Mas reciente","Menos reciente","Mayor monto","Menor monto","A/Z","Z/A"]
 }
 
-
-const createForm =(array: Filters)=>{
-    const form = document.createElement('form');
+const form = document.createElement('form');
     cardFilters.appendChild(form);
+const createSelect =(array: Filters)=>{
+    
     filters.title.forEach((elem)=>{
         if (elem != "Desde"){
             const label = document.createElement('label');
@@ -204,7 +209,25 @@ const createForm =(array: Filters)=>{
 
 }
 
-createForm(filters);
+createSelect(filters);
+
+hideFilters.addEventListener('click', (e) =>{
+    e.preventDefault();
+    form.classList.add("display-none");
+    cardFilters.classList.add("card-hide");
+    hideFilters.classList.add("display-none");
+    btnShowFilters.classList.add("d-flex");
+  
+})
+btnShowFilters.addEventListener('click',(e)=>{
+    e.preventDefault();
+    form.classList.remove("display-none");
+    cardFilters.classList.remove("card-hide");
+    btnShowFilters.classList.remove("d-flex");
+    hideFilters.classList.remove("display-none");
+})
+
+
 
 
 

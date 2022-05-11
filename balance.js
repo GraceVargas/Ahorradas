@@ -64,10 +64,15 @@ var hideFilters = document.createElement('a');
 hideFilters.setAttribute('role', "button");
 hideFilters.appendChild(document.createTextNode("Ocultar filtros"));
 hideFilters.classList.add("btn", "btn-link", "ms-5", "mt-1");
+var btnShowFilters = document.createElement('a');
+btnShowFilters.setAttribute('role', "button");
+btnShowFilters.appendChild(document.createTextNode("Mostrar filtros"));
+btnShowFilters.classList.add("btn", "btn-link", "ms-5", "mt-1", "display-none");
 var boxTitleLink = document.createElement('div');
 boxTitleLink.classList.add("d-flex");
 boxTitleLink.appendChild(cardTitle);
 boxTitleLink.appendChild(hideFilters);
+boxTitleLink.appendChild(btnShowFilters);
 cardFilters.appendChild(boxTitleLink);
 var column = document.createElement('div');
 column.classList.add("col-4", "gx-5");
@@ -108,9 +113,9 @@ var filters = {
     category: ["Todas"],
     sortBy: ["Mas reciente", "Menos reciente", "Mayor monto", "Menor monto", "A/Z", "Z/A"]
 };
-var createForm = function (array) {
-    var form = document.createElement('form');
-    cardFilters.appendChild(form);
+var form = document.createElement('form');
+cardFilters.appendChild(form);
+var createSelect = function (array) {
     filters.title.forEach(function (elem) {
         if (elem != "Desde") {
             var label = document.createElement('label');
@@ -164,4 +169,18 @@ var createForm = function (array) {
         }
     });
 };
-createForm(filters);
+createSelect(filters);
+hideFilters.addEventListener('click', function (e) {
+    e.preventDefault();
+    form.classList.add("display-none");
+    cardFilters.classList.add("card-hide");
+    hideFilters.classList.add("display-none");
+    btnShowFilters.classList.add("d-flex");
+});
+btnShowFilters.addEventListener('click', function (e) {
+    e.preventDefault();
+    form.classList.remove("display-none");
+    cardFilters.classList.remove("card-hide");
+    btnShowFilters.classList.remove("d-flex");
+    hideFilters.classList.remove("display-none");
+});

@@ -117,47 +117,83 @@ rowWrapper.appendChild(cardOperation);
 
 
 
-// type Filters ={
-//     title:string[],
-//     type:string[],
-//     category:string[],
-//     sortBy: string[]
-// }
-// const filters ={
-//     title: [],
-//     type : [],
-//     category :[],
-//     sortBy :[]
- 
-// }
-// const titleSelect = ["Tipo","Categoría","Desde","Ordenar por"];
-// const typeSelect = ["Todos","Gasto","Ganancias"];
-// const categorySelect = ["Todas"];
-// const sortSelect = ["Mas reciente","Menos reciente","Mayor monto","Menor monto","A/Z","Z/A"];
+type Filters ={
+    title:string[],
+    type:string[],
+    category:string[],
+    sortBy: string[]
+}
+const filters ={
+    title: ["Tipo","Categoría","Desde","Ordenar por"],
+    type : ["Todos","Gasto","Ganancias"],
+    category :["Todas"],
+    sortBy :["Mas reciente","Menos reciente","Mayor monto","Menor monto","A/Z","Z/A"]
+}
 
 
-// const createForm =(array: Filters)=>{
-//     const form = document.createElement('form');
-//     cardFilters.appendChild(form);
-//     for (let i = 0; i < filters.title.length; i++) {
-//         const element = array[i];
-//         const select = document.createElement('select');
-//         select.classList.add("form-select");
+const createForm =(array: Filters)=>{
+    const form = document.createElement('form');
+    cardFilters.appendChild(form);
+    filters.title.forEach((elem)=>{
+        if (elem != "Desde"){
+            const label = document.createElement('label');
+            label.setAttribute('for',elem);
+            label.appendChild(document.createTextNode(elem));
+            form.appendChild(label);
+            const select = document.createElement('select');
+            select.classList.add("form-select");
+            switch (elem) {
+                case "Tipo":
+                    filters.type.forEach((type)=>{
+                        const option = document.createElement('option');
+                        option.appendChild(document.createTextNode(type));
+                        option.value = type;
+                        select.appendChild(option);
+            
+                    })
+                    
+                    break;
+                case "Categoría":
+                    filters.category.forEach((category)=>{
+                        const option = document.createElement('option');
+                        option.appendChild(document.createTextNode(category));
+                        option.value = category;
+                        select.appendChild(option);
+            
+                    });
+                    break;
+                case "Ordenar por":
+                    filters.sortBy.forEach((order)=>{
+                        const option = document.createElement('option');
+                        option.appendChild(document.createTextNode(order));
+                        option.value = order;
+                        select.appendChild(option);
+            
+                    }); break;  
+            
+                default:
+                    break;
+            }
+            form.appendChild(select);
+        }
+        else if (elem === "Desde"){
+           const input = document.createElement('input');
+            input.setAttribute('type', "date");
+            input.value = Date.now().toString(); 
+            const label = document.createElement('label');
+            label.setAttribute('for',elem);
+            label.appendChild(document.createTextNode(elem));
+            form.appendChild(label);
+            form.appendChild(input);
+        }       
 
-//         const option = document.createAttribute('option');
-//         const label = document.createElement('label');
-//         label.setAttribute('for',element[filters.title]);
-//         // // option.appendChild(document.createTextNode(filters.tipo))
-//         // option.value = filters.tipo.toString();
-
-//         form.appendChild(select);
-        
-//     }
+    })
+    
 
 
-// }
+}
 
-
+createForm(filters);
 
 
 

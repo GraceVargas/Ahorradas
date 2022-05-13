@@ -2,7 +2,7 @@
 // Container
 
 const container = document.createElement('div');
-container.classList.add("container-md", "px-4", "d-flex", "justify-content-center");
+container.classList.add("container-xl", "px-4", "d-flex", "justify-content-center");
 document.body.appendChild(container); // borrar
 // main.appendChild(container)
 
@@ -23,6 +23,7 @@ container.appendChild(categoriesCard); // borrar
 const categoriesTitle = document.createElement('h2');
 categoriesTitle.appendChild(document.createTextNode("Categorías"));
 categoriesCard.appendChild(categoriesTitle);
+categoriesTitle.classList.add("cardTitle");   // para sumar el style del h2 de categorias y reportes
 
 const categoriesRow = document.createElement('div');
 categoriesRow.classList.add("row");
@@ -39,6 +40,7 @@ const label = document.createElement('label');
 label.classList.add("form-label");
 label.setAttribute("name", "formLabel")
 label.appendChild(document.createTextNode("Nombre"));
+label.classList.add("fs-6", "fw-bold", "mt-4");
 form.appendChild(label);
 
 const formColText = document.createElement('div');
@@ -69,20 +71,21 @@ categoriesTable.classList.add("table", "table-borderless");
 categoriesCard.appendChild(categoriesTable);
 const tableBody = document.createElement('tbody');
 categoriesTable.appendChild(tableBody);
-
+categoriesTable.classList.add("mt-5");
 
 const categories:string[] = ["Comida", "Servicios", "Salidas", "Educación", "Transporte", "Trabajo"];
 
-// const categoriesTable = createTable(6, 1);
-categoriesCard.appendChild(categoriesTable)
-categoriesTable.classList.add("table", "table-borderless");
+localStorage.setItem('storedCategories', JSON.stringify(categories));
 
-const createCategoryList = (categories: string[]) => {
+const createCategoryList = () => {
     
     tableBody.innerHTML = "";
 
-    for (let category of categories) {
+    const categories = JSON.parse(localStorage.getItem('storedCategories'));
+    
 
+    for (let category of categories) {
+                
         let tRow = document.createElement('tr');
         tableBody.appendChild(tRow);
 
@@ -126,7 +129,7 @@ const createCategoryList = (categories: string[]) => {
                 cancelSubmit.classList.add("display-none");
                 editSubmit.classList.add("display-none");
                 
-                createCategoryList(categories)
+                createCategoryList()
             })
 
 
@@ -140,7 +143,9 @@ const createCategoryList = (categories: string[]) => {
             editSubmit.addEventListener("click", () => {
                 let index = categories.indexOf(category);
                 categories.splice(index, 1, formInput.value);
-                return categories;
+                
+                localStorage.setItem('storedCategories', JSON.stringify(categories));
+
             })
         })
 
@@ -159,24 +164,29 @@ const createCategoryList = (categories: string[]) => {
         delBtn.addEventListener('click', () => {
             let index = categories.indexOf(category);
             categories.splice(index, 1);
-            createCategoryList(categories);
+            localStorage.setItem('storedCategories', JSON.stringify(categories));
+            // aca debo borrar ese elemento del local storage
+            createCategoryList();
         })
 
     }
 
+    localStorage.setItem('storedCategories', JSON.stringify(categories));
 
 
 }
 
-createCategoryList(categories);
+createCategoryList();
 
 form.addEventListener('submit', (e) =>{
     e.preventDefault();
+
+    const categories = JSON.parse(localStorage.getItem('storedCategories'));
     categories.push(formInput.value);
-    createCategoryList(categories)
+    localStorage.setItem('storedCategories', JSON.stringify(categories));
+    
+    createCategoryList()
 })
-
-
 
 
 

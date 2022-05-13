@@ -16,14 +16,7 @@ homeLink.appendChild(pageTitle);
 var boxNav = document.createElement('div');
 nav.appendChild(boxNav);
 var listNav = document.createElement('ul');
-boxNav.appendChild(listNav);
-listNav.classList.add("navbar-nav", "me-auto", "mb-lg-0", "list-group-horizontal");
-var navBalance = document.createElement('li');
-listNav.appendChild(navBalance);
-var navCategories = document.createElement('li');
-listNav.appendChild(navCategories);
-var navReports = document.createElement('li');
-listNav.appendChild(navReports);
+
 var iconBalance = document.createElement('i');
 iconBalance.classList.add("fa-solid", "fa-chart-column", "me-1");
 var iconCategory = document.createElement('i');
@@ -47,5 +40,4 @@ aReport.classList.add("ms-3", "btn", "btn-success");
 aReport.setAttribute('href', "./reports.html");
 aReport.appendChild(iconReport);
 aReport.appendChild(document.createTextNode('Reportes'));
-navReports.appendChild(aReport);
-header.appendChild(nav);
+

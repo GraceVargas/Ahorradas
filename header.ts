@@ -1,4 +1,3 @@
-
 const nav = document.createElement('nav');
 nav.classList.add("p-4","navbar","bg-success","text-white", "container-fluid");
 const boxBrand = document.createElement('div');
@@ -18,21 +17,11 @@ homeLink.appendChild(pageTitle);
 const boxNav = document.createElement('div');
 nav.appendChild(boxNav);
 const listNav = document.createElement('ul');
-boxNav.appendChild(listNav);
-listNav.classList.add("navbar-nav", "me-auto","mb-lg-0","list-group-horizontal");
-const navBalance = document.createElement('li');
-listNav.appendChild(navBalance);
-const navCategories= document.createElement('li');
-listNav.appendChild(navCategories);
-const navReports = document.createElement('li');
-listNav.appendChild(navReports);
 
 const iconBalance = document.createElement('i');
 iconBalance.classList.add("fa-solid","fa-chart-column","me-1");
-
 const iconCategory = document.createElement('i');
 iconCategory.classList.add("fa-solid","fa-tag","me-1");
-
 const iconReport = document.createElement('i');
 iconReport.classList.add("fa-solid","fa-chart-pie","me-1");
 
@@ -58,6 +47,7 @@ aReport.appendChild(document.createTextNode('Reportes'));
 navReports.appendChild(aReport);
 
 header.appendChild(nav);
+
 
 
 

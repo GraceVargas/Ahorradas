@@ -73,7 +73,7 @@ const tableBody = document.createElement('tbody');
 categoriesTable.appendChild(tableBody);
 categoriesTable.classList.add("mt-5");
 
-const categories = ["Comida", "Servicios", "Salidas", "Educación", "Transporte", "Trabajo"];
+const categories:string[] = ["Comida", "Servicios", "Salidas", "Educación", "Transporte", "Trabajo"];
 
 localStorage.setItem('storedCategories', JSON.stringify(categories));
 

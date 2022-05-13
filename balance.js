@@ -84,6 +84,15 @@ var cardOperation = document.createElement('div');
 cardOperation.classList.add("card-operation", "card", "p-3", "col-7");
 var boxTitleBtn = document.createElement('div');
 boxTitleBtn.classList.add("d-flex", "justify-content-between");
+var wrapperNewOp = document.createElement('div');
+var cardNewOperation = document.createElement('div');
+var titleNewOp = document.createElement('h2');
+titleNewOp.appendChild(document.createTextNode("Nueva operación"));
+titleNewOp.classList.add("fw-bolder", "fs-1");
+cardNewOperation.appendChild(titleNewOp);
+cardNewOperation.classList.add("display-none", "card-newOp", "card", "p-3");
+wrapperNewOp.appendChild(cardNewOperation);
+container.appendChild(wrapperNewOp);
 var titleOperation = document.createElement('h3');
 titleOperation.appendChild(document.createTextNode("Operaciones"));
 titleOperation.classList.add("fw-bold", "text-dark", "fs-4", "text-opacity-75");
@@ -100,13 +109,21 @@ imgOperation.setAttribute('alt', "illustracion");
 cardOperation.appendChild(imgOperation);
 var textNoResults = document.createElement('p');
 textNoResults.appendChild(document.createTextNode("Sin resultados"));
-textNoResults.classList.add("fs-5", "text-center", "fw-bold", "text-secondary");
+textNoResults.classList.add("fs-4", "text-center", "text-dark", "fw-bold", "text-opacity-75");
 cardOperation.appendChild(textNoResults);
 var textAddOperations = document.createElement('p');
 textAddOperations.appendChild(document.createTextNode("Cambía los filtros o agregá operaciones"));
 textAddOperations.classList.add("text-center");
 cardOperation.appendChild(textAddOperations);
 rowWrapper.appendChild(cardOperation);
+var formNewOp = document.createElement('form');
+cardNewOperation.appendChild(formNewOp);
+btnNewOperation.addEventListener('click', function (e) {
+    e.preventDefault();
+    cardNewOperation.classList.remove("display-none");
+    rowWrapper.classList.add("display-none");
+    wrapperNewOp.classList.add("d-flex", "justify-content-center");
+});
 var filters = {
     title: ["Tipo", "Categoría", "Desde", "Ordenar por"],
     type: ["Todos", "Gasto", "Ganancias"],

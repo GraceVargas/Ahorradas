@@ -100,6 +100,16 @@ cardOperation.classList.add("card-operation","card","p-3","col-7");
 const boxTitleBtn= document.createElement('div');
 boxTitleBtn.classList.add("d-flex","justify-content-between");
 
+const wrapperNewOp = document.createElement('div');
+const cardNewOperation =document.createElement('div');
+const titleNewOp = document.createElement('h2');
+titleNewOp.appendChild(document.createTextNode("Nueva operación"));
+titleNewOp.classList.add("fw-bolder","fs-1")
+cardNewOperation.appendChild(titleNewOp);
+cardNewOperation.classList.add("display-none","card-newOp","card","p-3");
+wrapperNewOp.appendChild(cardNewOperation);
+container.appendChild(wrapperNewOp);
+
 const titleOperation = document.createElement('h3');
 titleOperation.appendChild(document.createTextNode("Operaciones"));
 titleOperation.classList.add("fw-bold", "text-dark","fs-4","text-opacity-75");
@@ -119,7 +129,7 @@ cardOperation.appendChild(imgOperation);
 
 const textNoResults = document.createElement('p');
 textNoResults.appendChild(document.createTextNode("Sin resultados"));
-textNoResults.classList.add("fs-5","text-center","fw-bold","text-secondary");
+textNoResults.classList.add("fs-4","text-center","text-dark","fw-bold","text-opacity-75");
 cardOperation.appendChild(textNoResults);
 
 const textAddOperations = document.createElement('p');
@@ -128,7 +138,47 @@ textAddOperations.classList.add("text-center");
 cardOperation.appendChild(textAddOperations);
 rowWrapper.appendChild(cardOperation);
 
+const formNewOp = document.createElement('form');
+cardNewOperation.appendChild(formNewOp);
 
+
+btnNewOperation.addEventListener('click',(e)=>{
+  e.preventDefault();
+  cardNewOperation.classList.remove("display-none");
+  rowWrapper.classList.add("display-none");
+  wrapperNewOp.classList.add("d-flex","justify-content-center");
+  
+  
+  
+
+
+})
+
+// const createFormControl = (inputType?:string,labelControl?:any,control?:any)=>{ //,options?:any
+//     const label = document.createElement('label');
+//     label.classList.add("fw-bold","mb-2");
+//     label.setAttribute('for',inputType);
+//     label.appendChild(document.createTextNode(labelControl));
+//     formNewOp.appendChild(label);
+//     const input = document.createElement('input');
+//     input.setAttribute('type',inputType);
+//     formNewOp.appendChild(input);
+//     const {category,type} =filters;
+//     control.forEach(() => {
+//         const select = document.createElement('select');
+//         formNewOp.appendChild(select);
+//         const option1 =document.createElement('option');
+//         option1.value = category.toString();
+        
+//     });
+  
+// }
+
+// createFormControl("text","Descripcion");
+// createFormControl("number","monto");
+// createFormControl("select","Tipo");
+// createFormControl("select","Categoria");
+// createFormControl("date","Fecha");
 
 type Filters ={
     title:string[],
@@ -144,7 +194,7 @@ const filters ={
 }
 
 const form = document.createElement('form');
-    cardFilters.appendChild(form);
+cardFilters.appendChild(form);
 const createSelect =(array: Filters)=>{
     
     filters.title.forEach((elem)=>{

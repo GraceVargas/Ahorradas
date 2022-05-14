@@ -25,6 +25,7 @@
 .display-none {
     display: none;
 }
+
 .card-operation{
   
     width:661px;
@@ -58,3 +59,14 @@
     width: 1300px;
     height: 600px;
 }  */
+
+
+
+
+.cardTitle {
+    font-size: 42px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+

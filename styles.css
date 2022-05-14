@@ -28,7 +28,7 @@
 .card-operation{
   
     width:661px;
-    height: 600px;
+    min-height: 600px;
 }
 
 .btn-link{

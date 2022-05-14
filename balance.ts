@@ -1,3 +1,16 @@
+type Filters ={
+    title:string[],
+    type:string[],
+    category:string[],
+    sortBy: string[]
+}
+const filters ={
+    title: ["Tipo","Categoría","Desde","Ordenar por"],
+    type : ["Todos","Gasto","Ganancias"],
+    category :["Todas"], //linkear con local storage
+    sortBy :["Mas reciente","Menos reciente","Mayor monto","Menor monto","A/Z","Z/A"]
+}
+
 const container = document.createElement('div');
 container.classList.add("container","p-5"); 
 const rowWrapper = document.createElement('div');
@@ -102,11 +115,18 @@ boxTitleBtn.classList.add("d-flex","justify-content-between");
 
 const wrapperNewOp = document.createElement('div');
 const cardNewOperation =document.createElement('div');
+cardNewOperation.classList.add("display-none","card-newOp","card","p-3");
 const titleNewOp = document.createElement('h2');
 titleNewOp.appendChild(document.createTextNode("Nueva operación"));
-titleNewOp.classList.add("fw-bolder","fs-1")
+titleNewOp.classList.add("fw-bolder","fs-1");
+const btnCancel = document.createElement('button');
+btnCancel.classList.add("btn","btn-light");
+btnCancel.appendChild(document.createTextNode("Cancelar"));
+const btnAdd = document.createElement('button');
+btnAdd.classList.add("btn");
+btnAdd.appendChild(document.createTextNode("Agregar"));
+btnAdd.classList.add("btn","btn-success")
 cardNewOperation.appendChild(titleNewOp);
-cardNewOperation.classList.add("display-none","card-newOp","card","p-3");
 wrapperNewOp.appendChild(cardNewOperation);
 container.appendChild(wrapperNewOp);
 
@@ -138,8 +158,24 @@ textAddOperations.classList.add("text-center");
 cardOperation.appendChild(textAddOperations);
 rowWrapper.appendChild(cardOperation);
 
+btnAdd.addEventListener('click',()=>{
+    imgOperation.classList.add("display-none");
+    textNoResults.classList.add("display-none");
+    textAddOperations.classList.add("display-none");
+    rowWrapper.classList.remove("display-none");
+    cardNewOperation.classList.add("display-none");
+    cardOperation.style.minHeight= "213px";
+
+
+})
+
 const formNewOp = document.createElement('form');
 cardNewOperation.appendChild(formNewOp);
+const wrapperFormNewOp = document.createElement('div');
+wrapperFormNewOp.appendChild(formNewOp);
+cardNewOperation.appendChild(wrapperFormNewOp);
+cardNewOperation.appendChild(btnCancel);
+cardNewOperation.appendChild(btnAdd);
 
 
 btnNewOperation.addEventListener('click',(e)=>{
@@ -147,51 +183,75 @@ btnNewOperation.addEventListener('click',(e)=>{
   cardNewOperation.classList.remove("display-none");
   rowWrapper.classList.add("display-none");
   wrapperNewOp.classList.add("d-flex","justify-content-center");
+ 
+
+})
+const formControls =
+[{
+   "label": "Descripción",
+   "type": "text",
+},
+{
+   "label": "Monto",
+   "type": "number"
+
+},{
+   "label": "Tipo",
+   "type": "select"
+
+},{
+   "label":"Categoria",
+   "type": "select"
+},{
+   "label":"Fecha",
+   "type": "date"
+}
+]
+
+
+
+formControls.forEach((formControl)=>{
+   const title = document.createElement('label');
+   title.appendChild(document.createTextNode(formControl.label));
+   title.classList.add("fw-bold","mb-2");
+   title.setAttribute('for', formControl.label);
+   formNewOp.appendChild(title);
+   if (formControl.type === "select") {
+       const select = document.createElement('select');
+       select.classList.add("form-select");
+       formNewOp.appendChild(select);
+
+        if (formControl.label === "Tipo") {
+            filters.type.shift()
+            filters.type.forEach((type)=>{
+                const option = document.createElement('option');
+                option.appendChild(document.createTextNode(type));
+                option.value = type;
+                select.appendChild(option);
+    
+            })
+            
+        }
+        
+    }
+   
+   else{
+       const controlType = document.createElement('input');
+       controlType.classList.add("form-control")
+       controlType.setAttribute('type', formControl.type);
+       formNewOp.appendChild(controlType);
+       
+   }
+   
   
-  
-  
+
 
 
 })
 
-// const createFormControl = (inputType?:string,labelControl?:any,control?:any)=>{ //,options?:any
-//     const label = document.createElement('label');
-//     label.classList.add("fw-bold","mb-2");
-//     label.setAttribute('for',inputType);
-//     label.appendChild(document.createTextNode(labelControl));
-//     formNewOp.appendChild(label);
-//     const input = document.createElement('input');
-//     input.setAttribute('type',inputType);
-//     formNewOp.appendChild(input);
-//     const {category,type} =filters;
-//     control.forEach(() => {
-//         const select = document.createElement('select');
-//         formNewOp.appendChild(select);
-//         const option1 =document.createElement('option');
-//         option1.value = category.toString();
-        
-//     });
-  
-// }
 
-// createFormControl("text","Descripcion");
-// createFormControl("number","monto");
-// createFormControl("select","Tipo");
-// createFormControl("select","Categoria");
-// createFormControl("date","Fecha");
 
-type Filters ={
-    title:string[],
-    type:string[],
-    category:string[],
-    sortBy: string[]
-}
-const filters ={
-    title: ["Tipo","Categoría","Desde","Ordenar por"],
-    type : ["Todos","Gasto","Ganancias"],
-    category :["Todas"],
-    sortBy :["Mas reciente","Menos reciente","Mayor monto","Menor monto","A/Z","Z/A"]
-}
+
 
 const form = document.createElement('form');
 cardFilters.appendChild(form);
@@ -241,10 +301,11 @@ const createSelect =(array: Filters)=>{
             form.appendChild(select);
         }
         else if (elem === "Desde"){
-           const input = document.createElement('input');
+           const input = document.createElement('input') as HTMLInputElement;
            input.classList.add("form-control","mb-3");
             input.setAttribute('type', "date");
-            input.value = Date.now().toString(); 
+            const date = new Date;
+            input.defaultValue= date.getDate().toString();
             const label = document.createElement('label');
             label.classList.add("fw-bold","mb-2");
             label.setAttribute('for',elem);
@@ -261,16 +322,14 @@ const createSelect =(array: Filters)=>{
 
 createSelect(filters);
 
-hideFilters.addEventListener('click', (e) =>{
-    e.preventDefault();
+hideFilters.addEventListener('click', () =>{
     form.classList.add("display-none");
     cardFilters.classList.add("card-hide");
     hideFilters.classList.add("display-none");
     btnShowFilters.classList.add("d-flex");
   
 })
-btnShowFilters.addEventListener('click',(e)=>{
-    e.preventDefault();
+btnShowFilters.addEventListener('click',()=>{
     form.classList.remove("display-none");
     cardFilters.classList.remove("card-hide");
     btnShowFilters.classList.remove("d-flex");

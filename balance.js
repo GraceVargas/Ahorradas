@@ -1,3 +1,9 @@
+var filters = {
+    title: ["Tipo", "Categoría", "Desde", "Ordenar por"],
+    type: ["Todos", "Gasto", "Ganancias"],
+    category: ["Todas"],
+    sortBy: ["Mas reciente", "Menos reciente", "Mayor monto", "Menor monto", "A/Z", "Z/A"]
+};
 var container = document.createElement('div');
 container.classList.add("container", "p-5");
 var rowWrapper = document.createElement('div');
@@ -86,11 +92,18 @@ var boxTitleBtn = document.createElement('div');
 boxTitleBtn.classList.add("d-flex", "justify-content-between");
 var wrapperNewOp = document.createElement('div');
 var cardNewOperation = document.createElement('div');
+cardNewOperation.classList.add("display-none", "card-newOp", "card", "p-3");
 var titleNewOp = document.createElement('h2');
 titleNewOp.appendChild(document.createTextNode("Nueva operación"));
 titleNewOp.classList.add("fw-bolder", "fs-1");
+var btnCancel = document.createElement('button');
+btnCancel.classList.add("btn", "btn-light");
+btnCancel.appendChild(document.createTextNode("Cancelar"));
+var btnAdd = document.createElement('button');
+btnAdd.classList.add("btn");
+btnAdd.appendChild(document.createTextNode("Agregar"));
+btnAdd.classList.add("btn", "btn-success");
 cardNewOperation.appendChild(titleNewOp);
-cardNewOperation.classList.add("display-none", "card-newOp", "card", "p-3");
 wrapperNewOp.appendChild(cardNewOperation);
 container.appendChild(wrapperNewOp);
 var titleOperation = document.createElement('h3');
@@ -116,20 +129,72 @@ textAddOperations.appendChild(document.createTextNode("Cambía los filtros o agr
 textAddOperations.classList.add("text-center");
 cardOperation.appendChild(textAddOperations);
 rowWrapper.appendChild(cardOperation);
+btnAdd.addEventListener('click', function () {
+    imgOperation.classList.add("display-none");
+    textNoResults.classList.add("display-none");
+    textAddOperations.classList.add("display-none");
+    rowWrapper.classList.remove("display-none");
+    cardNewOperation.classList.add("display-none");
+    cardOperation.style.minHeight = "213px";
+});
 var formNewOp = document.createElement('form');
 cardNewOperation.appendChild(formNewOp);
+var wrapperFormNewOp = document.createElement('div');
+wrapperFormNewOp.appendChild(formNewOp);
+cardNewOperation.appendChild(wrapperFormNewOp);
+cardNewOperation.appendChild(btnCancel);
+cardNewOperation.appendChild(btnAdd);
 btnNewOperation.addEventListener('click', function (e) {
     e.preventDefault();
     cardNewOperation.classList.remove("display-none");
     rowWrapper.classList.add("display-none");
     wrapperNewOp.classList.add("d-flex", "justify-content-center");
 });
-var filters = {
-    title: ["Tipo", "Categoría", "Desde", "Ordenar por"],
-    type: ["Todos", "Gasto", "Ganancias"],
-    category: ["Todas"],
-    sortBy: ["Mas reciente", "Menos reciente", "Mayor monto", "Menor monto", "A/Z", "Z/A"]
-};
+var formControls = [{
+        "label": "Descripción",
+        "type": "text"
+    },
+    {
+        "label": "Monto",
+        "type": "number"
+    }, {
+        "label": "Tipo",
+        "type": "select"
+    }, {
+        "label": "Categoria",
+        "type": "select"
+    }, {
+        "label": "Fecha",
+        "type": "date"
+    }
+];
+formControls.forEach(function (formControl) {
+    var title = document.createElement('label');
+    title.appendChild(document.createTextNode(formControl.label));
+    title.classList.add("fw-bold", "mb-2");
+    title.setAttribute('for', formControl.label);
+    formNewOp.appendChild(title);
+    if (formControl.type === "select") {
+        var select_1 = document.createElement('select');
+        select_1.classList.add("form-select");
+        formNewOp.appendChild(select_1);
+        if (formControl.label === "Tipo") {
+            filters.type.shift();
+            filters.type.forEach(function (type) {
+                var option = document.createElement('option');
+                option.appendChild(document.createTextNode(type));
+                option.value = type;
+                select_1.appendChild(option);
+            });
+        }
+    }
+    else {
+        var controlType = document.createElement('input');
+        controlType.classList.add("form-control");
+        controlType.setAttribute('type', formControl.type);
+        formNewOp.appendChild(controlType);
+    }
+});
 var form = document.createElement('form');
 cardFilters.appendChild(form);
 var createSelect = function (array) {
@@ -140,15 +205,15 @@ var createSelect = function (array) {
             label.setAttribute('for', elem);
             label.appendChild(document.createTextNode(elem));
             form.appendChild(label);
-            var select_1 = document.createElement('select');
-            select_1.classList.add("form-select", "mb-3");
+            var select_2 = document.createElement('select');
+            select_2.classList.add("form-select", "mb-3");
             switch (elem) {
                 case "Tipo":
                     filters.type.forEach(function (type) {
                         var option = document.createElement('option');
                         option.appendChild(document.createTextNode(type));
                         option.value = type;
-                        select_1.appendChild(option);
+                        select_2.appendChild(option);
                     });
                     break;
                 case "Categoría":
@@ -156,7 +221,7 @@ var createSelect = function (array) {
                         var option = document.createElement('option');
                         option.appendChild(document.createTextNode(category));
                         option.value = category;
-                        select_1.appendChild(option);
+                        select_2.appendChild(option);
                     });
                     break;
                 case "Ordenar por":
@@ -164,19 +229,20 @@ var createSelect = function (array) {
                         var option = document.createElement('option');
                         option.appendChild(document.createTextNode(order));
                         option.value = order;
-                        select_1.appendChild(option);
+                        select_2.appendChild(option);
                     });
                     break;
                 default:
                     break;
             }
-            form.appendChild(select_1);
+            form.appendChild(select_2);
         }
         else if (elem === "Desde") {
             var input = document.createElement('input');
             input.classList.add("form-control", "mb-3");
             input.setAttribute('type', "date");
-            input.value = Date.now().toString();
+            var date = new Date;
+            input.defaultValue = date.getDate().toString();
             var label = document.createElement('label');
             label.classList.add("fw-bold", "mb-2");
             label.setAttribute('for', elem);
@@ -187,15 +253,13 @@ var createSelect = function (array) {
     });
 };
 createSelect(filters);
-hideFilters.addEventListener('click', function (e) {
-    e.preventDefault();
+hideFilters.addEventListener('click', function () {
     form.classList.add("display-none");
     cardFilters.classList.add("card-hide");
     hideFilters.classList.add("display-none");
     btnShowFilters.classList.add("d-flex");
 });
-btnShowFilters.addEventListener('click', function (e) {
-    e.preventDefault();
+btnShowFilters.addEventListener('click', function () {
     form.classList.remove("display-none");
     cardFilters.classList.remove("card-hide");
     btnShowFilters.classList.remove("d-flex");

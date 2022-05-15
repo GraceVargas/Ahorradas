@@ -18,12 +18,47 @@ var balanceTitle = document.createElement('h2');
 balanceTitle.appendChild(document.createTextNode("Balance"));
 balanceTitle.classList.add("fw-bold", "mb-5", "text-dark", "text-opacity-75");
 cardBalance.appendChild(balanceTitle);
-
-var tableBalance = document.createElement('table');
-tableBalance.classList.add("table", "table-borderless");
 var boxProfits = document.createElement('div');
 boxProfits.appendChild(document.createTextNode("Ganancias"));
-
+var tableBalance = document.createElement('table');
+cardBalance.appendChild(tableBalance);
+var tbody = document.createElement('tbody');
+tableBalance.appendChild(tbody);
+var trProfits = document.createElement('tr');
+tbody.appendChild(trProfits);
+var tdProfits = document.createElement('td');
+trProfits.appendChild(tdProfits);
+tdProfits.appendChild(document.createTextNode("Ganancias"));
+tdProfits.classList.add("fs-5");
+var tdNumberProfits = document.createElement('td');
+trProfits.appendChild(tdNumberProfits);
+var spanProfit = document.createElement('span');
+spanProfit.appendChild(document.createTextNode("+$0"));
+tdNumberProfits.appendChild(spanProfit);
+var trBills = document.createElement('tr');
+tbody.appendChild(trBills);
+var tdBills = document.createElement('td');
+trBills.appendChild(tdBills);
+tdBills.appendChild(document.createTextNode("Gastos"));
+tdBills.classList.add("fs-5");
+var tdNumberBills = document.createElement('td');
+var spanBills = document.createElement('span');
+spanBills.appendChild(document.createTextNode("-$0"));
+trBills.appendChild(tdNumberBills);
+tdNumberBills.appendChild(spanBills);
+var trSum = document.createElement('tr');
+tbody.appendChild(trSum);
+var tdSum = document.createElement('td');
+trSum.appendChild(tdSum);
+tdSum.appendChild(document.createTextNode("Total"));
+tdSum.classList.add("fs-4");
+var tdNumberSum = document.createElement('td');
+trSum.appendChild(tdNumberSum);
+var spanSum = document.createElement('span');
+spanSum.appendChild(document.createTextNode(" $0"));
+tdNumberSum.appendChild(spanSum);
+var tableBalance = document.createElement('table');
+tableBalance.classList.add("table", "table-borderless");
 cardBalance.appendChild(tableBalance);
 var tbody = document.createElement('tbody');
 tableBalance.appendChild(tbody);
@@ -38,7 +73,6 @@ trProfits.appendChild(tdNumberProfits);
 var spanProfit = document.createElement('span');
 spanProfit.appendChild(document.createTextNode("+$0"));
 spanProfit.classList.add("text-success");
-
 tdNumberProfits.appendChild(spanProfit);
 var trBills = document.createElement('tr');
 tbody.appendChild(trBills);
@@ -49,9 +83,7 @@ tdBills.classList.add("fs-5");
 var tdNumberBills = document.createElement('td');
 var spanBills = document.createElement('span');
 spanBills.appendChild(document.createTextNode("-$0"));
-
 spanBills.classList.add("text-danger");
-
 trBills.appendChild(tdNumberBills);
 tdNumberBills.appendChild(spanBills);
 var trSum = document.createElement('tr');
@@ -64,12 +96,9 @@ var tdNumberSum = document.createElement('td');
 trSum.appendChild(tdNumberSum);
 var spanSum = document.createElement('span');
 spanSum.appendChild(document.createTextNode(" $0"));
-
 spanSum.classList.add("fw-bold");
-
-//Card Filters
 tdNumberSum.appendChild(spanSum);
-
+//Card Filters
 var cardFilters = document.createElement('div');
 cardFilters.classList.add("card-filters", "card", "p-3", "mt-3");
 var cardTitle = document.createElement('h3');
@@ -275,6 +304,3 @@ btnShowFilters.addEventListener('click', function () {
     btnShowFilters.classList.remove("d-flex");
     hideFilters.classList.remove("display-none");
 });
-
-
-

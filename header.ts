@@ -26,30 +26,24 @@ const iconReport = document.createElement('i');
 iconReport.classList.add("fa-solid","fa-chart-pie","me-1");
 
 const aBalance = document.createElement('a');
-aBalance.classList.add("ms-3","btn","btn-success");
+aBalance.classList.add("btn","btn-success");
 aBalance.setAttribute('href',"./balance.html");
 aBalance.appendChild(iconBalance);
 aBalance.appendChild(document.createTextNode('Balance'));
-navBalance.appendChild(aBalance);
+boxNav.appendChild(aBalance);
 
 const aCategory = document.createElement('a');
 aCategory.classList.add("ms-3","btn" ,"btn-success");
 aCategory.setAttribute('href',"./categories.html");
 aCategory.appendChild(iconCategory);
 aCategory.appendChild(document.createTextNode('Categorias'));
-navCategories.appendChild(aCategory);
+boxNav.appendChild(aCategory);
 
 const aReport = document.createElement('a');
 aReport.classList.add("ms-3","btn" ,"btn-success");
 aReport.setAttribute('href',"./reports.html");
 aReport.appendChild(iconReport);
 aReport.appendChild(document.createTextNode('Reportes'));
-navReports.appendChild(aReport);
+boxNav.appendChild(aReport);
 
 header.appendChild(nav);
-
-
-
-
-
-

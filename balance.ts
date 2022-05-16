@@ -22,56 +22,12 @@ main.appendChild(container);
 
 const cardBalance = document.createElement('div');
 rowWrapper.appendChild(cardBalance);
-cardBalance.classList.add("card-balance","card","p-3"); //, "mt-2", "col-4"
+cardBalance.classList.add("card-balance","card","p-3","shadow"); 
 
 const balanceTitle = document.createElement('h2');
 balanceTitle.appendChild(document.createTextNode("Balance"));
 balanceTitle.classList.add("fw-bold","mb-5", "text-dark","text-opacity-75");
 cardBalance.appendChild(balanceTitle);
-
-
-const boxProfits = document.createElement('div');
-boxProfits.appendChild(document.createTextNode("Ganancias"));
-const tableBalance = document.createElement('table');
-cardBalance.appendChild(tableBalance);
-const tbody = document.createElement('tbody');
-tableBalance.appendChild(tbody);
-
-const trProfits = document.createElement('tr');
-tbody.appendChild(trProfits);
-const tdProfits = document.createElement('td');
-trProfits.appendChild(tdProfits);
-tdProfits.appendChild(document.createTextNode("Ganancias"));
-tdProfits.classList.add("fs-5");
-const tdNumberProfits = document.createElement('td');
-trProfits.appendChild(tdNumberProfits);
-const spanProfit = document.createElement('span');
-spanProfit.appendChild(document.createTextNode("+$0"));
-tdNumberProfits.appendChild(spanProfit);
-
-const trBills = document.createElement('tr');
-tbody.appendChild(trBills);
-const tdBills = document.createElement('td');
-trBills.appendChild(tdBills);
-tdBills.appendChild(document.createTextNode("Gastos"))
-tdBills.classList.add("fs-5");
-const tdNumberBills = document.createElement('td');
-const spanBills = document.createElement('span');
-spanBills.appendChild(document.createTextNode("-$0"));
-trBills.appendChild(tdNumberBills);
-tdNumberBills.appendChild(spanBills);
-
-const trSum = document.createElement('tr');
-tbody.appendChild(trSum);
-const tdSum = document.createElement('td');
-trSum.appendChild(tdSum);
-tdSum.appendChild(document.createTextNode("Total"));
-tdSum.classList.add("fs-4");
-const tdNumberSum = document.createElement('td');
-trSum.appendChild(tdNumberSum);
-const spanSum = document.createElement('span');
-spanSum.appendChild(document.createTextNode(" $0"));
-tdNumberSum.appendChild(spanSum);
 
 const tableBalance = document.createElement('table');
 tableBalance.classList.add("table","table-borderless");
@@ -86,10 +42,11 @@ trProfits.appendChild(tdProfits);
 tdProfits.appendChild(document.createTextNode("Ganancias"));
 tdProfits.classList.add("fs-5");
 const tdNumberProfits = document.createElement('td');
+tdNumberProfits.classList.add("ps-5");
 trProfits.appendChild(tdNumberProfits);
 const spanProfit = document.createElement('span');
 spanProfit.appendChild(document.createTextNode("+$0"));
-spanProfit.classList.add("text-success");
+spanProfit.classList.add("text-success","ms-5");
 tdNumberProfits.appendChild(spanProfit);
 
 const trBills = document.createElement('tr');
@@ -99,9 +56,10 @@ trBills.appendChild(tdBills);
 tdBills.appendChild(document.createTextNode("Gastos"))
 tdBills.classList.add("fs-5");
 const tdNumberBills = document.createElement('td');
+tdNumberBills.classList.add("ps-5");
 const spanBills = document.createElement('span');
 spanBills.appendChild(document.createTextNode("-$0"));
-spanBills.classList.add("text-danger");
+spanBills.classList.add("text-danger","ms-5");
 trBills.appendChild(tdNumberBills);
 tdNumberBills.appendChild(spanBills);
 
@@ -112,16 +70,17 @@ trSum.appendChild(tdSum);
 tdSum.appendChild(document.createTextNode("Total"));
 tdSum.classList.add("fs-4");
 const tdNumberSum = document.createElement('td');
+tdNumberSum.classList.add("ps-5","pt-3");
 trSum.appendChild(tdNumberSum);
 const spanSum = document.createElement('span');
-spanSum.appendChild(document.createTextNode(" $0"));
-spanSum.classList.add("fw-bold");
+spanSum.appendChild(document.createTextNode("$0"));
+spanSum.classList.add("fw-bold","ms-5");
 tdNumberSum.appendChild(spanSum);
 
 //Card Filters
 
 const cardFilters=document.createElement('div');
-cardFilters.classList.add("card-filters","card","p-3","mt-3");
+cardFilters.classList.add("card-filters","card","p-3","mt-3","shadow");
 
 const cardTitle = document.createElement('h3');
 cardTitle.appendChild(document.createTextNode("Filtros"));
@@ -149,154 +108,6 @@ column.classList.add("col-4","gx-5");
 column.appendChild(cardBalance);
 column.appendChild(cardFilters);
 rowWrapper.appendChild(column);
-
-//Card Operation
-
-const cardOperation = document.createElement('div');
-cardOperation.classList.add("card-operation","card","p-3","col-7");
-const boxTitleBtn= document.createElement('div');
-boxTitleBtn.classList.add("d-flex","justify-content-between");
-
-const wrapperNewOp = document.createElement('div');
-const cardNewOperation =document.createElement('div');
-cardNewOperation.classList.add("display-none","card-newOp","card","p-3");
-const titleNewOp = document.createElement('h2');
-titleNewOp.appendChild(document.createTextNode("Nueva operación"));
-titleNewOp.classList.add("fw-bolder","fs-1");
-const btnCancel = document.createElement('button');
-btnCancel.classList.add("btn","btn-light");
-btnCancel.appendChild(document.createTextNode("Cancelar"));
-const btnAdd = document.createElement('button');
-btnAdd.classList.add("btn");
-btnAdd.appendChild(document.createTextNode("Agregar"));
-btnAdd.classList.add("btn","btn-success")
-cardNewOperation.appendChild(titleNewOp);
-wrapperNewOp.appendChild(cardNewOperation);
-container.appendChild(wrapperNewOp);
-
-const titleOperation = document.createElement('h3');
-titleOperation.appendChild(document.createTextNode("Operaciones"));
-titleOperation.classList.add("fw-bold", "text-dark","fs-4","text-opacity-75");
-boxTitleBtn.appendChild(titleOperation);
-
-const btnNewOperation = document.createElement('button');
-btnNewOperation.appendChild(document.createTextNode("+ Nueva operación"));
-btnNewOperation.classList.add("btn", "btn-success");
-btnNewOperation.setAttribute('type', "button");
-boxTitleBtn.appendChild(btnNewOperation);
-cardOperation.appendChild(boxTitleBtn);
-
-const imgOperation = document.createElement('img');
-imgOperation.setAttribute('src',"./assets/undraw_discount_d4bd.png");
-imgOperation.setAttribute('alt', "illustracion");
-cardOperation.appendChild(imgOperation);
-
-const textNoResults = document.createElement('p');
-textNoResults.appendChild(document.createTextNode("Sin resultados"));
-textNoResults.classList.add("fs-4","text-center","text-dark","fw-bold","text-opacity-75");
-cardOperation.appendChild(textNoResults);
-
-const textAddOperations = document.createElement('p');
-textAddOperations.appendChild(document.createTextNode("Cambía los filtros o agregá operaciones"));
-textAddOperations.classList.add("text-center");
-cardOperation.appendChild(textAddOperations);
-rowWrapper.appendChild(cardOperation);
-
-btnAdd.addEventListener('click',()=>{
-    imgOperation.classList.add("display-none");
-    textNoResults.classList.add("display-none");
-    textAddOperations.classList.add("display-none");
-    rowWrapper.classList.remove("display-none");
-    cardNewOperation.classList.add("display-none");
-    cardOperation.style.minHeight= "213px";
-
-
-})
-
-const formNewOp = document.createElement('form');
-cardNewOperation.appendChild(formNewOp);
-const wrapperFormNewOp = document.createElement('div');
-wrapperFormNewOp.appendChild(formNewOp);
-cardNewOperation.appendChild(wrapperFormNewOp);
-cardNewOperation.appendChild(btnCancel);
-cardNewOperation.appendChild(btnAdd);
-
-
-btnNewOperation.addEventListener('click',(e)=>{
-  e.preventDefault();
-  cardNewOperation.classList.remove("display-none");
-  rowWrapper.classList.add("display-none");
-  wrapperNewOp.classList.add("d-flex","justify-content-center");
- 
-
-})
-const formControls =
-[{
-   "label": "Descripción",
-   "type": "text",
-},
-{
-   "label": "Monto",
-   "type": "number"
-
-},{
-   "label": "Tipo",
-   "type": "select"
-
-},{
-   "label":"Categoria",
-   "type": "select"
-},{
-   "label":"Fecha",
-   "type": "date"
-}
-]
-
-
-
-formControls.forEach((formControl)=>{
-   const title = document.createElement('label');
-   title.appendChild(document.createTextNode(formControl.label));
-   title.classList.add("fw-bold","mb-2");
-   title.setAttribute('for', formControl.label);
-   formNewOp.appendChild(title);
-   if (formControl.type === "select") {
-       const select = document.createElement('select');
-       select.classList.add("form-select");
-       formNewOp.appendChild(select);
-
-        if (formControl.label === "Tipo") {
-            filters.type.shift()
-            filters.type.forEach((type)=>{
-                const option = document.createElement('option');
-                option.appendChild(document.createTextNode(type));
-                option.value = type;
-                select.appendChild(option);
-    
-            })
-            
-        }
-        
-    }
-   
-   else{
-       const controlType = document.createElement('input');
-       controlType.classList.add("form-control")
-       controlType.setAttribute('type', formControl.type);
-       formNewOp.appendChild(controlType);
-       
-   }
-   
-  
-
-
-
-})
-
-
-
-
-
 const form = document.createElement('form');
 cardFilters.appendChild(form);
 const createSelect =(array: Filters)=>{
@@ -379,6 +190,173 @@ btnShowFilters.addEventListener('click',()=>{
     btnShowFilters.classList.remove("d-flex");
     hideFilters.classList.remove("display-none");
 })
+
+//Card Operation
+const columnOperation = document.createElement('div');
+columnOperation.classList.add("col-7");
+const cardOperation = document.createElement('div');
+columnOperation.appendChild(cardOperation);
+cardOperation.classList.add("card-operation","card","p-3","shadow");
+const boxTitleBtn= document.createElement('div');
+boxTitleBtn.classList.add("d-flex","justify-content-between");
+
+const titleOperation = document.createElement('h3');
+titleOperation.appendChild(document.createTextNode("Operaciones"));
+titleOperation.classList.add("fw-bold", "text-dark","fs-4","text-opacity-75");
+boxTitleBtn.appendChild(titleOperation);
+
+const btnNewOperation = document.createElement('button');
+btnNewOperation.appendChild(document.createTextNode("+ Nueva operación"));
+btnNewOperation.classList.add("btn", "btn-success");
+btnNewOperation.setAttribute('type', "button");
+boxTitleBtn.appendChild(btnNewOperation);
+cardOperation.appendChild(boxTitleBtn);
+
+const imgOperation = document.createElement('img');
+imgOperation.setAttribute('src',"./assets/undraw_discount_d4bd.png");
+imgOperation.setAttribute('alt', "illustracion");
+cardOperation.appendChild(imgOperation);
+
+const textNoResults = document.createElement('p');
+textNoResults.appendChild(document.createTextNode("Sin resultados"));
+textNoResults.classList.add("fs-4","text-center","text-dark","fw-bold","text-opacity-75");
+cardOperation.appendChild(textNoResults);
+
+const textAddOperations = document.createElement('p');
+textAddOperations.appendChild(document.createTextNode("Cambía los filtros o agregá operaciones"));
+textAddOperations.classList.add("text-center");
+cardOperation.appendChild(textAddOperations);
+rowWrapper.appendChild(columnOperation);
+
+btnNewOperation.addEventListener('click',(e)=>{
+    e.preventDefault();
+    cardNewOperation.classList.remove("display-none");
+    rowWrapper.classList.add("display-none");
+    wrapperNewOp.classList.add("d-flex","justify-content-center");
+   
+  
+})
+
+//Card Nueva operación
+
+const wrapperNewOp = document.createElement('div');
+const cardNewOperation =document.createElement('div');
+cardNewOperation.classList.add("display-none","card-newOp","card","p-3","mt-3","shadow");
+const titleNewOp = document.createElement('h2');
+titleNewOp.appendChild(document.createTextNode("Nueva operación"));
+titleNewOp.classList.add("fw-bolder","fs-1");
+const boxButton = document.createElement('div');
+boxButton.classList.add("d-flex", "justify-content-end","mt-5")
+const btnCancel = document.createElement('button');
+btnCancel.classList.add("btn","btn-light","me-2");
+btnCancel.appendChild(document.createTextNode("Cancelar"));
+const btnAdd = document.createElement('button');
+btnAdd.classList.add("btn");
+btnAdd.appendChild(document.createTextNode("Agregar"));
+btnAdd.classList.add("btn","btn-success");
+
+cardNewOperation.appendChild(titleNewOp);
+wrapperNewOp.appendChild(cardNewOperation);
+container.appendChild(wrapperNewOp);
+const formNewOp = document.createElement('form');
+cardNewOperation.appendChild(formNewOp);
+const wrapperFormNewOp = document.createElement('div');
+wrapperFormNewOp.classList.add("p-1","mb-2","mt-4");
+wrapperFormNewOp.appendChild(formNewOp);
+cardNewOperation.appendChild(wrapperFormNewOp);
+boxButton.appendChild(btnCancel);
+boxButton.appendChild(btnAdd);
+cardNewOperation.appendChild(boxButton);
+
+
+
+btnAdd.addEventListener('click',()=>{
+    imgOperation.classList.add("display-none");
+    textNoResults.classList.add("display-none");
+    textAddOperations.classList.add("display-none");
+    rowWrapper.classList.remove("display-none");
+    cardNewOperation.classList.add("display-none");
+    cardOperation.style.minHeight= "213px";
+
+
+})
+btnCancel.addEventListener('click',()=>{
+    cardNewOperation.classList.add("display-none");
+    rowWrapper.classList.remove("display-none");
+})
+
+
+
+
+
+const formControls =
+[{
+   "label": "Descripción",
+   "type": "text",
+},
+{
+   "label": "Monto",
+   "type": "number"
+
+},{
+   "label": "Tipo",
+   "type": "select"
+
+},{
+   "label":"Categoria",
+   "type": "select"
+},{
+   "label":"Fecha",
+   "type": "date"
+}
+]
+
+
+
+formControls.forEach((formControl)=>{
+   const title = document.createElement('label');
+   title.appendChild(document.createTextNode(formControl.label));
+   title.classList.add("fw-bold","mb-2","mt-1");
+   title.setAttribute('for', formControl.label);
+   formNewOp.appendChild(title);
+   if (formControl.type === "select") {
+       const select = document.createElement('select');
+       select.classList.add("form-select");
+       formNewOp.appendChild(select);
+
+        if (formControl.label === "Tipo") {
+            filters.type.shift()
+            filters.type.forEach((type)=>{
+                const option = document.createElement('option');
+                option.appendChild(document.createTextNode(type));
+                option.value = type;
+                select.appendChild(option);
+    
+            })
+            
+        }
+        
+    }
+   
+   else{
+       const controlType = document.createElement('input');
+       controlType.classList.add("form-control")
+       controlType.setAttribute('type', formControl.type);
+       formNewOp.appendChild(controlType);
+       
+   }
+   
+  
+
+
+
+})
+
+
+
+
+
+
 
 
 

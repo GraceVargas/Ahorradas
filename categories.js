@@ -1,3 +1,53 @@
+// type DefaultStorage = {
+//     categories: [],
+//     operations: [],
+// }
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var defaultStorage = {
+    categories: [
+        {
+            'id': 0,
+            'name': "Comida"
+        },
+        {
+            'id': 1,
+            'name': "Servicios"
+        },
+        {
+            'id': 2,
+            'name': "Salidas"
+        },
+        {
+            'id': 3,
+            'name': "Educación"
+        },
+        {
+            'id': 4,
+            'name': "Transporte"
+        },
+        {
+            'id': 5,
+            'name': "Trabajo"
+        }
+    ],
+    operations: []
+};
+var setStorage = function () {
+    var storage = JSON.parse(localStorage.getItem('storedData'));
+    if (!storage)
+        localStorage.setItem('storedData', JSON.stringify(defaultStorage));
+};
+setStorage();
 // Container
 var container = document.createElement('div');
 container.classList.add("container-xl", "px-4", "d-flex", "justify-content-center");
@@ -8,7 +58,6 @@ var categoriesCard = document.createElement('div');
 categoriesCard.classList.add("border");
 categoriesCard.classList.add("centralCard");
 categoriesCard.setAttribute("id", "categories");
-categoriesCard.style.padding = "10px";
 container.appendChild(categoriesCard); // borrar
 // main.appendChild(categoriesCard)
 // Card Title
@@ -52,18 +101,17 @@ categoriesCard.appendChild(categoriesTable);
 var tableBody = document.createElement('tbody');
 categoriesTable.appendChild(tableBody);
 categoriesTable.classList.add("mt-5");
-var categories = ["Comida", "Servicios", "Salidas", "Educación", "Transporte", "Trabajo"];
-localStorage.setItem('storedCategories', JSON.stringify(categories));
 var createCategoryList = function () {
     tableBody.innerHTML = "";
-    var categories = JSON.parse(localStorage.getItem('storedCategories'));
-    var _loop_1 = function (category) {
+    var stored = JSON.parse(localStorage.getItem('storedData'));
+    var categories = stored.categories;
+    categories.forEach(function (category) {
         var tRow = document.createElement('tr');
         tableBody.appendChild(tRow);
         // category list
         var tDataCat = document.createElement('td');
         var tDataText = document.createElement('span');
-        tDataText.appendChild(document.createTextNode(category));
+        tDataText.appendChild(document.createTextNode(category.name));
         tDataCat.style.width = "470px";
         tDataCat.appendChild(tDataText);
         tDataText.classList.add('categorySpan');
@@ -71,41 +119,12 @@ var createCategoryList = function () {
         //Edit Button
         var tDataEdit = document.createElement('td');
         tRow.appendChild(tDataEdit);
-        var editBtn = document.createElement('button');
+        var editBtn = document.createElement('a');
+        editBtn.setAttribute('href', "./edit.html?id=".concat(category.id));
         editBtn.classList.add("btn", "btn-link");
         editBtn.style.textDecoration = "none";
         editBtn.appendChild(document.createTextNode("Editar"));
         tDataEdit.appendChild(editBtn);
-        editBtn.addEventListener('click', function () {
-            categoriesTitle.innerText = "Editar categoría";
-            formInput.value = category;
-            tableBody.innerHTML = "";
-            formSubmit.classList.add("display-none");
-            var cancelSubmit = document.createElement('button');
-            cancelSubmit.appendChild(document.createTextNode("Cancelar"));
-            categoriesTable.appendChild(cancelSubmit);
-            cancelSubmit.classList.add("btn", "btn-primary", "btn-light");
-            cancelSubmit.setAttribute("type", "button");
-            cancelSubmit.addEventListener("click", function () {
-                categoriesTitle.innerText = "Categorías";
-                formInput.value = "";
-                formSubmit.classList.remove("display-none");
-                cancelSubmit.classList.add("display-none");
-                editSubmit.classList.add("display-none");
-                createCategoryList();
-            });
-            var editSubmit = document.createElement('button');
-            editSubmit.appendChild(document.createTextNode("Editar"));
-            categoriesTable.appendChild(editSubmit);
-            categoriesTable.classList.add("d-grid", "gap-2", "d-md-flex", "justify-content-md-end");
-            editSubmit.classList.add("btn", "btn-primary", "btn-success");
-            editSubmit.setAttribute("type", "button");
-            editSubmit.addEventListener("click", function () {
-                var index = categories.indexOf(category);
-                categories.splice(index, 1, formInput.value);
-                localStorage.setItem('storedCategories', JSON.stringify(categories));
-            });
-        });
         //Delete Button
         var tDataDel = document.createElement('td');
         tRow.appendChild(tDataDel);
@@ -117,22 +136,19 @@ var createCategoryList = function () {
         delBtn.addEventListener('click', function () {
             var index = categories.indexOf(category);
             categories.splice(index, 1);
-            localStorage.setItem('storedCategories', JSON.stringify(categories));
-            // aca debo borrar ese elemento del local storage
+            stored = __assign({ categories: categories }, stored.operations);
+            localStorage.setItem('storedData', JSON.stringify(stored));
             createCategoryList();
         });
-    };
-    for (var _i = 0, categories_1 = categories; _i < categories_1.length; _i++) {
-        var category = categories_1[_i];
-        _loop_1(category);
-    }
-    localStorage.setItem('storedCategories', JSON.stringify(categories));
+    });
 };
 createCategoryList();
 form.addEventListener('submit', function (e) {
     e.preventDefault();
-    var categories = JSON.parse(localStorage.getItem('storedCategories'));
-    categories.push(formInput.value);
-    localStorage.setItem('storedCategories', JSON.stringify(categories));
+    var stored = JSON.parse(localStorage.getItem('storedData'));
+    var categories = stored.categories;
+    categories.push({ id: categories.length, name: formInput.value });
+    stored = __assign({ categories: categories }, stored.operations);
+    localStorage.setItem('storedData', JSON.stringify(stored));
     createCategoryList();
 });

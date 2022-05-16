@@ -1,3 +1,48 @@
+// type DefaultStorage = {
+//     categories: [],
+//     operations: [],
+// }
+
+const defaultStorage = {
+    categories: [
+        {
+            'id': 0,
+            'name': "Comida",
+        },
+        {
+            'id': 1,
+            'name': "Servicios",
+        },
+        {
+            'id': 2,
+            'name': "Salidas",   
+        },
+        {
+            'id': 3,
+            'name': "Educación",  
+        },
+        {
+            'id': 4,
+            'name': "Transporte", 
+        },
+        {
+            'id': 5,
+            'name': "Trabajo",  
+        }
+    ],
+
+    operations: [],
+};
+
+
+const setStorage = () => {
+    let storage = JSON.parse(localStorage.getItem('storedData'));
+
+    if (!storage) localStorage.setItem('storedData', JSON.stringify(defaultStorage));
+}
+
+
+setStorage();
 
 // Container
 
@@ -13,7 +58,6 @@ const categoriesCard = document.createElement('div');
 categoriesCard.classList.add("border");
 categoriesCard.classList.add("centralCard");
 categoriesCard.setAttribute("id", "categories");
-categoriesCard.style.padding = "10px";
 container.appendChild(categoriesCard); // borrar
 // main.appendChild(categoriesCard)
 
@@ -73,18 +117,19 @@ const tableBody = document.createElement('tbody');
 categoriesTable.appendChild(tableBody);
 categoriesTable.classList.add("mt-5");
 
-const categories:string[] = ["Comida", "Servicios", "Salidas", "Educación", "Transporte", "Trabajo"];
 
-localStorage.setItem('storedCategories', JSON.stringify(categories));
+
+
 
 const createCategoryList = () => {
     
     tableBody.innerHTML = "";
-
-    const categories = JSON.parse(localStorage.getItem('storedCategories'));
+    let stored = JSON.parse(localStorage.getItem('storedData'));
+    const categories = stored.categories;
     
 
-    for (let category of categories) {
+    categories.forEach(category => {
+       
                 
         let tRow = document.createElement('tr');
         tableBody.appendChild(tRow);
@@ -93,7 +138,7 @@ const createCategoryList = () => {
 
         let tDataCat = document.createElement('td');
         let tDataText = document.createElement('span');
-        tDataText.appendChild(document.createTextNode(category))
+        tDataText.appendChild(document.createTextNode(category.name))
         tDataCat.style.width = "470px";
         tDataCat.appendChild(tDataText);
         tDataText.classList.add('categorySpan')
@@ -103,51 +148,12 @@ const createCategoryList = () => {
 
         let tDataEdit = document.createElement('td');
         tRow.appendChild(tDataEdit);    
-        const editBtn = document.createElement('button');
+        const editBtn = document.createElement('a');
+        editBtn.setAttribute('href', `./edit.html?id=${category.id}`);
         editBtn.classList.add("btn", "btn-link");
         editBtn.style.textDecoration = "none";
         editBtn.appendChild(document.createTextNode("Editar"));
         tDataEdit.appendChild(editBtn);
-
-
-        editBtn.addEventListener('click', () => {
-            categoriesTitle.innerText = "Editar categoría";
-            formInput.value = category;
-            tableBody.innerHTML = "";
-            formSubmit.classList.add("display-none");
-
-            const cancelSubmit = document.createElement('button');
-            cancelSubmit.appendChild(document.createTextNode("Cancelar"));
-            categoriesTable.appendChild(cancelSubmit);
-            cancelSubmit.classList.add("btn", "btn-primary", "btn-light");
-            cancelSubmit.setAttribute("type", "button");
-
-            cancelSubmit.addEventListener("click", () => {
-                categoriesTitle.innerText = "Categorías";
-                formInput.value = "";
-                formSubmit.classList.remove("display-none");
-                cancelSubmit.classList.add("display-none");
-                editSubmit.classList.add("display-none");
-                
-                createCategoryList()
-            })
-
-
-            const editSubmit = document.createElement('button');
-            editSubmit.appendChild(document.createTextNode("Editar"));
-            categoriesTable.appendChild(editSubmit);
-            categoriesTable.classList.add("d-grid", "gap-2", "d-md-flex", "justify-content-md-end");
-            editSubmit.classList.add("btn", "btn-primary", "btn-success");
-            editSubmit.setAttribute("type", "button");
-
-            editSubmit.addEventListener("click", () => {
-                let index = categories.indexOf(category);
-                categories.splice(index, 1, formInput.value);
-                
-                localStorage.setItem('storedCategories', JSON.stringify(categories));
-
-            })
-        })
 
 
         //Delete Button
@@ -164,26 +170,30 @@ const createCategoryList = () => {
         delBtn.addEventListener('click', () => {
             let index = categories.indexOf(category);
             categories.splice(index, 1);
-            localStorage.setItem('storedCategories', JSON.stringify(categories));
-            // aca debo borrar ese elemento del local storage
+        
+            stored = { categories, ...stored.operations }
+
+            localStorage.setItem('storedData', JSON.stringify(stored));
             createCategoryList();
         })
 
-    }
-
-    localStorage.setItem('storedCategories', JSON.stringify(categories));
-
-
+    })
 }
+
 
 createCategoryList();
 
 form.addEventListener('submit', (e) =>{
     e.preventDefault();
 
-    const categories = JSON.parse(localStorage.getItem('storedCategories'));
-    categories.push(formInput.value);
-    localStorage.setItem('storedCategories', JSON.stringify(categories));
+    let stored = JSON.parse(localStorage.getItem('storedData'));
+    const categories = stored.categories;
+    
+    categories.push({id: categories.length, name: formInput.value});
+    
+    stored = { categories, ...stored.operations }
+
+    localStorage.setItem('storedData', JSON.stringify(stored));
     
     createCategoryList()
 })

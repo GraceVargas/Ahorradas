@@ -4,7 +4,6 @@
  body{
     margin: 0px;
 }
-
 .card-balance{
     width: 265px;
     /* height:277px; */
@@ -52,16 +51,6 @@
     width: 765px;
     height: 600px;
 }
-
-
-
-/* .row-wrapper{
-    width: 1300px;
-    height: 600px;
-}  */
-
-
-
 
 .cardTitle {
     font-size: 42px;

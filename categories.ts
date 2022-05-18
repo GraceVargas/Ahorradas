@@ -48,8 +48,8 @@ setStorage();
 
 const container = document.createElement('div');
 container.classList.add("container-xl", "px-4", "d-flex", "justify-content-center");
-document.body.appendChild(container); // borrar
-// main.appendChild(container)
+
+main.appendChild(container)
 
 
 // Card 

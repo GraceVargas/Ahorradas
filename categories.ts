@@ -47,19 +47,18 @@ setStorage();
 // Container
 
 const container = document.createElement('div');
-container.classList.add("container-xl", "px-4", "d-flex", "justify-content-center");
-document.body.appendChild(container); // borrar
-// main.appendChild(container)
+container.classList.add("container-xl", "px-5", "d-flex", "justify-content-center");
+main.appendChild(container);
 
 
 // Card 
 
 const categoriesCard = document.createElement('div');
-categoriesCard.classList.add("border");
-categoriesCard.classList.add("centralCard");
+categoriesCard.classList.add("centralCard", "card","p-3","shadow", "border");
 categoriesCard.setAttribute("id", "categories");
-container.appendChild(categoriesCard); // borrar
-// main.appendChild(categoriesCard)
+categoriesCard.classList.add("my-5");
+container.appendChild(categoriesCard);
+
 
 
 // Card Title

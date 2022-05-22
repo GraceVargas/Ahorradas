@@ -1,65 +1,21 @@
-// type DefaultStorage = {
-//     categories: [],
-//     operations: [],
-// }
 
-const defaultStorage = {
-    categories: [
-        {
-            'id': 0,
-            'name': "Comida",
-        },
-        {
-            'id': 1,
-            'name': "Servicios",
-        },
-        {
-            'id': 2,
-            'name': "Salidas",   
-        },
-        {
-            'id': 3,
-            'name': "Educación",  
-        },
-        {
-            'id': 4,
-            'name': "Transporte", 
-        },
-        {
-            'id': 5,
-            'name': "Trabajo",  
-        }
-    ],
-
-    operations: [],
-};
-
-
-const setStorage = () => {
-    let storage = JSON.parse(localStorage.getItem('storedData'));
-
-    if (!storage) localStorage.setItem('storedData', JSON.stringify(defaultStorage));
-}
-
-
-setStorage();
 
 // Container
 
 const container = document.createElement('div');
-container.classList.add("container-xl", "px-4", "d-flex", "justify-content-center");
+container.classList.add("container-xl", "px-5", "d-flex", "justify-content-center");
+main.appendChild(container);
 
-main.appendChild(container)
 
 
 // Card 
 
 const categoriesCard = document.createElement('div');
-categoriesCard.classList.add("border");
-categoriesCard.classList.add("centralCard");
+categoriesCard.classList.add("centralCard", "card","p-3","shadow", "border");
 categoriesCard.setAttribute("id", "categories");
-container.appendChild(categoriesCard); // borrar
-// main.appendChild(categoriesCard)
+categoriesCard.classList.add("my-5");
+container.appendChild(categoriesCard);
+
 
 
 // Card Title
@@ -167,22 +123,16 @@ const createCategoryList = () => {
         tDataDel.appendChild(delBtn);
 
 
-        // const reu =()=>{
+   
             delBtn.addEventListener('click', () => {
            
                 let index = categories.indexOf(category);
                 categories.splice(index, 1);
-            
-                stored = { categories, ...stored.operations }
-    
-                localStorage.setItem('storedData', JSON.stringify(stored));
-                createCategoryList();
-            })
+            // stored = { categories, ...stored.operations }
 
-        //} // let delOperatio = document.getElementById('delBtn');
-        
-        // delOperatio.addEventListener('click', reu);
-       
+            localStorage.setItem('storedData', JSON.stringify(categories));
+            createCategoryList();
+        })
 
 
     })

@@ -1,7 +1,4 @@
-// type DefaultStorage = {
-//     categories: [],
-//     operations: [],
-// }
+// Container
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -13,53 +10,18 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-var defaultStorage = {
-    categories: [
-        {
-            'id': 0,
-            'name': "Comida"
-        },
-        {
-            'id': 1,
-            'name': "Servicios"
-        },
-        {
-            'id': 2,
-            'name': "Salidas"
-        },
-        {
-            'id': 3,
-            'name': "Educación"
-        },
-        {
-            'id': 4,
-            'name': "Transporte"
-        },
-        {
-            'id': 5,
-            'name': "Trabajo"
-        }
-    ],
-    operations: []
-};
-var setStorage = function () {
-    var storage = JSON.parse(localStorage.getItem('storedData'));
-    if (!storage)
-        localStorage.setItem('storedData', JSON.stringify(defaultStorage));
-};
-setStorage();
-// Container
 var container = document.createElement('div');
-container.classList.add("container-xl", "px-4", "d-flex", "justify-content-center");
-document.body.appendChild(container); // borrar
-// main.appendChild(container)
+
+container.classList.add("container-xl", "px-5", "d-flex", "justify-content-center");
+
+
+main.appendChild(container);
 // Card 
 var categoriesCard = document.createElement('div');
-categoriesCard.classList.add("border");
-categoriesCard.classList.add("centralCard");
+categoriesCard.classList.add("centralCard", "card", "p-3", "shadow", "border");
 categoriesCard.setAttribute("id", "categories");
-container.appendChild(categoriesCard); // borrar
-// main.appendChild(categoriesCard)
+categoriesCard.classList.add("my-5");
+container.appendChild(categoriesCard);
 // Card Title
 var categoriesTitle = document.createElement('h2');
 categoriesTitle.appendChild(document.createTextNode("Categorías"));
@@ -136,8 +98,8 @@ var createCategoryList = function () {
         delBtn.addEventListener('click', function () {
             var index = categories.indexOf(category);
             categories.splice(index, 1);
-            stored = __assign({ categories: categories }, stored.operations);
-            localStorage.setItem('storedData', JSON.stringify(stored));
+            // stored = { categories, ...stored.operations }
+            localStorage.setItem('storedData', JSON.stringify(categories));
             createCategoryList();
         });
     });

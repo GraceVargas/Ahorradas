@@ -1,54 +1,11 @@
-// type DefaultStorage = {
-//     categories: [],
-//     operations: [],
-// }
 
-const defaultStorage = {
-    categories: [
-        {
-            'id': 0,
-            'name': "Comida",
-        },
-        {
-            'id': 1,
-            'name': "Servicios",
-        },
-        {
-            'id': 2,
-            'name': "Salidas",   
-        },
-        {
-            'id': 3,
-            'name': "Educación",  
-        },
-        {
-            'id': 4,
-            'name': "Transporte", 
-        },
-        {
-            'id': 5,
-            'name': "Trabajo",  
-        }
-    ],
-
-    operations: [],
-};
-
-
-const setStorage = () => {
-    let storage = JSON.parse(localStorage.getItem('storedData'));
-
-    if (!storage) localStorage.setItem('storedData', JSON.stringify(defaultStorage));
-}
-
-
-setStorage();
 
 // Container
 
 const container = document.createElement('div');
 container.classList.add("container-xl", "px-5", "d-flex", "justify-content-center");
 main.appendChild(container);
+
 
 
 // Card 
@@ -170,9 +127,9 @@ const createCategoryList = () => {
             let index = categories.indexOf(category);
             categories.splice(index, 1);
         
-            stored = { categories, ...stored.operations }
+            // stored = { categories, ...stored.operations }
 
-            localStorage.setItem('storedData', JSON.stringify(stored));
+            localStorage.setItem('storedData', JSON.stringify(categories));
             createCategoryList();
         })
 

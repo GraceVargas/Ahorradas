@@ -96,7 +96,7 @@ boxTitleLink.appendChild(hideFilters);
 boxTitleLink.appendChild(btnShowFilters);
 cardFilters.appendChild(boxTitleLink);
 var column = document.createElement("div");
-column.classList.add("col-sm-4", "gx-5");
+column.classList.add("col-4", "gx-5");
 column.appendChild(cardBalance);
 column.appendChild(cardFilters);
 rowWrapper.appendChild(column);
@@ -242,7 +242,7 @@ var columnOperation = document.createElement("div");
 columnOperation.classList.add("col-7");
 var cardOperation = document.createElement("div");
 columnOperation.appendChild(cardOperation);
-cardOperation.classList.add("card-operation", "card", "p-3", "shadow", "d-sm-flex");
+cardOperation.classList.add("card-operation", "card", "p-3", "shadow");
 var boxTitleBtn = document.createElement("div");
 boxTitleBtn.classList.add("d-flex", "justify-content-between");
 var titleOperation = document.createElement("h3");
@@ -368,16 +368,6 @@ btnAdd.appendChild(document.createTextNode("Agregar"));
 btnAdd.classList.add("btn", "btn-success");
 boxButton.appendChild(btnCancel);
 boxButton.appendChild(btnAdd);
-
-cardNewOperation.appendChild(boxButton);
-var operationLabels = [
-    "Descripción",
-    "Categoria",
-    "Fecha",
-    "Monto",
-    "Acciones",
-]; // hacer un objeto con descripcion : "value" para poder capturar 
-
 btnAdd.addEventListener("click", function () {
     var newOp = {
         description: "",
@@ -421,7 +411,13 @@ btnCancel.addEventListener("click", function () {
     rowWrapper.classList.remove("display-none");
 });
 // Function to create table with Operations
-var operationLabels = ["Descripción", "Categoria", "Fecha", "Monto", "Acciones"];
+var operationLabels = [
+    "Descripción",
+    "Categoria",
+    "Fecha",
+    "Monto",
+    "Acciones",
+]; // hacer un objeto con descripcion : "value" para poder capturar 
 var containerTable = document.createElement("div");
 cardOperation.appendChild(containerTable);
 var operationTable = document.createElement("table");
@@ -435,6 +431,7 @@ var createOperationTable = function (tableHeads) {
     operationTable.appendChild(operationTb);
     var tRow = document.createElement("tr");
     operationTable.appendChild(tRow);
+    // tRow.style.width = "30px"
     var tableHead = document.createElement("thead");
     operationTable.appendChild(tableHead);
     operationLabels.forEach(function (tablehead) {
@@ -446,43 +443,20 @@ var createOperationTable = function (tableHeads) {
     var operations = storage.operations;
     operations.forEach(function (operation) {
         var tRow = document.createElement("tr");
-
-        operationTable.appendChild(tRow);
-        // tRow.style.width = "30px"
-        var tableHead = document.createElement("thead");
-        operationTable.appendChild(tableHead);
-        // hacer dinamico con categorias cargadas
-        var tdDescription = document.createElement("td");
-        var pDescription = document.createElement("p");
-        pDescription.style.fontSize = "15px";
-        pDescription.appendChild(document.createTextNode("Educacion"));
-        tdDescription.appendChild(pDescription); // linkear con categorias y mes
-        pDescription.classList.add("fw-bold", "text-secondary"); // la clase del color es card-subtitle
-        tRow.appendChild(tdDescription);
+        tRow.setAttribute('class', 'tRow');
         var tdCat = document.createElement("td");
-        var pCategory = document.createElement('p');
-        pCategory.classList.add("categorySpan");
-        pCategory.appendChild(document.createTextNode("1000")); // linkear con operaciones
-        tdCat.appendChild(pCategory);
+        tdCat.appendChild(document.createTextNode(operation.description));
         tRow.appendChild(tdCat);
-        var tdDate = document.createElement("td");
-        // tdDate.classList.add("tdStyle")
-        var pDate = document.createElement('p');
-        pDate.classList.add("tdStyle");
-        pDate.appendChild(document.createTextNode("50000")); // linkear con operacione
-        tdDate.appendChild(pDate);
-        tRow.appendChild(tdDate);
+        var tdProfits = document.createElement("td");
+        tdProfits.appendChild(document.createTextNode(operation.category));
+        tRow.appendChild(tdProfits);
+        var tdBills = document.createElement("td");
+        tdBills.appendChild(document.createTextNode(operation.date));
+        tRow.appendChild(tdBills);
         var totalAmount = document.createElement("td");
-        var pAmount = document.createElement('p');
-        pAmount.classList.add("text-danger", "fw-bold");
-        pAmount.appendChild(document.createTextNode("$10")); // linkear con totales
-        totalAmount.appendChild(pAmount);
+        totalAmount.appendChild(document.createTextNode("$".concat(operation.amount))); // sumar + o - si es gasto o profit
         tRow.appendChild(totalAmount);
-        operationLabels.forEach(function (tablehead) {
-            var titleHeader = document.createElement("th");
-            titleHeader.appendChild(document.createTextNode(tablehead));
-            tableHead.appendChild(titleHeader);
-        });
+        operationTable.appendChild(tRow);
         if (operationLabels[4] === "Acciones") {
             var tdAction = document.createElement("td");
             tRow.appendChild(tdAction);
@@ -501,95 +475,11 @@ var createOperationTable = function (tableHeads) {
             delOp.style.fontSize = "12px";
             delOp.appendChild(document.createTextNode("Eliminar"));
             boxBtn.appendChild(delOp);
-            // delOp.addEventListener('click', () => {
-            //  // let valuess =
-            //  // let index = tableHeads.indexOf(tableHead);
-            //  // tRow.splice(index, 1);
-            // }
         }
-    };
-    createOperationTable(operationLabels);
-});
-btnCancel.addEventListener("click", function () {
-    cardNewOperation.classList.add("display-none");
-    rowWrapper.classList.remove("display-none");
-});
-var formControls = [
-    {
-        label: "Descripción",
-        type: "text"
-    },
-    {
-        label: "Monto",
-        type: "number"
-    },
-    {
-        label: "Tipo",
-        type: "select"
-    },
-    {
-        label: "Categoria",
-        type: "select"
-    },
-    {
-        label: "Fecha",
-        type: "date"
-    }, //{
-    //   inputValues: []//si no lo uso brrar
-    // }
-];
-formControls.forEach(function (formControl) {
-    var title = document.createElement("label");
-    title.appendChild(document.createTextNode(formControl.label));
-    title.classList.add("fw-bold", "mb-2", "mt-1");
-    title.setAttribute("for", formControl.label);
-    formNewOp.appendChild(title);
-    if (formControl.type === "select") {
-        var select_2 = document.createElement("select");
-        select_2.classList.add("form-select");
-        formNewOp.appendChild(select_2);
-        if (formControl.label === "Tipo") {
-            filters.type.shift();
-            filters.type.forEach(function (type) {
-                var option = document.createElement("option");
-                option.appendChild(document.createTextNode(type));
-                option.value = type;
-                select_2.appendChild(option);
-            });
-        }
-        else if (formControl.label === "Categoria") {
-            for (var _i = 0, categoryNames_1 = categoryNames; _i < categoryNames_1.length; _i++) {
-                var prop = categoryNames_1[_i];
-                var option = document.createElement("option");
-                option.appendChild(document.createTextNode(prop));
-                option.value = prop;
-                select_2.appendChild(option);
-            }
-        }
-    }
-    else {
-        var controlType = document.createElement("input");
-        controlType.classList.add("form-control");
-        controlType.setAttribute("type", formControl.type);
-        formNewOp.appendChild(controlType);
-        // let guardar = controlType.value;
-        // formControl.inputValues.push(guardar)// revisar!!!!!
-        // console.log(formControl.inputValues.push(guardar))
-
-        tRow.setAttribute('class', 'tRow');
-        var tdCat = document.createElement("td");
-        tdCat.appendChild(document.createTextNode(operation.description));
-        tRow.appendChild(tdCat);
-        var tdProfits = document.createElement("td");
-        tdProfits.appendChild(document.createTextNode(operation.category));
-        tRow.appendChild(tdProfits);
-        var tdBills = document.createElement("td");
-        tdBills.appendChild(document.createTextNode(operation.date));
-        tRow.appendChild(tdBills);
-        var totalAmount = document.createElement("td");
-        totalAmount.appendChild(document.createTextNode("$".concat(operation.amount))); // sumar + o - si es gasto o profit
-        tRow.appendChild(totalAmount);
-        operationTable.appendChild(tRow);
+        // delOp.addEventListener('click', () => {
+        //  // let valuess =
+        //  // let index = tableHeads.indexOf(tableHead);
+        //  // tRow.splice(index, 1);
     });
 };
 var setTable = function () {
@@ -604,7 +494,6 @@ var setTable = function () {
         imgOperation.classList.remove("display-none");
         textNoResults.classList.remove("display-none");
         textAddOperations.classList.remove("display-none");
-
     }
 };
 setTable();

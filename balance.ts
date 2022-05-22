@@ -572,7 +572,7 @@ const createOperationTable = (tableHeads: string[]) => {
     let storage = JSON.parse(localStorage.getItem("storedData"));
     let operations = storage.operations;
 
-  operations.forEach(operation => {
+   operations.forEach(operation => {
     let tRow = document.createElement("tr");
     tRow.setAttribute('class', 'tRow');
     let tdCat = document.createElement("td");
@@ -606,16 +606,14 @@ const createOperationTable = (tableHeads: string[]) => {
       delOp.style.fontSize = "12px"
       delOp.appendChild(document.createTextNode("Eliminar"))
       boxBtn.appendChild(delOp);
+    }
 
       // delOp.addEventListener('click', () => {
       //  // let valuess =
       //  // let index = tableHeads.indexOf(tableHead);
       //  // tRow.splice(index, 1);
-
-      // }
-  }
-)
-};
+  })
+}
 
 const setTable = () => {
   let storage = JSON.parse(localStorage.getItem('storedData'));
@@ -626,7 +624,8 @@ const setTable = () => {
     textAddOperations.classList.add("display-none");
     
     createOperationTable(operationLabels);   
-} else {
+  } 
+  else {
     imgOperation.classList.remove("display-none");
     textNoResults.classList.remove("display-none");
     textAddOperations.classList.remove("display-none");
@@ -643,13 +642,4 @@ btnNewOperation.addEventListener("click", (e) => {
   wrapperNewOp.classList.add("d-flex", "justify-content-center");
   cardNewOperation.appendChild(boxButton);
   createForm();
- 
-});
-
-
-
-
-
-
-
-
+})

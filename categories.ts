@@ -167,15 +167,23 @@ const createCategoryList = () => {
         tDataDel.appendChild(delBtn);
 
 
-        delBtn.addEventListener('click', () => {
-            let index = categories.indexOf(category);
-            categories.splice(index, 1);
-        
-            stored = { categories, ...stored.operations }
+        // const reu =()=>{
+            delBtn.addEventListener('click', () => {
+           
+                let index = categories.indexOf(category);
+                categories.splice(index, 1);
+            
+                stored = { categories, ...stored.operations }
+    
+                localStorage.setItem('storedData', JSON.stringify(stored));
+                createCategoryList();
+            })
 
-            localStorage.setItem('storedData', JSON.stringify(stored));
-            createCategoryList();
-        })
+        //} // let delOperatio = document.getElementById('delBtn');
+        
+        // delOperatio.addEventListener('click', reu);
+       
+
 
     })
 }

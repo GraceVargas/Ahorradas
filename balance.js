@@ -17,7 +17,7 @@ var filters = {
     ]
 };
 var container = document.createElement("div");
-container.classList.add("container", "p-5");
+container.classList.add("p-5", "container");
 var rowWrapper = document.createElement("div");
 rowWrapper.classList.add("row");
 container.appendChild(rowWrapper);
@@ -96,7 +96,7 @@ boxTitleLink.appendChild(hideFilters);
 boxTitleLink.appendChild(btnShowFilters);
 cardFilters.appendChild(boxTitleLink);
 var column = document.createElement("div");
-column.classList.add("col-4", "gx-5");
+column.classList.add("col-sm-4", "gx-5");
 column.appendChild(cardBalance);
 column.appendChild(cardFilters);
 rowWrapper.appendChild(column);
@@ -137,7 +137,7 @@ var createSelect = function (array) {
                         select_1.appendChild(option);
                     });
                     break;
-                default:
+                default: //podriamos poner el "desde" en el defalut??
                     break;
             }
             form.appendChild(select_1);
@@ -175,7 +175,7 @@ var columnOperation = document.createElement("div");
 columnOperation.classList.add("col-7");
 var cardOperation = document.createElement("div");
 columnOperation.appendChild(cardOperation);
-cardOperation.classList.add("card-operation", "card", "p-3", "shadow");
+cardOperation.classList.add("card-operation", "card", "p-3", "shadow", "d-sm-flex");
 var boxTitleBtn = document.createElement("div");
 boxTitleBtn.classList.add("d-flex", "justify-content-between");
 var titleOperation = document.createElement("h3");
@@ -235,7 +235,13 @@ cardNewOperation.appendChild(wrapperFormNewOp);
 boxButton.appendChild(btnCancel);
 boxButton.appendChild(btnAdd);
 cardNewOperation.appendChild(boxButton);
-var operationLabels = ["Descripción", "Categoria", "Fecha", "Monto", "Acciones"];
+var operationLabels = [
+    "Descripción",
+    "Categoria",
+    "Fecha",
+    "Monto",
+    "Acciones",
+]; // hacer un objeto con descripcion : "value" para poder capturar 
 btnAdd.addEventListener("click", function () {
     imgOperation.classList.add("display-none");
     textNoResults.classList.add("display-none");
@@ -251,26 +257,65 @@ btnAdd.addEventListener("click", function () {
         operationTable.appendChild(operationTb);
         var tRow = document.createElement("tr");
         operationTable.appendChild(tRow);
+        // tRow.style.width = "30px"
         var tableHead = document.createElement("thead");
         operationTable.appendChild(tableHead);
+        // hacer dinamico con categorias cargadas
+        var tdDescription = document.createElement("td");
+        var pDescription = document.createElement("p");
+        pDescription.style.fontSize = "15px";
+        pDescription.appendChild(document.createTextNode("Educacion"));
+        tdDescription.appendChild(pDescription); // linkear con categorias y mes
+        pDescription.classList.add("fw-bold", "text-secondary"); // la clase del color es card-subtitle
+        tRow.appendChild(tdDescription);
+        var tdCat = document.createElement("td");
+        var pCategory = document.createElement('p');
+        pCategory.classList.add("categorySpan");
+        pCategory.appendChild(document.createTextNode("1000")); // linkear con operaciones
+        tdCat.appendChild(pCategory);
+        tRow.appendChild(tdCat);
+        var tdDate = document.createElement("td");
+        // tdDate.classList.add("tdStyle")
+        var pDate = document.createElement('p');
+        pDate.classList.add("tdStyle");
+        pDate.appendChild(document.createTextNode("50000")); // linkear con operacione
+        tdDate.appendChild(pDate);
+        tRow.appendChild(tdDate);
+        var totalAmount = document.createElement("td");
+        var pAmount = document.createElement('p');
+        pAmount.classList.add("text-danger", "fw-bold");
+        pAmount.appendChild(document.createTextNode("$10")); // linkear con totales
+        totalAmount.appendChild(pAmount);
+        tRow.appendChild(totalAmount);
         operationLabels.forEach(function (tablehead) {
             var titleHeader = document.createElement("th");
             titleHeader.appendChild(document.createTextNode(tablehead));
             tableHead.appendChild(titleHeader);
         });
-        // hacer dinamico con categorias cargadas
-        var tdCat = document.createElement("td");
-        tdCat.appendChild(document.createTextNode("Educacion")); // linkear con categorias y mes
-        tRow.appendChild(tdCat);
-        var tdProfits = document.createElement("td");
-        tdProfits.appendChild(document.createTextNode("100000")); // linkear con operaciones
-        tRow.appendChild(tdProfits);
-        var tdBills = document.createElement("td");
-        tdBills.appendChild(document.createTextNode("50000")); // linkear con operaciones
-        tRow.appendChild(tdBills);
-        var totalAmount = document.createElement("td");
-        totalAmount.appendChild(document.createTextNode("$100000")); // linkear con totales
-        tRow.appendChild(totalAmount);
+        if (operationLabels[4] === "Acciones") {
+            var tdAction = document.createElement("td");
+            tRow.appendChild(tdAction);
+            var boxBtn = document.createElement("div");
+            boxBtn.classList.add("btn-group-vertical");
+            tdAction.appendChild(boxBtn);
+            var editBtn = document.createElement("button");
+            editBtn.setAttribute("id", "editBtn");
+            editBtn.classList.add("btn", "btn-link");
+            editBtn.style.fontSize = "12px";
+            editBtn.appendChild(document.createTextNode("Editar"));
+            boxBtn.appendChild(editBtn);
+            var delOp = document.createElement("button");
+            delOp.setAttribute("id", "delBtn");
+            delOp.classList.add("btn", "btn-link");
+            delOp.style.fontSize = "12px";
+            delOp.appendChild(document.createTextNode("Eliminar"));
+            boxBtn.appendChild(delOp);
+            // delOp.addEventListener('click', () => {
+            //  // let valuess =
+            //  // let index = tableHeads.indexOf(tableHead);
+            //  // tRow.splice(index, 1);
+            // }
+        }
     };
     createOperationTable(operationLabels);
 });
@@ -298,7 +343,9 @@ var formControls = [
     {
         label: "Fecha",
         type: "date"
-    }
+    }, //{
+    //   inputValues: []//si no lo uso brrar
+    // }
 ];
 formControls.forEach(function (formControl) {
     var title = document.createElement("label");
@@ -334,5 +381,8 @@ formControls.forEach(function (formControl) {
         controlType.classList.add("form-control");
         controlType.setAttribute("type", formControl.type);
         formNewOp.appendChild(controlType);
+        // let guardar = controlType.value;
+        // formControl.inputValues.push(guardar)// revisar!!!!!
+        // console.log(formControl.inputValues.push(guardar))
     }
 });

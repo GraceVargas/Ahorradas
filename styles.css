@@ -20,6 +20,7 @@
     color: #00947e;
     padding: 5px;
     border-radius: 7px;
+    font-size: 12px;
 }
 
 .display-none {
@@ -58,5 +59,7 @@
     font-weight: bold;
     padding: 10px;
 }
+
+
 
 

@@ -82,7 +82,7 @@ editSubmit.addEventListener("click", () => {
     category.name = formInput.value
     // {id: id, name: formInput.value}
     storage = { categories, ...storage.operations }
-    console.log(storage);
+   
     
     localStorage.setItem('storedData', JSON.stringify(storage));
     // createCategoryList();

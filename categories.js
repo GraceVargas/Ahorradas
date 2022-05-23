@@ -1,20 +1,6 @@
 // Container
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var container = document.createElement('div');
-
 container.classList.add("container-xl", "px-5", "d-flex", "justify-content-center");
-
-
 main.appendChild(container);
 // Card 
 var categoriesCard = document.createElement('div');
@@ -67,7 +53,7 @@ var createCategoryList = function () {
     tableBody.innerHTML = "";
     var stored = JSON.parse(localStorage.getItem('storedData'));
     var categories = stored.categories;
-    categories.forEach(function (category) {
+    stored.categories.forEach(function (category) {
         var tRow = document.createElement('tr');
         tableBody.appendChild(tRow);
         // category list
@@ -97,9 +83,9 @@ var createCategoryList = function () {
         tDataDel.appendChild(delBtn);
         delBtn.addEventListener('click', function () {
             var index = categories.indexOf(category);
-            categories.splice(index, 1);
-            // stored = { categories, ...stored.operations }
-            localStorage.setItem('storedData', JSON.stringify(categories));
+            stored.categories.splice(index, 1);
+            console.log(stored.categories);
+            localStorage.setItem('storedData', JSON.stringify(stored));
             createCategoryList();
         });
     });
@@ -108,9 +94,7 @@ createCategoryList();
 form.addEventListener('submit', function (e) {
     e.preventDefault();
     var stored = JSON.parse(localStorage.getItem('storedData'));
-    var categories = stored.categories;
-    categories.push({ id: categories.length, name: formInput.value });
-    stored = __assign({ categories: categories }, stored.operations);
+    stored.categories.push({ id: stored.categories.length, name: formInput.value });
     localStorage.setItem('storedData', JSON.stringify(stored));
     createCategoryList();
 });

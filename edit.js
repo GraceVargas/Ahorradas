@@ -1,20 +1,7 @@
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var storage = JSON.parse(localStorage.getItem('storedData'));
-var categories = storage.categories;
 var params = new URLSearchParams(window.location.search);
 var id = parseInt(params.get("id"));
-var category = categories.find(function (item) { return item.id === id; });
-var categoryName = category.name;
+var category = storage.categories.find(function (item) { return item.id === id; });
 // Container
 var container = document.createElement('div');
 container.classList.add("container-xl", "px-4", "d-flex", "justify-content-center");
@@ -55,7 +42,7 @@ formInput.classList.add("form-control");
 formInput.setAttribute("name", "formInput");
 formInput.setAttribute("type", "text");
 formColText.appendChild(formInput);
-formInput.value = categoryName;
+formInput.value = category.name;
 // Edit Button
 var editSubmit = document.createElement('button');
 editSubmit.appendChild(document.createTextNode("Editar"));
@@ -64,16 +51,8 @@ editSubmit.setAttribute("type", "button");
 btnRow.appendChild(editSubmit);
 editSubmit.addEventListener("click", function () {
     category.name = formInput.value;
-    // {id: id, name: formInput.value}
-    storage = __assign({ categories: categories }, storage.operations);
-    console.log(storage);
     localStorage.setItem('storedData', JSON.stringify(storage));
-    // createCategoryList();
 });
-// let index = categories.indexOf(category);
-// categories.splice(index, 1, formInput.value);
-// localStorage.setItem('storedCategories', JSON.stringify(categories));
-// formInput.value = category;
 // Cancel Button
 var cancelSubmit = document.createElement('a');
 cancelSubmit.appendChild(document.createTextNode("Cancelar"));

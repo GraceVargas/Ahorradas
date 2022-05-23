@@ -7,27 +7,39 @@ var defaultStorage = {
     categories: [
         {
             'id': 0,
-            'name': "Comida"
+            'name': "Comida",
+            'totalBills': 0,
+            'totalProfits': 0
         },
         {
             'id': 1,
-            'name': "Servicios"
+            'name': "Servicios",
+            'totalBills': 0,
+            'totalProfits': 0
         },
         {
             'id': 2,
-            'name': "Salidas"
+            'name': "Salidas",
+            'totalBills': 0,
+            'totalProfits': 0
         },
         {
             'id': 3,
-            'name': "Educación"
+            'name': "Educación",
+            'totalBills': 0,
+            'totalProfits': 0
         },
         {
             'id': 4,
-            'name': "Transporte"
+            'name': "Transporte",
+            'totalBills': 0,
+            'totalProfits': 0
         },
         {
             'id': 5,
-            'name': "Trabajo"
+            'name': "Trabajo",
+            'totalBills': 0,
+            'totalProfits': 0
         }
     ],
     operations: [],

@@ -5,6 +5,15 @@ storage.categories.forEach((category) => {
   categoryNames.push(category.name)
 });
 
+// const formatDate = (date) => {
+//   let d = new Date(date);
+//   let month = (d.getMonth() + 1).toString().padStart(2, '0');
+//   let day = (d.getDate().toString().padStart(2, '0'));
+//   let year = d.getFullYear();
+//   return [day, month, year].join('-');
+// }
+
+
 
 type Filters = {
   title: string[];
@@ -130,20 +139,6 @@ rowWrapper.appendChild(column);
 const form = document.createElement("form");
 cardFilters.appendChild(form);
 
-// const filters = {
-//   title: ["Tipo", "Categoría", "Desde", "Ordenar por"],
-//   type: ["Todos", "Gasto", "Ganancias"],
-//   category: categoryNames,
-//   sortBy: [
-//     "Mas reciente",
-//     "Menos reciente",
-//     "Mayor monto",
-//     "Menor monto",
-//     "A/Z",
-//     "Z/A",
-//   ],
-// };
-
 
 const createSelect = (array: Filters) => {
   filters.title.forEach((elem) => {
@@ -175,6 +170,7 @@ const createSelect = (array: Filters) => {
           filters.category.forEach((category) => {
             const option = document.createElement("option")
             option.appendChild(document.createTextNode(category))
+            // option.setAttribute('id', category.id)
             option.value = category;
             select.appendChild(option)
           });
@@ -198,8 +194,8 @@ const createSelect = (array: Filters) => {
       input.setAttribute("type", "date");
       input.setAttribute('id', elem);
 
-      const date = new Date();
-      input.defaultValue = date.getDate().toString();
+      const date = new Date();  //formatDate
+      input.defaultValue = date.toString();
       const label = document.createElement("label")
       label.classList.add("fw-bold", "mb-2")
       label.setAttribute("for", elem)
@@ -238,6 +234,7 @@ let orderOption = "";
 
 const filterType = document.getElementById('Tipo') as HTMLSelectElement;
 filterType.addEventListener('change', (e) => {
+  window.location.href = window.location.pathname + `?type = ` + e.target.value;
   filterOption = e.target.value;
 })
 
@@ -251,47 +248,40 @@ orderBy.addEventListener('change', (e) => {
   orderOption = e.target.value; 
 })
 
+///// To filter the table
+
 // const operationTabletoFilter = document.getElementById('operationTable') as HTMLTableElement;
-// const tBodyToFilter = document.getElementById('operationTBody') as HTMLTableElement;
-// const table = operationTb.tBodies[0];
-// const tRow = document.getElementsByClassName('tRow');
-// console.log(tBodyToFilter.rows);
-// for (let i = 0; i < operationTabletoFilter.tRow.length; i++) {
-//   let td = tRow[i].getElementsByTagName("td")[0];
+// // const tBodyToFilter = document.getElementById('operationTBody') as HTMLTableElement;
+// let row: HTMLTableRowElement;
+// row = operationTabletoFilter.rows;
+// console.log(row);
+// // const tRow = document.getElementsByClassName('tRow');
 
-  
-// }
-
-
-// function Eliminar (i) {
-//   document.getElementsByTagName("table")[0].setAttribute("id","tableid");
-//   document.getElementById("tableid").deleteRow(i);
-// }
-// function Buscar() {
-//           var tabla = document.getElementById('tblPersonas');
-//           var busqueda = document.getElementById('txtBusqueda').value.toLowerCase();
-//           var cellsOfRow="";
-//           var found=false;
-//           var compareWith="";
-//           for (var i = 1; i < tabla.rows.length; i++) {
-//               cellsOfRow = tabla.rows[i].getElementsByTagName('td');
-//               found = false;
-//               for (var j = 0; j < cellsOfRow.length && !found; j++) { compareWith = cellsOfRow[j].innerHTML.toLowerCase(); if (busqueda.length == 0 || (compareWith.indexOf(busqueda) > -1))
-//                   {
-//                       found = true;
-//                   }
-//               }
-//               if(found)
-//               {
-//                   tabla.rows[i].style.display = '';
-//               } else {
-//                   tabla.rows[i].style.display = 'none';
-//               }
+// function doSearch() {
+//   var tableReg = document.getElementById('operationTBody') as HTMLTableElement;
+//   var searchText = filterCat;
+//   for (var i = 1; i < tableReg.rows.length; i++) {
+//     console.log(tableReg.rows.length);
+    
+//       var cellsOfRow = tableReg.rows[i].getElementsByTagName('td');
+//       var found = false;
+//       for (var j = 0; j < cellsOfRow.length && !found; j++) {
+//           var compareWith = cellsOfRow[j].innerHTML.toLowerCase();
+//           if (searchText.length == 0 || (compareWith.indexOf(searchText) > -1)) {
+//               found = true;
 //           }
 //       }
+//       if (found) {
+//           tableReg.rows[i].style.display = '';
+//       } else {
+//           tableReg.rows[i].style.display = 'none';
+//       }
+//   }
+// }
+  
+// doSearch()
 
-
-
+////////////
 
 
 
@@ -405,7 +395,7 @@ type NewOp = {
   description: string,
   type: string,
   category: string,
-  date : string,  //cambiar
+  date : any,  
   amount: number,
 }
 
@@ -474,12 +464,13 @@ type NewOp = {
   boxButton.appendChild(btnAdd);
 
 
+
   btnAdd.addEventListener("click", () => {
     const newOp: NewOp = {
       description: "",
       type: "",
       category: "",
-      date : "",
+      date: "",
       amount: 0,
     };
 
@@ -504,20 +495,35 @@ type NewOp = {
     if (newOp.type === "Gasto") {
       newOp.amount = parseInt(`-${amount.value}`);
       storage.totalBills += parseInt(amount.value); 
+ 
+      for (let category of storage.categories) {        
+        if (newOp.category === category.name) {                 
+          category.totalBills += parseInt(amount.value);
+        }
+      }
+      
       spanBills.innerText = `-${storage.totalBills}`;
+      spanSum.innerText = `${storage.totalProfits - storage.totalBills}`;
     } else {
       newOp.amount = parseInt(`+${amount.value}`);
       storage.totalProfits += parseInt(amount.value); 
+
+      for (let category of storage.categories) {
+      if (newOp.category === category.name) {
+        category.totalProfits += parseInt(amount.value);
+      }
+    }
+
       spanProfit.innerText = `+${storage.totalProfits}`;
+      spanSum.innerText = `${storage.totalProfits - storage.totalBills}`;
     }
 
     const date = document.getElementById('date-select') as HTMLInputElement;
-    newOp.date = date.value;
+    newOp.date = date.value; //formatDate
 
     storage.operations.push(newOp);
     
     localStorage.setItem('storedData', JSON.stringify(storage));
-    console.log(storage);
     
     createOperationTable(operationLabels);
   });
@@ -588,6 +594,7 @@ const createOperationTable = (tableHeads: string[]) => {
     totalAmount.appendChild(document.createTextNode(`$${operation.amount}`)); // sumar + o - si es gasto o profit
     tRow.appendChild(totalAmount);
     operationTable.appendChild(tRow);
+
     if (operationLabels[4] === "Acciones") {
       let tdAction = document.createElement("td");
       tRow.appendChild(tdAction);

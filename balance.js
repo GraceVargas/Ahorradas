@@ -102,19 +102,6 @@ column.appendChild(cardFilters);
 rowWrapper.appendChild(column);
 var form = document.createElement("form");
 cardFilters.appendChild(form);
-// const filters = {
-//   title: ["Tipo", "Categoría", "Desde", "Ordenar por"],
-//   type: ["Todos", "Gasto", "Ganancias"],
-//   category: categoryNames,
-//   sortBy: [
-//     "Mas reciente",
-//     "Menos reciente",
-//     "Mayor monto",
-//     "Menor monto",
-//     "A/Z",
-//     "Z/A",
-//   ],
-// };
 var createSelect = function (array) {
     filters.title.forEach(function (elem) {
         if (elem != "Desde") {
@@ -140,6 +127,7 @@ var createSelect = function (array) {
                     filters.category.forEach(function (category) {
                         var option = document.createElement("option");
                         option.appendChild(document.createTextNode(category));
+                        // option.setAttribute('id', category.id)
                         option.value = category;
                         select_1.appendChild(option);
                     });
@@ -162,8 +150,8 @@ var createSelect = function (array) {
             input.classList.add("form-control", "mb-3");
             input.setAttribute("type", "date");
             input.setAttribute('id', elem);
-            var date = new Date();
-            input.defaultValue = date.getDate().toString();
+            var date = new Date(); //formatDate
+            input.defaultValue = date.toString();
             var label = document.createElement("label");
             label.classList.add("fw-bold", "mb-2");
             label.setAttribute("for", elem);
@@ -193,6 +181,7 @@ var filterCat = "";
 var orderOption = "";
 var filterType = document.getElementById('Tipo');
 filterType.addEventListener('change', function (e) {
+    window.location.href = window.location.pathname + "?type = " + e.target.value;
     filterOption = e.target.value;
 });
 var filterCategory = document.getElementById('Categoría');
@@ -203,40 +192,35 @@ var orderBy = document.getElementById('Ordenar por');
 orderBy.addEventListener('change', function (e) {
     orderOption = e.target.value;
 });
+///// To filter the table
 // const operationTabletoFilter = document.getElementById('operationTable') as HTMLTableElement;
-// const tBodyToFilter = document.getElementById('operationTBody') as HTMLTableElement;
-// const table = operationTb.tBodies[0];
-// const tRow = document.getElementsByClassName('tRow');
-// console.log(tBodyToFilter.rows);
-// for (let i = 0; i < operationTabletoFilter.tRow.length; i++) {
-//   let td = tRow[i].getElementsByTagName("td")[0];
-// }
-// function Eliminar (i) {
-//   document.getElementsByTagName("table")[0].setAttribute("id","tableid");
-//   document.getElementById("tableid").deleteRow(i);
-// }
-// function Buscar() {
-//           var tabla = document.getElementById('tblPersonas');
-//           var busqueda = document.getElementById('txtBusqueda').value.toLowerCase();
-//           var cellsOfRow="";
-//           var found=false;
-//           var compareWith="";
-//           for (var i = 1; i < tabla.rows.length; i++) {
-//               cellsOfRow = tabla.rows[i].getElementsByTagName('td');
-//               found = false;
-//               for (var j = 0; j < cellsOfRow.length && !found; j++) { compareWith = cellsOfRow[j].innerHTML.toLowerCase(); if (busqueda.length == 0 || (compareWith.indexOf(busqueda) > -1))
-//                   {
-//                       found = true;
-//                   }
-//               }
-//               if(found)
-//               {
-//                   tabla.rows[i].style.display = '';
-//               } else {
-//                   tabla.rows[i].style.display = 'none';
-//               }
+// // const tBodyToFilter = document.getElementById('operationTBody') as HTMLTableElement;
+// let row: HTMLTableRowElement;
+// row = operationTabletoFilter.rows;
+// console.log(row);
+// // const tRow = document.getElementsByClassName('tRow');
+// function doSearch() {
+//   var tableReg = document.getElementById('operationTBody') as HTMLTableElement;
+//   var searchText = filterCat;
+//   for (var i = 1; i < tableReg.rows.length; i++) {
+//     console.log(tableReg.rows.length);
+//       var cellsOfRow = tableReg.rows[i].getElementsByTagName('td');
+//       var found = false;
+//       for (var j = 0; j < cellsOfRow.length && !found; j++) {
+//           var compareWith = cellsOfRow[j].innerHTML.toLowerCase();
+//           if (searchText.length == 0 || (compareWith.indexOf(searchText) > -1)) {
+//               found = true;
 //           }
 //       }
+//       if (found) {
+//           tableReg.rows[i].style.display = '';
+//       } else {
+//           tableReg.rows[i].style.display = 'none';
+//       }
+//   }
+// }
+// doSearch()
+////////////
 //Card Operation
 var columnOperation = document.createElement("div");
 columnOperation.classList.add("col-7");
@@ -392,18 +376,31 @@ btnAdd.addEventListener("click", function () {
     if (newOp.type === "Gasto") {
         newOp.amount = parseInt("-".concat(amount.value));
         storage.totalBills += parseInt(amount.value);
+        for (var _i = 0, _a = storage.categories; _i < _a.length; _i++) {
+            var category = _a[_i];
+            if (newOp.category === category.name) {
+                category.totalBills += parseInt(amount.value);
+            }
+        }
         spanBills.innerText = "-".concat(storage.totalBills);
+        spanSum.innerText = "".concat(storage.totalProfits - storage.totalBills);
     }
     else {
         newOp.amount = parseInt("+".concat(amount.value));
         storage.totalProfits += parseInt(amount.value);
+        for (var _b = 0, _c = storage.categories; _b < _c.length; _b++) {
+            var category = _c[_b];
+            if (newOp.category === category.name) {
+                category.totalProfits += parseInt(amount.value);
+            }
+        }
         spanProfit.innerText = "+".concat(storage.totalProfits);
+        spanSum.innerText = "".concat(storage.totalProfits - storage.totalBills);
     }
     var date = document.getElementById('date-select');
-    newOp.date = date.value;
+    newOp.date = date.value; //formatDate
     storage.operations.push(newOp);
     localStorage.setItem('storedData', JSON.stringify(storage));
-    console.log(storage);
     createOperationTable(operationLabels);
 });
 btnCancel.addEventListener("click", function () {

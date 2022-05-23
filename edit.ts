@@ -1,11 +1,10 @@
 let storage = JSON.parse(localStorage.getItem('storedData'));
-let categories = storage.categories;
 
 const params = new URLSearchParams(window.location.search);
 const id = parseInt(params.get("id"));
 
-const category = categories.find(item => item.id === id);
-const categoryName = category.name;
+const category = storage.categories.find(item => item.id === id);
+
 
 
 // Container
@@ -65,7 +64,7 @@ formInput.classList.add("form-control");
 formInput.setAttribute("name", "formInput")
 formInput.setAttribute("type", "text");
 formColText.appendChild(formInput);
-formInput.value = categoryName;
+formInput.value = category.name;
 
 
 // Edit Button
@@ -79,25 +78,12 @@ btnRow.appendChild(editSubmit);
 
 editSubmit.addEventListener("click", () => {
 
-    category.name = formInput.value
-    // {id: id, name: formInput.value}
-    storage = { categories, ...storage.operations }
-    console.log(storage);
+    category.name = formInput.value;
     
     localStorage.setItem('storedData', JSON.stringify(storage));
-    // createCategoryList();
 
 });
-    // let index = categories.indexOf(category);
-    // categories.splice(index, 1, formInput.value);
-    
-    // localStorage.setItem('storedCategories', JSON.stringify(categories));
 
-    
-
-
-
-            // formInput.value = category;
 
 // Cancel Button
 

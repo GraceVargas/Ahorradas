@@ -84,7 +84,7 @@ const createCategoryList = () => {
     const categories = stored.categories;
     
 
-    categories.forEach(category => {
+    stored.categories.forEach(category => {
        
                 
         let tRow = document.createElement('tr');
@@ -126,11 +126,11 @@ const createCategoryList = () => {
    
             delBtn.addEventListener('click', () => {
            
-                let index = categories.indexOf(category);
-                categories.splice(index, 1);
-            // stored = { categories, ...stored.operations }
+            let index = categories.indexOf(category);
+            stored.categories.splice(index, 1);
+            console.log(stored.categories);
 
-            localStorage.setItem('storedData', JSON.stringify(categories));
+            localStorage.setItem('storedData', JSON.stringify(stored));
             createCategoryList();
         })
 
@@ -145,15 +145,13 @@ form.addEventListener('submit', (e) =>{
     e.preventDefault();
 
     let stored = JSON.parse(localStorage.getItem('storedData'));
-    const categories = stored.categories;
-    
-    categories.push({id: categories.length, name: formInput.value});
-    
-    stored = { categories, ...stored.operations }
+
+    stored.categories.push({id: stored.categories.length, name: formInput.value});
+
 
     localStorage.setItem('storedData', JSON.stringify(stored));
     
-    createCategoryList()
+    createCategoryList();
 })
 
 

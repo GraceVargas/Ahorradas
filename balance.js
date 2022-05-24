@@ -441,18 +441,30 @@ var createOperationTable = function (tableHeads) {
     operations.forEach(function (operation) {
         var tRow = document.createElement("tr");
         tRow.setAttribute('class', 'tRow');
+        var tdDescription = document.createElement("td");
+        var pDescription = document.createElement('p');
+        pDescription.classList.add("fw-bold");
+        pDescription.style.color = "#777C7C";
+        pDescription.appendChild(document.createTextNode(operation.description));
+        tdDescription.appendChild(pDescription);
+        tRow.appendChild(tdDescription);
         var tdCat = document.createElement("td");
-        tdCat.appendChild(document.createTextNode(operation.description));
+        var pCat = document.createElement('p');
+        pCat.classList.add("categorySpan");
+        pCat.appendChild(document.createTextNode(operation.category));
+        tdCat.appendChild(pCat);
         tRow.appendChild(tdCat);
-        var tdProfits = document.createElement("td");
-        tdProfits.appendChild(document.createTextNode(operation.category));
-        tRow.appendChild(tdProfits);
-        var tdBills = document.createElement("td");
-        tdBills.appendChild(document.createTextNode(operation.date));
-        tRow.appendChild(tdBills);
-        var totalAmount = document.createElement("td");
-        totalAmount.appendChild(document.createTextNode("$".concat(operation.amount))); // sumar + o - si es gasto o profit
-        tRow.appendChild(totalAmount);
+        var tdDate = document.createElement("td");
+        var pDate = document.createElement('p');
+        pDate.appendChild(document.createTextNode(operation.date));
+        tdDate.appendChild(pDate);
+        tRow.appendChild(tdDate);
+        var tdAmount = document.createElement("td");
+        var pAmount = document.createElement('p');
+        pAmount.appendChild(document.createTextNode("$".concat(operation.amount))); // sumar + o - si es gasto o profit
+        tdAmount.appendChild(pAmount);
+        operation.amount === "Gasto" ? pAmount.classList.add("fw-bold", "text-danger") : pAmount.classList.add("fw-bold", "text-success");
+        tRow.appendChild(tdAmount);
         operationTable.appendChild(tRow);
         if (operationLabels[4] === "Acciones") {
             var tdAction = document.createElement("td");
@@ -472,11 +484,27 @@ var createOperationTable = function (tableHeads) {
             delOp.style.fontSize = "12px";
             delOp.appendChild(document.createTextNode("Eliminar"));
             boxBtn.appendChild(delOp);
+            delOp.addEventListener('click', function () {
+                var index = operations.indexOf(operation);
+                operations.splice(index, 1);
+                operationTable.removeChild(tRow);
+                localStorage.setItem('storedData', JSON.stringify(storage));
+            });
+            editBtn.addEventListener('click', function () {
+                imgOperation.classList.add("display-none");
+                textNoResults.classList.add("display-none");
+                textAddOperations.classList.add("display-none");
+                rowWrapper.classList.remove("display-none");
+                cardNewOperation.classList.add("display-none");
+                var description = document.getElementById('description-select');
+                var selectType = document.getElementById('type-select');
+                var selectCategory = document.getElementById('category-select');
+                var amount = document.getElementById('amount-select');
+                var date = document.getElementById('date-select');
+                description.value = operation.descripcion;
+                localStorage.setItem('storedData', JSON.stringify(storage));
+            });
         }
-        // delOp.addEventListener('click', () => {
-        //  // let valuess =
-        //  // let index = tableHeads.indexOf(tableHead);
-        //  // tRow.splice(index, 1);
     });
 };
 var setTable = function () {

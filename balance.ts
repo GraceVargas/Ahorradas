@@ -336,7 +336,7 @@ rowWrapper.appendChild(columnOperation)
 const wrapperNewOp = document.createElement("div");
 const cardNewOperation = document.createElement("div");
 cardNewOperation.classList.add( "display-none","card-newOp","card","p-3","mt-3","shadow");
-wrapperNewOp.appendChild(cardNewOperation);
+wrapperNewOp.appendChild(cardNewOperation)
 container.appendChild(wrapperNewOp);
 
 // Title
@@ -395,8 +395,10 @@ type NewOp = {
   description: string,
   type: string,
   category: string,
+
   date : any,  
   amount: number,
+
 }
 
 
@@ -487,13 +489,16 @@ type NewOp = {
       
     const selectType = document.getElementById('type-select') as HTMLSelectElement;
     newOp.type = selectType.options[selectType.selectedIndex].value;
+ 
 
     const selectCategory = document.getElementById('category-select') as HTMLSelectElement;
     newOp.category = selectCategory.options[selectCategory.selectedIndex].value;
 
+
     const amount = document.getElementById('amount-select') as HTMLInputElement;
     if (newOp.type === "Gasto") {
       newOp.amount = parseInt(`-${amount.value}`);
+
       storage.totalBills += parseInt(amount.value); 
  
       for (let category of storage.categories) {        
@@ -502,6 +507,7 @@ type NewOp = {
         }
       }
       
+
       spanBills.innerText = `-${storage.totalBills}`;
       spanSum.innerText = `${storage.totalProfits - storage.totalBills}`;
     } else {
@@ -515,8 +521,11 @@ type NewOp = {
     }
 
       spanProfit.innerText = `+${storage.totalProfits}`;
+
       spanSum.innerText = `${storage.totalProfits - storage.totalBills}`;
+
     }
+    
 
     const date = document.getElementById('date-select') as HTMLInputElement;
     newOp.date = date.value; //formatDate
@@ -578,22 +587,35 @@ const createOperationTable = (tableHeads: string[]) => {
     let storage = JSON.parse(localStorage.getItem("storedData"));
     let operations = storage.operations;
 
-   operations.forEach(operation => {
+   operations.forEach(operation=> {
     let tRow = document.createElement("tr");
     tRow.setAttribute('class', 'tRow');
+    let tdDescription = document.createElement("td");
+    let pDescription = document.createElement('p')
+    pDescription.classList.add("fw-bold")
+    pDescription.style.color = "#777C7C"
+    pDescription.appendChild(document.createTextNode(operation.description));
+    tdDescription.appendChild(pDescription) 
+    tRow.appendChild(tdDescription);
     let tdCat = document.createElement("td");
-    tdCat.appendChild(document.createTextNode(operation.description)); 
+    let pCat = document.createElement('p')
+    pCat.classList.add("categorySpan")
+    pCat.appendChild(document.createTextNode(operation.category)); 
+    tdCat.appendChild(pCat)
     tRow.appendChild(tdCat);
-    let tdProfits = document.createElement("td");
-    tdProfits.appendChild(document.createTextNode(operation.category)); 
-    tRow.appendChild(tdProfits);
-    let tdBills = document.createElement("td");
-    tdBills.appendChild(document.createTextNode(operation.date)); 
-    tRow.appendChild(tdBills);
-    let totalAmount = document.createElement("td");
-    totalAmount.appendChild(document.createTextNode(`$${operation.amount}`)); // sumar + o - si es gasto o profit
-    tRow.appendChild(totalAmount);
+    let tdDate = document.createElement("td");
+    let pDate = document.createElement('p')
+    pDate.appendChild(document.createTextNode(operation.date)); 
+    tdDate.appendChild(pDate)
+    tRow.appendChild(tdDate);
+    let tdAmount = document.createElement("td")
+    let pAmount = document.createElement('p')
+    pAmount.appendChild(document.createTextNode(`$${operation.amount}`)); // sumar + o - si es gasto o profit
+    tdAmount.appendChild(pAmount)
+    operation.amount === "Gasto" ? pAmount.classList.add("fw-bold","text-danger") : pAmount.classList.add("fw-bold","text-success")
+    tRow.appendChild(tdAmount);
     operationTable.appendChild(tRow);
+
 
     if (operationLabels[4] === "Acciones") {
       let tdAction = document.createElement("td");
@@ -613,14 +635,37 @@ const createOperationTable = (tableHeads: string[]) => {
       delOp.style.fontSize = "12px"
       delOp.appendChild(document.createTextNode("Eliminar"))
       boxBtn.appendChild(delOp);
-    }
 
-      // delOp.addEventListener('click', () => {
-      //  // let valuess =
-      //  // let index = tableHeads.indexOf(tableHead);
-      //  // tRow.splice(index, 1);
+      delOp.addEventListener('click', () => {
+        let index = operations.indexOf(operation);
+        operations.splice(index, 1);
+        operationTable.removeChild(tRow)
+        localStorage.setItem('storedData', JSON.stringify(storage));
+      })
+      // editBtn.addEventListener('click', ()=>{
+       
+      //   imgOperation.classList.add("display-none");
+      //   textNoResults.classList.add("display-none");
+      //   textAddOperations.classList.add("display-none");
+      //   rowWrapper.classList.remove("display-none");
+      //   cardNewOperation.classList.add("display-none");
+      //   const description = document.getElementById('description-select') as HTMLSelectElement;
+      //   const selectType = document.getElementById('type-select') as HTMLSelectElement;
+      //   const selectCategory = document.getElementById('category-select') as HTMLSelectElement;
+      //   const amount = document.getElementById('amount-select') as HTMLInputElement;
+      //   const date = document.getElementById('date-select') as HTMLInputElement;
+
+      //   description.value = operation.descripcion   
+      //   localStorage.setItem('storedData', JSON.stringify(storage));
+           
+
+      // })
+    }  
   })
+  
 }
+
+
 
 const setTable = () => {
   let storage = JSON.parse(localStorage.getItem('storedData'));

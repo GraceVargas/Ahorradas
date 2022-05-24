@@ -78,7 +78,9 @@ btnRow.appendChild(editSubmit);
 
 editSubmit.addEventListener("click", () => {
 
+
     category.name = formInput.value;
+
     
     localStorage.setItem('storedData', JSON.stringify(storage));
 

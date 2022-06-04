@@ -102,66 +102,62 @@ column.appendChild(cardFilters);
 rowWrapper.appendChild(column);
 var form = document.createElement("form");
 cardFilters.appendChild(form);
-var createSelect = function (array) {
-    filters.title.forEach(function (elem) {
-        if (elem != "Desde") {
-            var label = document.createElement("label");
-            label.classList.add("fw-bold", "mb-2");
-            label.setAttribute("for", elem);
-            label.appendChild(document.createTextNode(elem));
-            form.appendChild(label);
-            var select_1 = document.createElement("select");
-            select_1.classList.add("form-select", "mb-3");
-            select_1.setAttribute('id', elem);
-            switch (elem) {
-                case "Tipo":
-                    filters.type.forEach(function (type) {
-                        var option = document.createElement("option");
-                        option.appendChild(document.createTextNode(type));
-                        option.value = type;
-                        select_1.appendChild(option);
-                    });
-                    break;
-                case "Categoría":
-                    categoryNames.shift();
-                    filters.category.forEach(function (category) {
-                        var option = document.createElement("option");
-                        option.appendChild(document.createTextNode(category));
-                        // option.setAttribute('id', category.id)
-                        option.value = category;
-                        select_1.appendChild(option);
-                    });
-                    break;
-                case "Ordenar por":
-                    filters.sortBy.forEach(function (order) {
-                        var option = document.createElement("option");
-                        option.appendChild(document.createTextNode(order));
-                        option.value = order;
-                        select_1.appendChild(option);
-                    });
-                    break;
-                default: //podriamos poner el "desde" en el defalut??
-                    break;
-            }
-            form.appendChild(select_1);
+filters.title.forEach(function (elem) {
+    if (elem != "Desde") {
+        var label = document.createElement("label");
+        label.classList.add("fw-bold", "mb-2");
+        label.setAttribute("for", elem);
+        label.appendChild(document.createTextNode(elem));
+        form.appendChild(label);
+        var select_1 = document.createElement("select");
+        select_1.classList.add("form-select", "mb-3");
+        select_1.setAttribute('id', elem);
+        select_1.setAttribute('name', elem);
+        switch (elem) {
+            case "Tipo":
+                filters.type.forEach(function (type) {
+                    var option = document.createElement("option");
+                    option.appendChild(document.createTextNode(type));
+                    option.value = type;
+                    select_1.appendChild(option);
+                });
+                break;
+            case "Categoría":
+                filters.category.forEach(function (category) {
+                    var option = document.createElement("option");
+                    option.appendChild(document.createTextNode(category));
+                    option.value = category;
+                    select_1.appendChild(option);
+                });
+                break;
+            case "Ordenar por":
+                filters.sortBy.forEach(function (order) {
+                    var option = document.createElement("option");
+                    option.appendChild(document.createTextNode(order));
+                    option.value = order;
+                    select_1.appendChild(option);
+                });
+                break;
+            default:
+                break;
         }
-        else if (elem === "Desde") {
-            var input = document.createElement("input");
-            input.classList.add("form-control", "mb-3");
-            input.setAttribute("type", "date");
-            input.setAttribute('id', elem);
-            var date = new Date(); //formatDate
-            input.defaultValue = date.toString();
-            var label = document.createElement("label");
-            label.classList.add("fw-bold", "mb-2");
-            label.setAttribute("for", elem);
-            label.appendChild(document.createTextNode(elem));
-            form.appendChild(label);
-            form.appendChild(input);
-        }
-    });
-};
-createSelect(filters);
+        form.appendChild(select_1);
+    }
+    else if (elem === "Desde") {
+        var input = document.createElement("input");
+        input.classList.add("form-control", "mb-3");
+        input.setAttribute("type", "date");
+        input.setAttribute('id', 'date');
+        var date = new Date();
+        input.value = date.toString();
+        var label = document.createElement("label");
+        label.classList.add("fw-bold", "mb-2");
+        label.setAttribute("for", elem);
+        label.appendChild(document.createTextNode(elem));
+        form.appendChild(label);
+        form.appendChild(input);
+    }
+});
 // Events Filters
 hideFilters.addEventListener("click", function () {
     form.classList.add("display-none");
@@ -181,46 +177,24 @@ var filterCat = "";
 var orderOption = "";
 var filterType = document.getElementById('Tipo');
 filterType.addEventListener('change', function (e) {
-    window.location.href = window.location.pathname + "?type = " + e.target.value;
-    filterOption = e.target.value;
+    e.stopPropagation();
+    var params = new URLSearchParams(window.location.search);
+    params.set('type', e.target.value);
+    window.location.href = window.location.pathname + '?' + params.toString();
 });
 var filterCategory = document.getElementById('Categoría');
 filterCategory.addEventListener('change', function (e) {
-    filterCat = e.target.value;
+    e.stopPropagation();
+    var params = new URLSearchParams(window.location.search);
+    params.set('category', e.target.value);
+    window.location.href = window.location.pathname + '?' + params.toString();
 });
 var orderBy = document.getElementById('Ordenar por');
 orderBy.addEventListener('change', function (e) {
-    orderOption = e.target.value;
+    var params = new URLSearchParams(window.location.search);
+    params.set('date', e.target.value);
+    window.location.href = window.location.pathname + '?' + params.toString();
 });
-///// To filter the table
-// const operationTabletoFilter = document.getElementById('operationTable') as HTMLTableElement;
-// // const tBodyToFilter = document.getElementById('operationTBody') as HTMLTableElement;
-// let row: HTMLTableRowElement;
-// row = operationTabletoFilter.rows;
-// console.log(row);
-// // const tRow = document.getElementsByClassName('tRow');
-// function doSearch() {
-//   var tableReg = document.getElementById('operationTBody') as HTMLTableElement;
-//   var searchText = filterCat;
-//   for (var i = 1; i < tableReg.rows.length; i++) {
-//     console.log(tableReg.rows.length);
-//       var cellsOfRow = tableReg.rows[i].getElementsByTagName('td');
-//       var found = false;
-//       for (var j = 0; j < cellsOfRow.length && !found; j++) {
-//           var compareWith = cellsOfRow[j].innerHTML.toLowerCase();
-//           if (searchText.length == 0 || (compareWith.indexOf(searchText) > -1)) {
-//               found = true;
-//           }
-//       }
-//       if (found) {
-//           tableReg.rows[i].style.display = '';
-//       } else {
-//           tableReg.rows[i].style.display = 'none';
-//       }
-//   }
-// }
-// doSearch()
-////////////
 //Card Operation
 var columnOperation = document.createElement("div");
 columnOperation.classList.add("col-7");
@@ -357,7 +331,7 @@ btnAdd.addEventListener("click", function () {
         description: "",
         type: "",
         category: "",
-        date: "",
+        date: Date,
         amount: 0
     };
     imgOperation.classList.add("display-none");
@@ -421,9 +395,8 @@ var operationTable = document.createElement("table");
 operationTable.setAttribute('id', 'operationTable');
 var operationTb = document.createElement("tbody");
 operationTb.setAttribute('id', 'operationTBody');
+operationTable.classList.add("table", "table-borderless", "mt-5");
 var createOperationTable = function (tableHeads) {
-    operationTable.innerHTML = "";
-    operationTable.classList.add("table", "table-borderless", "mt-5");
     containerTable.appendChild(operationTable);
     operationTable.appendChild(operationTb);
     var tRow = document.createElement("tr");
@@ -436,35 +409,43 @@ var createOperationTable = function (tableHeads) {
         titleHeader.appendChild(document.createTextNode(tablehead));
         tableHead.appendChild(titleHeader);
     });
+    operationTable.innerHTML = "";
     var storage = JSON.parse(localStorage.getItem("storedData"));
     var operations = storage.operations;
+    var params = new URLSearchParams(window.location.search);
+    var typeParams = params.get('type');
+    var categoryParams = params.get('category');
+    console.log(operations);
+    if (typeParams && !categoryParams) {
+        operations = operations.filter(function (op) { return op.type === typeParams; });
+    }
+    else if (categoryParams && !typeParams) {
+        operations = operations.filter(function (op) { return op.category === categoryParams; });
+    }
+    else if (typeParams && categoryParams) {
+        operations = operations.filter(function (op) { return op.type === typeParams && op.category === categoryParams; });
+    }
+    // if (params.get('type') === "Todos") {
+    //   operations = storage.operations;
+    // } 
+    // if (params.get('category')=== "Todas") {
+    //   operations = storage.operations;
+    // }
     operations.forEach(function (operation) {
         var tRow = document.createElement("tr");
         tRow.setAttribute('class', 'tRow');
-        var tdDescription = document.createElement("td");
-        var pDescription = document.createElement('p');
-        pDescription.classList.add("fw-bold");
-        pDescription.style.color = "#777C7C";
-        pDescription.appendChild(document.createTextNode(operation.description));
-        tdDescription.appendChild(pDescription);
-        tRow.appendChild(tdDescription);
         var tdCat = document.createElement("td");
-        var pCat = document.createElement('p');
-        pCat.classList.add("categorySpan");
-        pCat.appendChild(document.createTextNode(operation.category));
-        tdCat.appendChild(pCat);
+        tdCat.appendChild(document.createTextNode(operation.description));
         tRow.appendChild(tdCat);
-        var tdDate = document.createElement("td");
-        var pDate = document.createElement('p');
-        pDate.appendChild(document.createTextNode(operation.date));
-        tdDate.appendChild(pDate);
-        tRow.appendChild(tdDate);
-        var tdAmount = document.createElement("td");
-        var pAmount = document.createElement('p');
-        pAmount.appendChild(document.createTextNode("$".concat(operation.amount))); // sumar + o - si es gasto o profit
-        tdAmount.appendChild(pAmount);
-        operation.amount === "Gasto" ? pAmount.classList.add("fw-bold", "text-danger") : pAmount.classList.add("fw-bold", "text-success");
-        tRow.appendChild(tdAmount);
+        var tdProfits = document.createElement("td");
+        tdProfits.appendChild(document.createTextNode(operation.category));
+        tRow.appendChild(tdProfits);
+        var tdBills = document.createElement("td");
+        tdBills.appendChild(document.createTextNode(operation.date));
+        tRow.appendChild(tdBills);
+        var totalAmount = document.createElement("td");
+        totalAmount.appendChild(document.createTextNode("$".concat(operation.amount))); // sumar + o - si es gasto o profit
+        tRow.appendChild(totalAmount);
         operationTable.appendChild(tRow);
         if (operationLabels[4] === "Acciones") {
             var tdAction = document.createElement("td");
@@ -484,27 +465,11 @@ var createOperationTable = function (tableHeads) {
             delOp.style.fontSize = "12px";
             delOp.appendChild(document.createTextNode("Eliminar"));
             boxBtn.appendChild(delOp);
-            delOp.addEventListener('click', function () {
-                var index = operations.indexOf(operation);
-                operations.splice(index, 1);
-                operationTable.removeChild(tRow);
-                localStorage.setItem('storedData', JSON.stringify(storage));
-            });
-            editBtn.addEventListener('click', function () {
-                imgOperation.classList.add("display-none");
-                textNoResults.classList.add("display-none");
-                textAddOperations.classList.add("display-none");
-                rowWrapper.classList.remove("display-none");
-                cardNewOperation.classList.add("display-none");
-                var description = document.getElementById('description-select');
-                var selectType = document.getElementById('type-select');
-                var selectCategory = document.getElementById('category-select');
-                var amount = document.getElementById('amount-select');
-                var date = document.getElementById('date-select');
-                description.value = operation.descripcion;
-                localStorage.setItem('storedData', JSON.stringify(storage));
-            });
         }
+        // delOp.addEventListener('click', () => {
+        //  // let valuess =
+        //  // let index = tableHeads.indexOf(tableHead);
+        //  // tRow.splice(index, 1);
     });
 };
 var setTable = function () {

@@ -1,6 +1,137 @@
 
 let storage = JSON.parse(localStorage.getItem('storedData'));
 
+
+ // Function to set total for Category and Month
+
+ let maxProfit = 0;
+ let maxProfitCat = "";
+ let maxBills = 0; 
+ let maxBillsCat = "";
+ let maxBalanceCat = "";
+ let maxBalance = 0;
+ let maxBillsAmountMonth = 0;
+ let maxBillsMonth = 0;
+ let maxProfitsAmountMonth = 0;
+ let maxProfitsMonth = 0;
+
+const opByMonths = {
+    jan: [],
+    feb: [],
+    mar: [],
+    apr: [],
+    may: [],
+    jun: [],
+    jul: [],
+    aug: [],
+    sep: [],
+    oct: [],
+    nov: [],
+    dec: [],
+}
+
+const operations = storage.operations;
+
+operations.forEach(op => {
+    const opDate = new Date(op.date);
+
+  
+    switch (opDate.getMonth()) {
+        case 0: opByMonths.jan.push(op); break;
+        case 1: opByMonths.feb.push(op); break;
+        case 2: opByMonths.mar.push(op); break;
+        case 3: opByMonths.apr.push(op); break;
+        case 4: opByMonths.may.push(op); break;
+        case 5: opByMonths.jun.push(op); break;
+        case 6: opByMonths.jul.push(op); break;
+        case 7: opByMonths.aug.push(op); break;
+        case 8: opByMonths.sep.push(op); break;
+        case 9: opByMonths.oct.push(op); break;
+        case 10: opByMonths.nov.push(op); break;
+        case 11: opByMonths.dec.push(op); break;
+        default: return null;
+    }
+
+})
+
+
+
+ 
+const setTotals = () => {
+     for (let category of storage.categories) {
+         if (category.totalProfits > maxProfit) {
+             maxProfit = category.totalProfits;
+             maxProfitCat = category.name;
+         }
+         if (category.totalBills > maxBills) {
+             maxBills = category.totalBills;
+             maxBillsCat = category.name;
+         }
+         if (category.totalProfits - category.totalBills > maxBalance) {
+             maxBalance = category.totalProfits - category.totalBills;
+             maxBalanceCat = category.name;
+         }
+     }
+ 
+ }
+ 
+ setTotals();
+
+ 
+const searchMaxAmounts = opByMonths => {
+    let totBills = 0;
+    let totProfits = 0;
+
+    for (const months in opByMonths) {
+        const operations = opByMonths[months];
+        
+        for (let operation of operations) {
+            const opDate = new Date(operation.date);
+            if (operation.type === "Gasto") {
+                totBills -= operation.amount;
+                                
+                if (totBills > maxBillsAmountMonth) {
+                    maxBillsAmountMonth = totBills;
+                    maxBillsMonth = opDate.getMonth() + 1;                                                                            
+                } 
+            } else if (operation.type === "Ganancias") {
+                totProfits += operation.amount;
+                if (totProfits > maxProfitsAmountMonth) {
+                    maxProfitsAmountMonth = totProfits;
+                    maxProfitsMonth = opDate.getMonth() + 1;
+                } 
+            }      
+        }   
+    }
+    return {maxBillsAmountMonth, maxBillsMonth, maxProfitsAmountMonth, maxProfitsMonth};
+}
+
+// const searchMaxAmounts = opByMonths => {
+//     let totBills = 0;
+//     let totProfits = 0;
+    
+//     for (const months in opByMonths) {        
+//         const operations = opByMonths[months];
+//         console.log(operations);
+//         operations.forEach(op => {
+//             if (op.type === "Gasto") {
+//                 totBills -= op.amount; 
+//                 opByMonths[months].push(`totBills: ${totBills}`);         
+//             } else if (op.type === "Ganancias") {
+//                 totProfits += op.amount;
+//                 opByMonths[months].push(`totProfits: ${totProfits}`); 
+//             }         
+//         });         
+//     }
+//     return {maxBillsAmountMonth, maxBillsMonth, maxProfitsAmountMonth, maxProfitsMonth};
+// }
+
+
+
+
+searchMaxAmounts(opByMonths);
+// console.log(opByMonths); 
+
 // Container
 
 const containerReports = document.createElement('div');
@@ -23,7 +154,7 @@ containerReports.appendChild(reportsCard);
 const reportsTitle = document.createElement('h2');
 reportsTitle.appendChild(document.createTextNode("Reportes"));
 reportsCard.appendChild(reportsTitle);
-reportsTitle.classList.add("cardTitle");   // para sumar el style del h2 de categorias y reportes
+reportsTitle.classList.add("cardTitle");   
 
 // Image 
 
@@ -73,41 +204,9 @@ operationsTableTitle.appendChild(document.createTextNode("Resumen"));
 operationsTableTitle.classList.add("caption-top");
 operationsTable.appendChild(operationsTableTitle);
 
-type Category = {
-    id?: number,
-    name: string,
-    totalBills?: number,
-    totalProfits?: number,
-};
-
-let maxProfitCat: Category[];
-let maxBillsCat: Category[];
-
-const setTotals = () => {
-
-    for (let category of storage.categories) {
-        
-        let maxProfitCat = category;
-        let maxBillsCat = category;
-
-        if (category.totalProfits > maxProfitCat.totalProfits) { 
-            maxProfitCat.totalProfits = category.totalProfits; 
-            maxProfitCat.name = category.name;
-        }
-
-        if (category.totalBills > maxBillsCat.total) { maxBillsCat = category; }
-    };
-}
-
-setTotals();
-console.log(maxBillsCat, maxProfitCat);
-
-
-
 const itemsSummit = ["Categoría con mayor ganancia", "Categoría con mayor gasto", "Categoría con mayor balance", "Mes con mayor ganancia", "Mes con mayor gasto"];
 
 const createSummitTable = (items: string[]) => {
-
 
     for (let item of items) {
 
@@ -121,13 +220,30 @@ const createSummitTable = (items: string[]) => {
         tRow.appendChild(tDataItem);
         let tDataCat = document.createElement('td');
         let tDataText = document.createElement('span');
-        tDataText.appendChild(document.createTextNode('Comida'))  // linkear con categorias
+        let totalAmount = document.createElement('td');
+
+        switch(item) {
+            case "Categoría con mayor ganancia": 
+                tDataText.appendChild(document.createTextNode(maxProfitCat));
+                totalAmount.appendChild(document.createTextNode(maxProfit.toString())); break;
+            case "Categoría con mayor gasto":
+                tDataText.appendChild(document.createTextNode(maxBillsCat));
+                totalAmount.appendChild(document.createTextNode(maxBills.toString())); break;
+            case "Categoría con mayor balance":
+                tDataText.appendChild(document.createTextNode(maxBalanceCat));
+                totalAmount.appendChild(document.createTextNode(maxBalance.toString())); break;  
+            case "Mes con mayor ganancia":
+                tDataText.appendChild(document.createTextNode(maxProfitsMonth.toString()));
+                totalAmount.appendChild(document.createTextNode(maxProfitsAmountMonth.toString())); break; 
+            case "Mes con mayor gasto":
+                tDataText.appendChild(document.createTextNode(maxBillsMonth.toString()));
+                totalAmount.appendChild(document.createTextNode(maxBillsAmountMonth.toString())); break; 
+        }
+        
+        
         tDataCat.appendChild(tDataText);
         tDataText.classList.add('categorySpan')
         tRow.appendChild(tDataCat);
-
-        let totalAmount = document.createElement('td');
-        totalAmount.appendChild(document.createTextNode('$100000')); // linkear con totales
         tRow.appendChild(totalAmount);
     }
 }
@@ -198,51 +314,21 @@ const createTotalCatsTable = (total: string, tableHeads: string[]) => {
 
 // Sum Total Month Table
 
-type TotalDate = {
-    period: string,
-    bills: number,
-    profits: number,
-}
-
-const totalDates: TotalDate[] = [];
-
-storage.operations.forEach(operation => {
-
-    let newPeriod: TotalDate = {
-        period: "",
-        bills: 0,
-        profits: 0,
-    };
-    let date = operation.date.slice(0, 7);
-    newPeriod.period = date;
-    totalDates.push(newPeriod);
-});
 
 
-storage.operations.forEach(operation => {
-    let date = operation.date.slice(0, 7);
-    for (let totalDate of totalDates) {
-        if (totalDate.period === date) {
-            switch (operation.type) {
-                case "Ganancias": totalDate.profits += operation.amount;
-                break;
-                case "Gasto": totalDate.bills += -operation.amount;
-                break;
-            } 
-        }
-    }
-});
-
-// const unicos: TotalDate[] = [];
-// totalDates.forEach(totalDate => {
-//     if (!unicos.includes(totalDate)) {            // Eliminar fechas duplicadas
-//         unicos.push(totalDate);
-//     }   
-// }) 
-    
-
-// console.log(unicos);
-
+// storage.operations.forEach(operation => {
+//     let date = operation.date.slice(0, 7);
+//     for (let totalDate of totalDates) {
+//         if (totalDate.period === date) {
+//             switch (operation.type) {
+//                 case "Ganancias": totalDate.profits += operation.amount;
+//                 break;
+//                 case "Gasto": totalDate.bills += -operation.amount;
+//                 break;
+//             } 
+//         }
+//     }
+// });
 
 
 const createTotalMonthTable = (total: string, tableHeads: string[]) => {
@@ -274,27 +360,27 @@ const createTotalMonthTable = (total: string, tableHeads: string[]) => {
 
   
 
-    for (let totalDate of totalDates) {
+    // for (let totalDate of totalDates) {
         
-        let tRow = document.createElement('tr');
-        totTable.appendChild(tRow);
+    //     let tRow = document.createElement('tr');
+    //     totTable.appendChild(tRow);
 
-        let tdCat = document.createElement('td');
-        tdCat.appendChild(document.createTextNode(totalDate.period));
-        tRow.appendChild(tdCat);
+    //     let tdCat = document.createElement('td');
+    //     tdCat.appendChild(document.createTextNode(totalDate.period));
+    //     tRow.appendChild(tdCat);
 
-        let tdProfits = document.createElement('td');  
-        tdProfits.appendChild(document.createTextNode(`${totalDate.profits}`));  
-        tRow.appendChild(tdProfits);
+    //     let tdProfits = document.createElement('td');  
+    //     tdProfits.appendChild(document.createTextNode(`${totalDate.profits}`));  
+    //     tRow.appendChild(tdProfits);
 
-        let tdBills = document.createElement('td');  
-        tdBills.appendChild(document.createTextNode(`${totalDate.bills}`));  
-        tRow.appendChild(tdBills);
+    //     let tdBills = document.createElement('td');  
+    //     tdBills.appendChild(document.createTextNode(`${totalDate.bills}`));  
+    //     tRow.appendChild(tdBills);
 
-        let totalAmount = document.createElement('td');
-        totalAmount.appendChild(document.createTextNode(`${totalDate.profits - totalDate.bills}`)); 
-        tRow.appendChild(totalAmount);
-    };
+    //     let totalAmount = document.createElement('td');
+    //     totalAmount.appendChild(document.createTextNode(`${totalDate.profits - totalDate.bills}`)); 
+    //     tRow.appendChild(totalAmount);
+    // };
 }
 
 

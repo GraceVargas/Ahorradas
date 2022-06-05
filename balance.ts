@@ -130,89 +130,70 @@ rowWrapper.appendChild(column);
 const form = document.createElement("form");
 cardFilters.appendChild(form);
 
-// const filters = {
-//   title: ["Tipo", "Categoría", "Desde", "Ordenar por"],
-//   type: ["Todos", "Gasto", "Ganancias"],
-//   category: categoryNames,
-//   sortBy: [
-//     "Mas reciente",
-//     "Menos reciente",
-//     "Mayor monto",
-//     "Menor monto",
-//     "A/Z",
-//     "Z/A",
-//   ],
-// };
 
 
-const createSelect = (array: Filters) => {
-  filters.title.forEach((elem) => {
-    if (elem != "Desde") {
-      const label = document.createElement("label")
-      label.classList.add("fw-bold", "mb-2")
-      label.setAttribute("for", elem);
+filters.title.forEach((elem) => {
+  if (elem != "Desde") {
+    const label = document.createElement("label")
+    label.classList.add("fw-bold", "mb-2")
+    label.setAttribute("for", elem);
 
 
-      label.appendChild(document.createTextNode(elem));
-      form.appendChild(label);
-      const select = document.createElement("select");
-      select.classList.add("form-select", "mb-3");
-      select.setAttribute('id', elem);
+    label.appendChild(document.createTextNode(elem));
+    form.appendChild(label);
+    const select = document.createElement("select");
+    select.classList.add("form-select", "mb-3");
+    select.setAttribute('id', elem);
+    select.setAttribute('name', elem);
 
-      switch (elem) {
-        case "Tipo":
-          filters.type.forEach((type) => {
-            const option = document.createElement("option")
-            option.appendChild(document.createTextNode(type))
-            option.value = type;
-            select.appendChild(option)
+    switch (elem) {
+      case "Tipo":
+        filters.type.forEach((type) => {
+          const option = document.createElement("option");
+          option.appendChild(document.createTextNode(type));
+          option.value = type;  
+          select.appendChild(option);
+        });
 
-          });
+        break;
+      case "Categoría":
+        filters.category.forEach((category) => {
+          const option = document.createElement("option")
+          option.appendChild(document.createTextNode(category))
+          option.value = category;
+          select.appendChild(option)
+        });
+        break;
+      case "Ordenar por":
+        filters.sortBy.forEach((order) => {
+          const option = document.createElement("option")
+          option.appendChild(document.createTextNode(order))
+          option.value = order;
+          select.appendChild(option)
+        });
+        break;
+      default: 
+        break;
 
-          break;
-        case "Categoría":
-          categoryNames.shift();
-          filters.category.forEach((category) => {
-            const option = document.createElement("option")
-            option.appendChild(document.createTextNode(category))
-            option.value = category;
-            select.appendChild(option)
-          });
-          break;
-        case "Ordenar por":
-          filters.sortBy.forEach((order) => {
-            const option = document.createElement("option")
-            option.appendChild(document.createTextNode(order))
-            option.value = order;
-            select.appendChild(option)
-          });
-          break;
-        default:
-          break;
-      }
-      form.appendChild(select);
-    } else if (elem === "Desde") {
-      const input = document.createElement("input") as HTMLInputElement;
-
-      input.classList.add("form-control", "mb-3");
-      input.setAttribute("type", "date");
-      input.setAttribute('id', elem);
-
-      const date = new Date();
-      input.defaultValue = date.getDate().toString();
-      const label = document.createElement("label")
-      label.classList.add("fw-bold", "mb-2")
-      label.setAttribute("for", elem)
-      label.appendChild(document.createTextNode(elem))
-      form.appendChild(label)
-      form.appendChild(input)
     }
+    form.appendChild(select);
 
-    
-  });
-};
+  } else if (elem === "Desde") {
+    const input = document.createElement("input") as HTMLInputElement;
+    input.classList.add("form-control", "mb-3");
+    input.setAttribute("type", "date");
+    input.setAttribute('id', 'date');
 
-createSelect(filters)
+    const date = new Date();  
+    input.value = date.toString();
+    const label = document.createElement("label")
+    label.classList.add("fw-bold", "mb-2")
+    label.setAttribute("for", elem)
+    label.appendChild(document.createTextNode(elem))
+    form.appendChild(label)
+    form.appendChild(input)
+  }  
+});
 
 // Events Filters
 
@@ -238,61 +219,27 @@ let orderOption = "";
 
 const filterType = document.getElementById('Tipo') as HTMLSelectElement;
 filterType.addEventListener('change', (e) => {
-  filterOption = e.target.value;
+  e.stopPropagation();  
+  const params = new URLSearchParams(window.location.search);
+  params.set('type', e.target.value);
+  window.location.href = window.location.pathname + '?' + params.toString();
+
 })
 
 const filterCategory = document.getElementById('Categoría') as HTMLSelectElement;
 filterCategory.addEventListener('change', (e) => {
-  filterCat = e.target.value;
+  e.stopPropagation();  
+  const params = new URLSearchParams(window.location.search);
+  params.set('category', e.target.value);
+  window.location.href = window.location.pathname + '?' + params.toString();
 })
 
 const orderBy = document.getElementById('Ordenar por') as HTMLSelectElement;
-orderBy.addEventListener('change', (e) => {
-  orderOption = e.target.value; 
+  orderBy.addEventListener('change', (e) => {
+  const params = new URLSearchParams(window.location.search);
+  params.set('date', e.target.value);
+  window.location.href = window.location.pathname + '?' + params.toString(); 
 })
-
-// const operationTabletoFilter = document.getElementById('operationTable') as HTMLTableElement;
-// const tBodyToFilter = document.getElementById('operationTBody') as HTMLTableElement;
-// const table = operationTb.tBodies[0];
-// const tRow = document.getElementsByClassName('tRow');
-// console.log(tBodyToFilter.rows);
-// for (let i = 0; i < operationTabletoFilter.tRow.length; i++) {
-//   let td = tRow[i].getElementsByTagName("td")[0];
-
-  
-// }
-
-
-// function Eliminar (i) {
-//   document.getElementsByTagName("table")[0].setAttribute("id","tableid");
-//   document.getElementById("tableid").deleteRow(i);
-// }
-// function Buscar() {
-//           var tabla = document.getElementById('tblPersonas');
-//           var busqueda = document.getElementById('txtBusqueda').value.toLowerCase();
-//           var cellsOfRow="";
-//           var found=false;
-//           var compareWith="";
-//           for (var i = 1; i < tabla.rows.length; i++) {
-//               cellsOfRow = tabla.rows[i].getElementsByTagName('td');
-//               found = false;
-//               for (var j = 0; j < cellsOfRow.length && !found; j++) { compareWith = cellsOfRow[j].innerHTML.toLowerCase(); if (busqueda.length == 0 || (compareWith.indexOf(busqueda) > -1))
-//                   {
-//                       found = true;
-//                   }
-//               }
-//               if(found)
-//               {
-//                   tabla.rows[i].style.display = '';
-//               } else {
-//                   tabla.rows[i].style.display = 'none';
-//               }
-//           }
-//       }
-
-
-
-
 
 
 //Card Operation
@@ -405,7 +352,7 @@ type NewOp = {
   description: string,
   type: string,
   category: string,
-  date : string,  //cambiar
+  date : any,  
   amount: number,
 }
 
@@ -474,12 +421,13 @@ type NewOp = {
   boxButton.appendChild(btnAdd);
 
 
+
   btnAdd.addEventListener("click", () => {
     const newOp: NewOp = {
       description: "",
       type: "",
       category: "",
-      date : "",
+      date: Date,
       amount: 0,
     };
 
@@ -504,20 +452,35 @@ type NewOp = {
     if (newOp.type === "Gasto") {
       newOp.amount = parseInt(`-${amount.value}`);
       storage.totalBills += parseInt(amount.value); 
+ 
+      for (let category of storage.categories) {        
+        if (newOp.category === category.name) {                 
+          category.totalBills += parseInt(amount.value);
+        }
+      }
+      
       spanBills.innerText = `-${storage.totalBills}`;
+      spanSum.innerText = `${storage.totalProfits - storage.totalBills}`;
     } else {
       newOp.amount = parseInt(`+${amount.value}`);
       storage.totalProfits += parseInt(amount.value); 
+
+      for (let category of storage.categories) {
+      if (newOp.category === category.name) {
+        category.totalProfits += parseInt(amount.value);
+      }
+    }
+
       spanProfit.innerText = `+${storage.totalProfits}`;
+      spanSum.innerText = `${storage.totalProfits - storage.totalBills}`;
     }
 
     const date = document.getElementById('date-select') as HTMLInputElement;
-    newOp.date = date.value;
+    newOp.date = date.value; //formatDate
 
     storage.operations.push(newOp);
     
     localStorage.setItem('storedData', JSON.stringify(storage));
-    console.log(storage);
     
     createOperationTable(operationLabels);
   });
@@ -547,15 +510,13 @@ const operationTable = document.createElement("table");
 operationTable.setAttribute('id', 'operationTable');
 const operationTb = document.createElement("tbody");
 operationTb.setAttribute('id', 'operationTBody');
-
+operationTable.classList.add("table", "table-borderless","mt-5");
 
 
 const createOperationTable = (tableHeads: string[]) => {
 
-    operationTable.innerHTML = "";
-    operationTable.classList.add("table", "table-borderless","mt-5");
-    containerTable.appendChild(operationTable);
 
+    containerTable.appendChild(operationTable);
     operationTable.appendChild(operationTb);
 
     let tRow = document.createElement("tr");
@@ -571,10 +532,36 @@ const createOperationTable = (tableHeads: string[]) => {
     })
     
 
+    operationTable.innerHTML = "";
+
     let storage = JSON.parse(localStorage.getItem("storedData"));
     let operations = storage.operations;
 
+    const params = new URLSearchParams(window.location.search);
+    let typeParams = params.get('type');
+    let categoryParams = params.get('category');
+    console.log(operations);
+    
+
+    if (typeParams && !categoryParams) {
+      operations = operations.filter(op => op.type === typeParams);
+    } else if (categoryParams && !typeParams) {
+      operations = operations.filter(op => op.category === categoryParams);
+    } else if (typeParams && categoryParams) {
+      operations = operations.filter(op => op.type === typeParams && op.category === categoryParams);
+    }
+    
+    
+    
+    // if (params.get('type') === "Todos") {
+    //   operations = storage.operations;
+    // } 
+    // if (params.get('category')=== "Todas") {
+    //   operations = storage.operations;
+    // }
+
    operations.forEach(operation => {
+     
     let tRow = document.createElement("tr");
     tRow.setAttribute('class', 'tRow');
     let tdCat = document.createElement("td");
@@ -594,6 +581,7 @@ const createOperationTable = (tableHeads: string[]) => {
     totalAmount.classList.add("text-success","fw-bold")
     tRow.appendChild(totalAmount);
     operationTable.appendChild(tRow);
+
     if (operationLabels[4] === "Acciones") {
       let tdAction = document.createElement("td");
       tRow.appendChild(tdAction);

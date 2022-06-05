@@ -17,7 +17,7 @@ var filters = {
     ]
 };
 var container = document.createElement("div");
-container.classList.add("p-5", "container");
+container.classList.add("p-5", "container", "container-md");
 var rowWrapper = document.createElement("div");
 rowWrapper.classList.add("row");
 container.appendChild(rowWrapper);
@@ -25,7 +25,7 @@ main.appendChild(container);
 //Card Balance
 var cardBalance = document.createElement("div");
 rowWrapper.appendChild(cardBalance);
-cardBalance.classList.add("card-balance", "card", "p-3", "shadow");
+cardBalance.classList.add("card-balance", "card", "p-3", "shadow"); //,"col-md-8","order-md-1"
 var balanceTitle = document.createElement("h2");
 balanceTitle.appendChild(document.createTextNode("Balance"));
 balanceTitle.classList.add("fw-bold", "mb-5", "text-dark", "text-opacity-75");
@@ -55,7 +55,7 @@ trBills.appendChild(tdBills);
 tdBills.appendChild(document.createTextNode("Gastos"));
 tdBills.classList.add("fs-5");
 var tdNumberBills = document.createElement("td");
-tdNumberBills.classList.add("ps-5");
+tdNumberBills.classList.add("ps-5", "text-wrap");
 var spanBills = document.createElement("span");
 spanBills.appendChild(document.createTextNode("-$".concat(storage.totalBills)));
 spanBills.classList.add("text-danger", "ms-5");
@@ -66,7 +66,7 @@ tbody.appendChild(trSum);
 var tdSum = document.createElement("td");
 trSum.appendChild(tdSum);
 tdSum.appendChild(document.createTextNode("Total"));
-tdSum.classList.add("fs-4");
+tdSum.classList.add("fs-4", "text-wrap");
 var tdNumberSum = document.createElement("td");
 tdNumberSum.classList.add("ps-5", "pt-3");
 trSum.appendChild(tdNumberSum);
@@ -76,7 +76,7 @@ spanSum.classList.add("fw-bold", "ms-5");
 tdNumberSum.appendChild(spanSum);
 //Card Filters
 var cardFilters = document.createElement("div");
-cardFilters.classList.add("card-filters", "card", "p-3", "mt-3", "shadow");
+cardFilters.classList.add("card-filters", "card", "p-3", "mt-3", "shadow", "col-md-6", "order-md-2");
 var cardTitle = document.createElement("h3");
 cardTitle.appendChild(document.createTextNode("Filtros"));
 cardTitle.classList.add("fw-bolder", "text-dark", "text-opacity-75");
@@ -152,7 +152,7 @@ var createSelect = function (array) {
                         select_1.appendChild(option);
                     });
                     break;
-                default: //podriamos poner el "desde" en el defalut??
+                default:
                     break;
             }
             form.appendChild(select_1);
@@ -239,10 +239,10 @@ orderBy.addEventListener('change', function (e) {
 //       }
 //Card Operation
 var columnOperation = document.createElement("div");
-columnOperation.classList.add("col-7");
+columnOperation.classList.add("col-lg-7");
 var cardOperation = document.createElement("div");
 columnOperation.appendChild(cardOperation);
-cardOperation.classList.add("card-operation", "card", "p-3", "shadow");
+cardOperation.classList.add("card-operation", "card", "p-3", "shadow", "order-md-3");
 var boxTitleBtn = document.createElement("div");
 boxTitleBtn.classList.add("d-flex", "justify-content-between");
 var titleOperation = document.createElement("h3");
@@ -446,15 +446,19 @@ var createOperationTable = function (tableHeads) {
         tRow.setAttribute('class', 'tRow');
         var tdCat = document.createElement("td");
         tdCat.appendChild(document.createTextNode(operation.description));
+        tdCat.classList.add("text-secondary", "fw-bold");
         tRow.appendChild(tdCat);
         var tdProfits = document.createElement("td");
         tdProfits.appendChild(document.createTextNode(operation.category));
+        tdProfits.classList.add("categorySpan");
+        tdProfits.style.backgroundColor = "white";
         tRow.appendChild(tdProfits);
         var tdBills = document.createElement("td");
         tdBills.appendChild(document.createTextNode(operation.date));
         tRow.appendChild(tdBills);
         var totalAmount = document.createElement("td");
         totalAmount.appendChild(document.createTextNode("$".concat(operation.amount))); // sumar + o - si es gasto o profit
+        totalAmount.classList.add("text-success", "fw-bold");
         tRow.appendChild(totalAmount);
         operationTable.appendChild(tRow);
         if (operationLabels[4] === "Acciones") {

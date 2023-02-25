@@ -24,8 +24,7 @@
 }
 
 .card-operation{
-  
-    width:661px;
+    min-width:661px;
     min-height: 600px;
 }
 
@@ -42,12 +41,12 @@
     height: 305px;
 }
 .card-hide{
-    width: 266px;
-    height: 96px;
+    min-width: 266px;
+    min-height: 96px;
 }
 .card-newOp{
-    width: 765px;
-    height: 600px;
+    min-width: 765px;
+    min-height: 600px;
 }
 
 .cardTitle {
@@ -55,7 +54,25 @@
     font-weight: bold;
     padding: 10px;
 }
+@media (max-width: 990px){
 
+    .container{
+       display: flex;
+       justify-content: center;
+       align-items: center;
+    } 
 
-
+    
+    .card-balance{
+        width: 600px;
+       
+    }
+    .card-filters{
+        width:600px;
+    }
+    .card-operation{
+        width:600px;
+        margin-top: 10px;
+    }
+}
 

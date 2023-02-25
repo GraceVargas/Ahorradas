@@ -1,5 +1,5 @@
 const nav = document.createElement('nav');
-nav.classList.add("p-4","navbar","bg-success","text-white","navbar-expand-lg","justify-content-sm-between"); //"container-fluid"
+nav.classList.add("p-4","navbar","bg-success","text-white","navbar-expand-lg","justify-content-between"); //"container-fluid","pos-f-t"
 const boxBrand = document.createElement('div');
 nav.appendChild(boxBrand);
 const homeLink = document.createElement('a');
@@ -15,9 +15,12 @@ pageTitle.appendChild(document.createTextNode("AhorrADAs"));
 homeLink.appendChild(pageTitle);
 
 const boxNav = document.createElement('div');
-boxNav.classList.add("d-lg-block","d-none","d-sm-block","d-md-block","d-lg-block","d-md-none","d-sm-none")
-boxNav.setAttribute('id',"navbarToggleExternalContent")
-nav.appendChild(boxNav);
+boxNav.classList.add("d-none", "d-lg-block","collapse","navbar-collapse")//"collapse",
+const boxCollapse = document.createElement('div')
+boxCollapse.setAttribute('id',"navbarToggleExternalContent")
+boxCollapse.classList.add("pos-f-t")
+nav.appendChild(boxCollapse);
+boxCollapse.appendChild(boxNav)
 const listNav = document.createElement('ul')
 listNav.classList.add("nav")
 const liNav1= document.createElement('li')
@@ -26,20 +29,23 @@ const liNav2 = document.createElement('li')
 listNav.appendChild(liNav2)
 const liNav3 = document.createElement('li')
 listNav.appendChild(liNav3)
-
-
 boxNav.appendChild(listNav)
 
+
+
+//Responsive
+
 const btnCollapse = document.createElement('button')
-btnCollapse.classList.add("navbar-toggler",)
-btnCollapse.setAttribute('data-bs-toggle',"collapse")
-btnCollapse.setAttribute("data-bs-target","#navbarToggleExternalContent")
+btnCollapse.classList.add("navbar-toggler", "d-block", "d-lg-none")
+btnCollapse.setAttribute('data-toggle',"collapse")
+btnCollapse.setAttribute("data-target","#navbarToggleExternalContent")
+btnCollapse.setAttribute('aria-controls',"navbarToggleExternalContent")
+btnCollapse.setAttribute('aria-expanded',"false")
+btnCollapse.setAttribute('aria-label',"Toggle navigation")
 const spanToggler = document.createElement('span')
-spanToggler.classList.add("navbar-toggler-icon")
+spanToggler.classList.add("fa-solid", "fa-bars","text-white")
 btnCollapse.appendChild(spanToggler)
-boxNav.appendChild(btnCollapse)
-
-
+boxCollapse.appendChild(btnCollapse)
 
 
 const iconBalance = document.createElement('i');
@@ -73,18 +79,8 @@ aReport.appendChild(iconReport);
 aReport.appendChild(document.createTextNode('Reportes'));
 liNav3.appendChild(aReport);
 
-// const boxNavBar = document.createElement('div')
-// boxNavBar.classList.add("pos-f-t", "d-sm-none")
-// const navCollapse = document.createElement('div')
-// navCollapse.classList.add("collapse")
-// navCollapse.setAttribute('id',"navbarToggleExternalContent")
-// boxNavBar.appendChild(navCollapse);
+// btnCollapse.addEventListener('click',()=>{
 
-
-// navCollapse.appendChild(btnCollapse)
-
-
-
-
+// })
 
 header.appendChild(nav);

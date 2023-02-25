@@ -128,7 +128,6 @@ const createCategoryList = () => {
            
             let index = categories.indexOf(category);
             stored.categories.splice(index, 1);
-            console.log(stored.categories);
 
             localStorage.setItem('storedData', JSON.stringify(stored));
             createCategoryList();

@@ -5,8 +5,7 @@
     margin: 0px;
 }
 .card-balance{
-    width: 265px;
-    overflow: hidden; 
+    width: 272px;
 } 
 .centralCard {
     width: 60%;
@@ -38,8 +37,8 @@
   color: black;
 }
 .card-filters{
-    min-width: 265px;
-    min-height: 424px;
+    width: 272px;
+    height: 305px;
 }
 .card-hide{
     min-width: 266px;

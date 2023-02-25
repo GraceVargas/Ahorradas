@@ -42,7 +42,7 @@ trProfits.appendChild(tdProfits);
 tdProfits.appendChild(document.createTextNode("Ganancias"));
 tdProfits.classList.add("fs-5");
 var tdNumberProfits = document.createElement("td");
-tdNumberProfits.classList.add("ps-5");
+tdNumberProfits.classList.add("ps-3", "text-end");
 trProfits.appendChild(tdNumberProfits);
 var spanProfit = document.createElement("span");
 spanProfit.appendChild(document.createTextNode("+$".concat(storage.totalProfits)));
@@ -55,7 +55,7 @@ trBills.appendChild(tdBills);
 tdBills.appendChild(document.createTextNode("Gastos"));
 tdBills.classList.add("fs-5");
 var tdNumberBills = document.createElement("td");
-tdNumberBills.classList.add("ps-5", "text-wrap");
+tdNumberBills.classList.add("ps-3", "text-end");
 var spanBills = document.createElement("span");
 spanBills.appendChild(document.createTextNode("-$".concat(storage.totalBills)));
 spanBills.classList.add("text-danger", "ms-5");
@@ -68,10 +68,10 @@ trSum.appendChild(tdSum);
 tdSum.appendChild(document.createTextNode("Total"));
 tdSum.classList.add("fs-4", "text-wrap");
 var tdNumberSum = document.createElement("td");
-tdNumberSum.classList.add("ps-5", "pt-3");
+tdNumberSum.classList.add("ps-3", "pt-3", "text-end");
 trSum.appendChild(tdNumberSum);
 var spanSum = document.createElement("span");
-spanSum.appendChild(document.createTextNode("".concat(storage.totalProfits - storage.totalBills))); // darle estilo
+spanSum.appendChild(document.createTextNode("$".concat(storage.totalProfits - storage.totalBills)));
 spanSum.classList.add("fw-bold", "ms-5");
 tdNumberSum.appendChild(spanSum);
 //Card Filters
@@ -131,34 +131,37 @@ filters.title.forEach(function (elem) {
                     select_1.appendChild(option);
                 });
                 break;
-            case "Ordenar por":
-                filters.sortBy.forEach(function (order) {
-                    var option = document.createElement("option");
-                    option.appendChild(document.createTextNode(order));
-                    option.value = order;
-                    select_1.appendChild(option);
-                });
-                break;
+            // case "Ordenar por":
+            //   filters.sortBy.forEach((order) => {
+            //     const option = document.createElement("option")
+            //     option.appendChild(document.createTextNode(order))
+            //     option.value = order;
+            //     select.appendChild(option)
+            //   });
+            //   break;
             default:
                 break;
 
         }
         form.appendChild(select_1);
+        if (elem == "Ordenar por") {
+            label.style.display = "none";
+        }
     }
-    else if (elem === "Desde") {
-        var input = document.createElement("input");
-        input.classList.add("form-control", "mb-3");
-        input.setAttribute("type", "date");
-        input.setAttribute('id', 'date');
-        var date = new Date();
-        input.value = date.toString();
-        var label = document.createElement("label");
-        label.classList.add("fw-bold", "mb-2");
-        label.setAttribute("for", elem);
-        label.appendChild(document.createTextNode(elem));
-        form.appendChild(label);
-        form.appendChild(input);
-    }
+    // else if (elem === "Desde") {
+    //   const input = document.createElement("input") as HTMLInputElement;
+    //   input.classList.add("form-control", "mb-3");
+    //   input.setAttribute("type", "date");
+    //   input.setAttribute('id', 'date');
+    //   const date = new Date();  
+    //   input.value = date.toString();
+    //   const label = document.createElement("label")
+    //   label.classList.add("fw-bold", "mb-2")
+    //   label.setAttribute("for", elem)
+    //   label.appendChild(document.createTextNode(elem))
+    //   form.appendChild(label)
+    //   form.appendChild(input)
+    // }  
 });
 // Events Filters
 hideFilters.addEventListener("click", function () {
@@ -174,29 +177,30 @@ btnShowFilters.addEventListener("click", function () {
     hideFilters.classList.remove("display-none");
 });
 // Filters events for Table
-var filterOption = "";
-var filterCat = "";
-var orderOption = "";
 var filterType = document.getElementById('Tipo');
 filterType.addEventListener('change', function (e) {
-    e.stopPropagation();
+    e.preventDefault();
     var params = new URLSearchParams(window.location.search);
     params.set('type', e.target.value);
     window.location.href = window.location.pathname + '?' + params.toString();
+    if (e.target.value === "Todos") {
+        window.location.href = window.location.href;
+    }
 });
 var filterCategory = document.getElementById('Categoría');
 filterCategory.addEventListener('change', function (e) {
-    e.stopPropagation();
+    e.preventDefault();
     var params = new URLSearchParams(window.location.search);
     params.set('category', e.target.value);
     window.location.href = window.location.pathname + '?' + params.toString();
 });
 var orderBy = document.getElementById('Ordenar por');
-orderBy.addEventListener('change', function (e) {
-    var params = new URLSearchParams(window.location.search);
-    params.set('date', e.target.value);
-    window.location.href = window.location.pathname + '?' + params.toString();
-});
+orderBy.style.display = "none";
+//   orderBy.addEventListener('change', (e) => {
+//   const params = new URLSearchParams(window.location.search);
+//   params.set('date', e.target.value);
+//   window.location.href = window.location.pathname + '?' + params.toString(); 
+// })
 //Card Operation
 var columnOperation = document.createElement("div");
 columnOperation.classList.add("col-lg-7");
@@ -390,7 +394,7 @@ var operationLabels = [
     "Fecha",
     "Monto",
     "Acciones",
-]; // hacer un objeto con descripcion : "value" para poder capturar 
+];
 var containerTable = document.createElement("div");
 cardOperation.appendChild(containerTable);
 var operationTable = document.createElement("table");
@@ -403,7 +407,6 @@ var createOperationTable = function (tableHeads) {
     operationTable.appendChild(operationTb);
     var tRow = document.createElement("tr");
     operationTable.appendChild(tRow);
-    // tRow.style.width = "30px"
     var tableHead = document.createElement("thead");
     operationTable.appendChild(tableHead);
     operationLabels.forEach(function (tablehead) {
@@ -417,7 +420,6 @@ var createOperationTable = function (tableHeads) {
     var params = new URLSearchParams(window.location.search);
     var typeParams = params.get('type');
     var categoryParams = params.get('category');
-    console.log(operations);
     if (typeParams && !categoryParams) {
         operations = operations.filter(function (op) { return op.type === typeParams; });
     }
@@ -427,12 +429,6 @@ var createOperationTable = function (tableHeads) {
     else if (typeParams && categoryParams) {
         operations = operations.filter(function (op) { return op.type === typeParams && op.category === categoryParams; });
     }
-    // if (params.get('type') === "Todos") {
-    //   operations = storage.operations;
-    // } 
-    // if (params.get('category')=== "Todas") {
-    //   operations = storage.operations;
-    // }
     operations.forEach(function (operation) {
         var tRow = document.createElement("tr");
         tRow.setAttribute('class', 'tRow');
@@ -449,33 +445,49 @@ var createOperationTable = function (tableHeads) {
         tdBills.appendChild(document.createTextNode(operation.date));
         tRow.appendChild(tdBills);
         var totalAmount = document.createElement("td");
+        totalAmount.classList.add("text-end");
         totalAmount.appendChild(document.createTextNode("$".concat(operation.amount))); // sumar + o - si es gasto o profit
         totalAmount.classList.add("text-success", "fw-bold");
         tRow.appendChild(totalAmount);
         operationTable.appendChild(tRow);
         if (operationLabels[4] === "Acciones") {
             var tdAction = document.createElement("td");
+            tdAction.classList.add("text-center");
             tRow.appendChild(tdAction);
             var boxBtn = document.createElement("div");
             boxBtn.classList.add("btn-group-vertical");
             tdAction.appendChild(boxBtn);
-            var editBtn = document.createElement("button");
-            editBtn.setAttribute("id", "editBtn");
-            editBtn.classList.add("btn", "btn-link");
-            editBtn.style.fontSize = "12px";
-            editBtn.appendChild(document.createTextNode("Editar"));
-            boxBtn.appendChild(editBtn);
             var delOp = document.createElement("button");
             delOp.setAttribute("id", "delBtn");
             delOp.classList.add("btn", "btn-link");
             delOp.style.fontSize = "12px";
             delOp.appendChild(document.createTextNode("Eliminar"));
             boxBtn.appendChild(delOp);
+            delOp.addEventListener('click', function () {
+                var index = operations.indexOf(operation);
+                storage.operations.splice(index, 1);
+                if (operation.type === "Gasto") {
+                    storage.totalBills += parseInt(operation.amount);
+                    for (var _i = 0, _a = storage.categories; _i < _a.length; _i++) {
+                        var category = _a[_i];
+                        if (operation.category === category.name) {
+                            category.totalBills += parseInt(operation.amount);
+                        }
+                    }
+                }
+                else {
+                    storage.totalProfits -= parseInt(operation.amount);
+                    for (var _b = 0, _c = storage.categories; _b < _c.length; _b++) {
+                        var category = _c[_b];
+                        if (operation.category === category.name) {
+                            category.totalProfits -= parseInt(operation.amount);
+                        }
+                    }
+                }
+                localStorage.setItem('storedData', JSON.stringify(storage));
+                location.reload();
+            });
         }
-        // delOp.addEventListener('click', () => {
-        //  // let valuess =
-        //  // let index = tableHeads.indexOf(tableHead);
-        //  // tRow.splice(index, 1);
     });
 };
 var setTable = function () {

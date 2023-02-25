@@ -182,7 +182,7 @@ var operationsTableTitle = document.createElement('caption');
 operationsTableTitle.appendChild(document.createTextNode("Resumen"));
 operationsTableTitle.classList.add("caption-top");
 operationsTable.appendChild(operationsTableTitle);
-var itemsSummit = ["Categoría con mayor ganancia", "Categoría con mayor gasto", "Categoría con mayor balance", "Mes con mayor ganancia", "Mes con mayor gasto"];
+var itemsSummit = ["Categoría con mayor ganancia", "Categoría con mayor gasto", "Categoría con mayor balance"];
 var createSummitTable = function (items) {
     for (var _i = 0, items_1 = items; _i < items_1.length; _i++) {
         var item = items_1[_i];
@@ -198,23 +198,23 @@ var createSummitTable = function (items) {
         switch (item) {
             case "Categoría con mayor ganancia":
                 tDataText.appendChild(document.createTextNode(maxProfitCat));
-                totalAmount.appendChild(document.createTextNode(maxProfit.toString()));
+                totalAmount.appendChild(document.createTextNode("+$".concat(maxProfit.toString())));
+                totalAmount.classList.add("text-success", "ms-5", "text-end");
                 break;
             case "Categoría con mayor gasto":
                 tDataText.appendChild(document.createTextNode(maxBillsCat));
-                totalAmount.appendChild(document.createTextNode(maxBills.toString()));
+                totalAmount.appendChild(document.createTextNode("-$".concat(maxBills.toString())));
+                totalAmount.classList.add("text-danger", "ms-5", "text-end");
                 break;
             case "Categoría con mayor balance":
                 tDataText.appendChild(document.createTextNode(maxBalanceCat));
-                totalAmount.appendChild(document.createTextNode(maxBalance.toString()));
-                break;
-            case "Mes con mayor ganancia":
-                tDataText.appendChild(document.createTextNode(maxProfitsMonth.toString()));
-                totalAmount.appendChild(document.createTextNode(maxProfitsAmountMonth.toString()));
-                break;
-            case "Mes con mayor gasto":
-                tDataText.appendChild(document.createTextNode(maxBillsMonth.toString()));
-                totalAmount.appendChild(document.createTextNode(maxBillsAmountMonth.toString()));
+                totalAmount.appendChild(document.createTextNode("$".concat(maxBalance.toString())));
+                if (maxBalance > 0) {
+                    totalAmount.classList.add("text-success", "ms-5", "text-end");
+                }
+                else if (maxBalance < 0) {
+                    totalAmount.classList.add("text-danger", "ms-5", "text-end");
+                }
                 break;
         }
         tDataCat.appendChild(tDataText);
@@ -246,6 +246,7 @@ var createTotalCatsTable = function (total, tableHeads) {
         var head = tableHeads_1[_i];
         var titleHeader_1 = document.createElement('th');
         titleHeader_1.appendChild(document.createTextNode(head));
+        titleHeader_1.classList.add("text-end");
         tableHead.appendChild(titleHeader_1);
     }
     var totTableBody = document.createElement('tbody');
@@ -260,13 +261,16 @@ var createTotalCatsTable = function (total, tableHeads) {
             tdCat.appendChild(document.createTextNode(category.name));
             tRow.appendChild(tdCat);
             var tdProfits = document.createElement('td');
-            tdProfits.appendChild(document.createTextNode(category.totalProfits));
+            tdProfits.appendChild(document.createTextNode("+$".concat(category.totalProfits)));
+            tdProfits.classList.add("text-success", "ms-5", "text-end");
             tRow.appendChild(tdProfits);
             var tdBills = document.createElement('td');
-            tdBills.appendChild(document.createTextNode(category.totalBills));
+            tdBills.appendChild(document.createTextNode("+$".concat(category.totalBills)));
+            tdBills.classList.add("text-danger", "ms-5", "text-end");
             tRow.appendChild(tdBills);
             var totalAmount = document.createElement('td');
             totalAmount.appendChild(document.createTextNode("".concat(category.totalProfits - category.totalBills)));
+            totalAmount.classList.add("text-end");
             tRow.appendChild(totalAmount);
         }
     }
@@ -332,7 +336,6 @@ var setReport = function () {
         operationsText.style.display = "none";
         summaryCard.classList.remove("display-none");
         createTotalCatsTable("Categoria", tableHeads);
-        createTotalMonthTable("Mes", tableHeads);
     }
 };
 setReport();

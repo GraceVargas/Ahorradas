@@ -204,7 +204,7 @@ operationsTableTitle.appendChild(document.createTextNode("Resumen"));
 operationsTableTitle.classList.add("caption-top");
 operationsTable.appendChild(operationsTableTitle);
 
-const itemsSummit = ["Categoría con mayor ganancia", "Categoría con mayor gasto", "Categoría con mayor balance", "Mes con mayor ganancia", "Mes con mayor gasto"];
+const itemsSummit = ["Categoría con mayor ganancia", "Categoría con mayor gasto", "Categoría con mayor balance"];
 
 const createSummitTable = (items: string[]) => {
 
@@ -225,19 +225,21 @@ const createSummitTable = (items: string[]) => {
         switch(item) {
             case "Categoría con mayor ganancia": 
                 tDataText.appendChild(document.createTextNode(maxProfitCat));
-                totalAmount.appendChild(document.createTextNode(maxProfit.toString())); break;
+                totalAmount.appendChild(document.createTextNode(`+$${maxProfit.toString()}`)); 
+                totalAmount.classList.add("text-success", "ms-5", "text-end"); break;
             case "Categoría con mayor gasto":
                 tDataText.appendChild(document.createTextNode(maxBillsCat));
-                totalAmount.appendChild(document.createTextNode(maxBills.toString())); break;
+                totalAmount.appendChild(document.createTextNode(`-$${maxBills.toString()}`)); 
+                totalAmount.classList.add("text-danger", "ms-5", "text-end"); break;
             case "Categoría con mayor balance":
                 tDataText.appendChild(document.createTextNode(maxBalanceCat));
-                totalAmount.appendChild(document.createTextNode(maxBalance.toString())); break;  
-            case "Mes con mayor ganancia":
-                tDataText.appendChild(document.createTextNode(maxProfitsMonth.toString()));
-                totalAmount.appendChild(document.createTextNode(maxProfitsAmountMonth.toString())); break; 
-            case "Mes con mayor gasto":
-                tDataText.appendChild(document.createTextNode(maxBillsMonth.toString()));
-                totalAmount.appendChild(document.createTextNode(maxBillsAmountMonth.toString())); break; 
+                totalAmount.appendChild(document.createTextNode(`$${maxBalance.toString()}`)); 
+                if (maxBalance > 0) {
+                    totalAmount.classList.add("text-success", "ms-5", "text-end");
+                } else if (maxBalance < 0) {
+                    totalAmount.classList.add("text-danger", "ms-5", "text-end");
+                }
+                break;  
         }
         
         
@@ -281,6 +283,7 @@ const createTotalCatsTable = (total: string, tableHeads: string[]) => {
     for (let head of tableHeads) {
         const titleHeader = document.createElement('th');
         titleHeader.appendChild(document.createTextNode(head));
+        titleHeader.classList.add("text-end");
         tableHead.appendChild(titleHeader);
     }
 
@@ -298,15 +301,18 @@ const createTotalCatsTable = (total: string, tableHeads: string[]) => {
             tRow.appendChild(tdCat);
 
             let tdProfits = document.createElement('td');  
-            tdProfits.appendChild(document.createTextNode(category.totalProfits));  
+            tdProfits.appendChild(document.createTextNode(`+$${category.totalProfits}`));  
+            tdProfits.classList.add("text-success", "ms-5", "text-end");
             tRow.appendChild(tdProfits);
 
             let tdBills = document.createElement('td');  
-            tdBills.appendChild(document.createTextNode(category.totalBills));  
+            tdBills.appendChild(document.createTextNode(`+$${category.totalBills}`));  
+            tdBills.classList.add("text-danger", "ms-5", "text-end");
             tRow.appendChild(tdBills);
 
             let totalAmount = document.createElement('td');
             totalAmount.appendChild(document.createTextNode(`${category.totalProfits - category.totalBills}`)); 
+            totalAmount.classList.add("text-end");
             tRow.appendChild(totalAmount);
         }
     };
@@ -394,7 +400,6 @@ const setReport = () => {
         
         
         createTotalCatsTable("Categoria", tableHeads); 
-        createTotalMonthTable("Mes", tableHeads); 
     }
 }
 

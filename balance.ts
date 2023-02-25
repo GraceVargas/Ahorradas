@@ -59,7 +59,7 @@ trProfits.appendChild(tdProfits);
 tdProfits.appendChild(document.createTextNode("Ganancias"));
 tdProfits.classList.add("fs-5");
 const tdNumberProfits = document.createElement("td");
-tdNumberProfits.classList.add("ps-5");
+tdNumberProfits.classList.add("ps-3", "text-end");
 trProfits.appendChild(tdNumberProfits);
 const spanProfit = document.createElement("span");
 spanProfit.appendChild(document.createTextNode(`+$${storage.totalProfits}`));
@@ -73,7 +73,7 @@ trBills.appendChild(tdBills);
 tdBills.appendChild(document.createTextNode("Gastos"));
 tdBills.classList.add("fs-5");
 const tdNumberBills = document.createElement("td");
-tdNumberBills.classList.add("ps-5");
+tdNumberBills.classList.add("ps-3", "text-end");
 const spanBills = document.createElement("span");
 spanBills.appendChild(document.createTextNode(`-$${storage.totalBills}`));
 spanBills.classList.add("text-danger", "ms-5");
@@ -89,10 +89,10 @@ trSum.appendChild(tdSum);
 tdSum.appendChild(document.createTextNode("Total"));
 tdSum.classList.add("fs-4");
 const tdNumberSum = document.createElement("td");
-tdNumberSum.classList.add("ps-5", "pt-3");
+tdNumberSum.classList.add("ps-3", "pt-3", "text-end");
 trSum.appendChild(tdNumberSum);
 const spanSum = document.createElement("span");
-spanSum.appendChild(document.createTextNode(`${storage.totalProfits - storage.totalBills}`)); // darle estilo
+spanSum.appendChild(document.createTextNode(`$${storage.totalProfits - storage.totalBills}`)); 
 spanSum.classList.add("fw-bold", "ms-5");
 tdNumberSum.appendChild(spanSum);
 
@@ -163,34 +163,40 @@ filters.title.forEach((elem) => {
           select.appendChild(option)
         });
         break;
-      case "Ordenar por":
-        filters.sortBy.forEach((order) => {
-          const option = document.createElement("option")
-          option.appendChild(document.createTextNode(order))
-          option.value = order;
-          select.appendChild(option)
-        });
-        break;
+      // case "Ordenar por":
+      //   filters.sortBy.forEach((order) => {
+      //     const option = document.createElement("option")
+      //     option.appendChild(document.createTextNode(order))
+      //     option.value = order;
+      //     select.appendChild(option)
+      //   });
+      //   break;
       default: 
         break;
     }
     form.appendChild(select);
 
-  } else if (elem === "Desde") {
-    const input = document.createElement("input") as HTMLInputElement;
-    input.classList.add("form-control", "mb-3");
-    input.setAttribute("type", "date");
-    input.setAttribute('id', 'date');
-
-    const date = new Date();  
-    input.value = date.toString();
-    const label = document.createElement("label")
-    label.classList.add("fw-bold", "mb-2")
-    label.setAttribute("for", elem)
-    label.appendChild(document.createTextNode(elem))
-    form.appendChild(label)
-    form.appendChild(input)
+    if (elem == "Ordenar por") {
+      label.style.display = "none";
+    }
   }  
+  
+
+  // else if (elem === "Desde") {
+  //   const input = document.createElement("input") as HTMLInputElement;
+  //   input.classList.add("form-control", "mb-3");
+  //   input.setAttribute("type", "date");
+  //   input.setAttribute('id', 'date');
+
+  //   const date = new Date();  
+  //   input.value = date.toString();
+  //   const label = document.createElement("label")
+  //   label.classList.add("fw-bold", "mb-2")
+  //   label.setAttribute("for", elem)
+  //   label.appendChild(document.createTextNode(elem))
+  //   form.appendChild(label)
+  //   form.appendChild(input)
+  // }  
 });
 
 // Events Filters
@@ -211,33 +217,34 @@ btnShowFilters.addEventListener("click", () => {
 
 // Filters events for Table
 
-let filterOption = "";
-let filterCat = "";
-let orderOption = "";
-
 const filterType = document.getElementById('Tipo') as HTMLSelectElement;
 filterType.addEventListener('change', (e) => {
-  e.stopPropagation();  
+  e.preventDefault();  
   const params = new URLSearchParams(window.location.search);
   params.set('type', e.target.value);
   window.location.href = window.location.pathname + '?' + params.toString();
+
+  if ( e.target.value === "Todos") {
+    window.location.href = window.location.href;
+  }
 
 })
 
 const filterCategory = document.getElementById('Categoría') as HTMLSelectElement;
 filterCategory.addEventListener('change', (e) => {
-  e.stopPropagation();  
+  e.preventDefault();  
   const params = new URLSearchParams(window.location.search);
   params.set('category', e.target.value);
   window.location.href = window.location.pathname + '?' + params.toString();
 })
 
-const orderBy = document.getElementById('Ordenar por') as HTMLSelectElement;
-  orderBy.addEventListener('change', (e) => {
-  const params = new URLSearchParams(window.location.search);
-  params.set('date', e.target.value);
-  window.location.href = window.location.pathname + '?' + params.toString(); 
-})
+ const orderBy = document.getElementById('Ordenar por') as HTMLSelectElement;
+ orderBy.style.display = "none";
+//   orderBy.addEventListener('change', (e) => {
+//   const params = new URLSearchParams(window.location.search);
+//   params.set('date', e.target.value);
+//   window.location.href = window.location.pathname + '?' + params.toString(); 
+// })
 
 
 //Card Operation
@@ -500,7 +507,7 @@ const operationLabels = [
   "Fecha",
   "Monto",
   "Acciones",
-]; // hacer un objeto con descripcion : "value" para poder capturar 
+]; 
 
 const containerTable = document.createElement("div"); 
 cardOperation.appendChild(containerTable);
@@ -518,7 +525,7 @@ const createOperationTable = (tableHeads: string[]) => {
 
     let tRow = document.createElement("tr");
     operationTable.appendChild(tRow);
-    // tRow.style.width = "30px"
+    
     const tableHead = document.createElement("thead")
     operationTable.appendChild(tableHead);
 
@@ -536,7 +543,6 @@ const createOperationTable = (tableHeads: string[]) => {
     const params = new URLSearchParams(window.location.search);
     let typeParams = params.get('type');
     let categoryParams = params.get('category');
-    console.log(operations);
     
 
     if (typeParams && !categoryParams) {
@@ -546,15 +552,7 @@ const createOperationTable = (tableHeads: string[]) => {
     } else if (typeParams && categoryParams) {
       operations = operations.filter(op => op.type === typeParams && op.category === categoryParams);
     }
-    
-    
-    
-    // if (params.get('type') === "Todos") {
-    //   operations = storage.operations;
-    // } 
-    // if (params.get('category')=== "Todas") {
-    //   operations = storage.operations;
-    // }
+
 
    operations.forEach(operation => {
      
@@ -570,34 +568,56 @@ const createOperationTable = (tableHeads: string[]) => {
     tdBills.appendChild(document.createTextNode(operation.date)); 
     tRow.appendChild(tdBills);
     let totalAmount = document.createElement("td");
+    totalAmount.classList.add("text-end");
     totalAmount.appendChild(document.createTextNode(`$${operation.amount}`)); // sumar + o - si es gasto o profit
     tRow.appendChild(totalAmount);
     operationTable.appendChild(tRow);
 
     if (operationLabels[4] === "Acciones") {
       let tdAction = document.createElement("td");
+      tdAction.classList.add("text-center");
       tRow.appendChild(tdAction);
       const boxBtn = document.createElement("div");
       boxBtn.classList.add("btn-group-vertical");
       tdAction.appendChild(boxBtn);
-      let editBtn = document.createElement("button");
-      editBtn.setAttribute("id", "editBtn");
-      editBtn.classList.add("btn", "btn-link");
-      editBtn.style.fontSize = "12px"
-      editBtn.appendChild(document.createTextNode("Editar"))
-      boxBtn.appendChild(editBtn)
       const delOp = document.createElement("button")
       delOp.setAttribute("id", "delBtn")
       delOp.classList.add("btn", "btn-link")
       delOp.style.fontSize = "12px"
       delOp.appendChild(document.createTextNode("Eliminar"))
       boxBtn.appendChild(delOp);
-    }
 
-      // delOp.addEventListener('click', () => {
-      //  // let valuess =
-      //  // let index = tableHeads.indexOf(tableHead);
-      //  // tRow.splice(index, 1);
+
+      delOp.addEventListener('click', () => {
+           
+        let index = operations.indexOf(operation);
+        storage.operations.splice(index, 1);
+
+        if (operation.type === "Gasto") {
+          storage.totalBills += parseInt(operation.amount); 
+     
+          for (let category of storage.categories) {        
+            if (operation.category === category.name) {                 
+              category.totalBills += parseInt(operation.amount);
+            }
+          }
+
+        } else {
+          storage.totalProfits -= parseInt(operation.amount); 
+    
+          for (let category of storage.categories) {
+            if (operation.category === category.name) {
+              category.totalProfits -= parseInt(operation.amount);
+            }
+          }
+        }
+
+
+        localStorage.setItem('storedData', JSON.stringify(storage));
+        location.reload();
+    })
+
+    }
   })
 }
 
@@ -629,3 +649,5 @@ btnNewOperation.addEventListener("click", (e) => {
   cardNewOperation.appendChild(boxButton);
   createForm();
 })
+
+

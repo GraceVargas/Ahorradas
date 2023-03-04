@@ -102,7 +102,6 @@ column.appendChild(cardFilters);
 rowWrapper.appendChild(column);
 var form = document.createElement("form");
 cardFilters.appendChild(form);
-
 filters.title.forEach(function (elem) {
     if (elem != "Desde") {
         var label = document.createElement("label");
@@ -141,7 +140,6 @@ filters.title.forEach(function (elem) {
             //   break;
             default:
                 break;
-
         }
         form.appendChild(select_1);
         if (elem == "Ordenar por") {
@@ -178,22 +176,39 @@ btnShowFilters.addEventListener("click", function () {
 });
 // Filters events for Table
 var filterType = document.getElementById('Tipo');
+var filterCategory = document.getElementById('Categoría');
+var checkFilters = function () {
+    var urlParams = new URLSearchParams(window.location.search);
+    var selectedType = urlParams.get('type');
+    var selectedCategory = urlParams.get('category');
+    if (selectedType) {
+        filterType.value = selectedType;
+    }
+    if (selectedCategory) {
+        filterCategory.value = selectedCategory;
+    }
+};
 filterType.addEventListener('change', function (e) {
-    e.preventDefault();
     var params = new URLSearchParams(window.location.search);
-    params.set('type', e.target.value);
-    window.location.href = window.location.pathname + '?' + params.toString();
     if (e.target.value === "Todos") {
-        window.location.href = window.location.href;
+        window.location.href = window.location.pathname;
+    }
+    else {
+        params.set('type', e.target.value);
+        window.location.href = window.location.pathname + '?' + params.toString();
     }
 });
-var filterCategory = document.getElementById('Categoría');
 filterCategory.addEventListener('change', function (e) {
-    e.preventDefault();
     var params = new URLSearchParams(window.location.search);
-    params.set('category', e.target.value);
-    window.location.href = window.location.pathname + '?' + params.toString();
+    if (e.target.value === "Todas") {
+        window.location.href = window.location.pathname;
+    }
+    else {
+        params.set('category', e.target.value);
+        window.location.href = window.location.pathname + '?' + params.toString();
+    }
 });
+checkFilters();
 var orderBy = document.getElementById('Ordenar por');
 orderBy.style.display = "none";
 //   orderBy.addEventListener('change', (e) => {
@@ -447,7 +462,6 @@ var createOperationTable = function (tableHeads) {
         var totalAmount = document.createElement("td");
         totalAmount.classList.add("text-end");
         totalAmount.appendChild(document.createTextNode("$".concat(operation.amount))); // sumar + o - si es gasto o profit
-        totalAmount.classList.add("text-success", "fw-bold");
         tRow.appendChild(totalAmount);
         operationTable.appendChild(tRow);
         if (operationLabels[4] === "Acciones") {

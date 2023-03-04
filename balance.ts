@@ -220,25 +220,46 @@ btnShowFilters.addEventListener("click", () => {
 // Filters events for Table
 
 const filterType = document.getElementById('Tipo') as HTMLSelectElement;
-filterType.addEventListener('change', (e) => {
-  e.preventDefault();  
-  const params = new URLSearchParams(window.location.search);
-  params.set('type', e.target.value);
-  window.location.href = window.location.pathname + '?' + params.toString();
+const filterCategory = document.getElementById('Categoría') as HTMLSelectElement;
 
-  if ( e.target.value === "Todos") {
-    window.location.href = window.location.href;
+const checkFilters = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  let selectedType = urlParams.get('type');
+  let selectedCategory = urlParams.get('category');
+
+  if (selectedType) {
+    filterType.value = selectedType;
   }
 
+   if (selectedCategory) {
+    filterCategory.value = selectedCategory;
+  }
+}
+
+filterType.addEventListener('change', (e) => {
+  const params = new URLSearchParams(window.location.search);
+
+  if (e.target.value === "Todos") {
+    window.location.href = window.location.pathname;
+  } else {
+    params.set('type', e.target.value);
+    window.location.href = window.location.pathname + '?' + params.toString();
+  }
 })
 
-const filterCategory = document.getElementById('Categoría') as HTMLSelectElement;
+
 filterCategory.addEventListener('change', (e) => {
-  e.preventDefault();  
   const params = new URLSearchParams(window.location.search);
+
+   if (e.target.value === "Todas") {
+    window.location.href = window.location.pathname;
+  } else {
   params.set('category', e.target.value);
   window.location.href = window.location.pathname + '?' + params.toString();
+  }
 })
+
+  checkFilters()
 
  const orderBy = document.getElementById('Ordenar por') as HTMLSelectElement;
  orderBy.style.display = "none";
@@ -577,7 +598,6 @@ const createOperationTable = (tableHeads: string[]) => {
     let totalAmount = document.createElement("td");
     totalAmount.classList.add("text-end");
     totalAmount.appendChild(document.createTextNode(`$${operation.amount}`)); // sumar + o - si es gasto o profit
-    totalAmount.classList.add("text-success","fw-bold")
     tRow.appendChild(totalAmount);
     operationTable.appendChild(tRow);
 

@@ -189,9 +189,12 @@ var checkFilters = function () {
     }
 };
 filterType.addEventListener('change', function (e) {
-    var params = new URLSearchParams(window.location.search);
+    var url = new URL(window.location.href);
+    var params = url.searchParams;
     if (e.target.value === "Todos") {
-        window.location.href = window.location.pathname;
+        params["delete"]('type');
+        var nueva_url = url.toString();
+        window.location.href = nueva_url;
     }
     else {
         params.set('type', e.target.value);
@@ -199,9 +202,12 @@ filterType.addEventListener('change', function (e) {
     }
 });
 filterCategory.addEventListener('change', function (e) {
-    var params = new URLSearchParams(window.location.search);
+    var url = new URL(window.location.href);
+    var params = url.searchParams;
     if (e.target.value === "Todas") {
-        window.location.href = window.location.pathname;
+        params["delete"]('category');
+        var nueva_url = url.toString();
+        window.location.href = nueva_url;
     }
     else {
         params.set('category', e.target.value);

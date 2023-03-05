@@ -224,6 +224,7 @@ const filterCategory = document.getElementById('Categoría') as HTMLSelectElemen
 
 const checkFilters = () => {
   const urlParams = new URLSearchParams(window.location.search);
+  
   let selectedType = urlParams.get('type');
   let selectedCategory = urlParams.get('category');
 
@@ -237,10 +238,15 @@ const checkFilters = () => {
 }
 
 filterType.addEventListener('change', (e) => {
-  const params = new URLSearchParams(window.location.search);
+
+  const url = new URL(window.location.href);
+  let params = url.searchParams;
 
   if (e.target.value === "Todos") {
-    window.location.href = window.location.pathname;
+    params.delete('type')
+    let nueva_url = url.toString();
+    window.location.href = nueva_url
+    
   } else {
     params.set('type', e.target.value);
     window.location.href = window.location.pathname + '?' + params.toString();
@@ -249,10 +255,13 @@ filterType.addEventListener('change', (e) => {
 
 
 filterCategory.addEventListener('change', (e) => {
-  const params = new URLSearchParams(window.location.search);
+  const url = new URL(window.location.href);
+  let params = url.searchParams;
 
    if (e.target.value === "Todas") {
-    window.location.href = window.location.pathname;
+    params.delete('category')
+    let nueva_url = url.toString();
+    window.location.href = nueva_url
   } else {
   params.set('category', e.target.value);
   window.location.href = window.location.pathname + '?' + params.toString();

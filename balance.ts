@@ -62,7 +62,7 @@ const tdNumberProfits = document.createElement("td");
 tdNumberProfits.classList.add("ps-3", "text-end");
 trProfits.appendChild(tdNumberProfits);
 const spanProfit = document.createElement("span");
-spanProfit.appendChild(document.createTextNode(`+$${storage.totalProfits}`));
+spanProfit.appendChild(document.createTextNode(`+$${new Intl.NumberFormat('de-DE').format(storage.totalProfits)}`));
 spanProfit.classList.add("text-success", "ms-5");
 tdNumberProfits.appendChild(spanProfit);
 
@@ -75,7 +75,7 @@ tdBills.classList.add("fs-5");
 const tdNumberBills = document.createElement("td");
 tdNumberBills.classList.add("ps-3", "text-end");
 const spanBills = document.createElement("span");
-spanBills.appendChild(document.createTextNode(`-$${storage.totalBills}`));
+spanBills.appendChild(document.createTextNode(`-$${new Intl.NumberFormat('de-DE').format(storage.totalBills)}`));
 spanBills.classList.add("text-danger", "ms-5");
 trBills.appendChild(tdNumberBills);
 tdNumberBills.appendChild(spanBills);
@@ -92,7 +92,7 @@ const tdNumberSum = document.createElement("td");
 tdNumberSum.classList.add("ps-3", "pt-3", "text-end");
 trSum.appendChild(tdNumberSum);
 const spanSum = document.createElement("span");
-spanSum.appendChild(document.createTextNode(`$${storage.totalProfits - storage.totalBills}`)); 
+spanSum.appendChild(document.createTextNode(`$${new Intl.NumberFormat('de-DE').format(storage.totalProfits - storage.totalBills)}`)); 
 spanSum.classList.add("fw-bold", "ms-5");
 tdNumberSum.appendChild(spanSum);
 
@@ -606,7 +606,7 @@ const createOperationTable = (tableHeads: string[]) => {
     tRow.appendChild(tdBills);
     let totalAmount = document.createElement("td");
     totalAmount.classList.add("text-end");
-    totalAmount.appendChild(document.createTextNode(`$${operation.amount}`)); // sumar + o - si es gasto o profit
+    totalAmount.appendChild(document.createTextNode(`$${new Intl.NumberFormat('de-DE').format(operation.amount)}`)); 
     tRow.appendChild(totalAmount);
     operationTable.appendChild(tRow);
 

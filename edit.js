@@ -5,15 +5,13 @@ var category = storage.categories.find(function (item) { return item.id === id; 
 // Container
 var container = document.createElement('div');
 container.classList.add("container-xl", "px-4", "d-flex", "justify-content-center");
-document.body.appendChild(container); // borrar
-// main.appendChild(container)
+main.appendChild(container);
+main.style.height = "83vh";
 // Card 
 var editCategoriesCard = document.createElement('div');
-editCategoriesCard.classList.add("border");
-editCategoriesCard.classList.add("centralCard");
+editCategoriesCard.classList.add("border", "centralCard", "card", "p-3", "shadow", "border", "my-5");
 editCategoriesCard.setAttribute("id", "editCategories");
-container.appendChild(editCategoriesCard); // borrar
-// main.appendChild(categoriesCard)
+container.appendChild(editCategoriesCard);
 // Card Title
 var editCategoriesTitle = document.createElement('h2');
 editCategoriesTitle.appendChild(document.createTextNode("Editar categoría"));
@@ -52,6 +50,7 @@ btnRow.appendChild(editSubmit);
 editSubmit.addEventListener("click", function () {
     category.name = formInput.value;
     localStorage.setItem('storedData', JSON.stringify(storage));
+    window.location.href = "file:///C:/Users/Gra/Desktop/Ada/ahorradas/categories.html";
 });
 // Cancel Button
 var cancelSubmit = document.createElement('a');

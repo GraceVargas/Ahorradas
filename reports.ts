@@ -225,15 +225,15 @@ const createSummitTable = (items: string[]) => {
         switch(item) {
             case "Categoría con mayor ganancia": 
                 tDataText.appendChild(document.createTextNode(maxProfitCat));
-                totalAmount.appendChild(document.createTextNode(`+$${maxProfit.toString()}`)); 
+                totalAmount.appendChild(document.createTextNode(`+$${new Intl.NumberFormat('de-DE').format(maxProfit.toString())}`)); 
                 totalAmount.classList.add("text-success", "ms-5", "text-end"); break;
             case "Categoría con mayor gasto":
                 tDataText.appendChild(document.createTextNode(maxBillsCat));
-                totalAmount.appendChild(document.createTextNode(`-$${maxBills.toString()}`)); 
+                totalAmount.appendChild(document.createTextNode(`-$${new Intl.NumberFormat('de-DE').format(maxBills.toString())}`)); 
                 totalAmount.classList.add("text-danger", "ms-5", "text-end"); break;
             case "Categoría con mayor balance":
                 tDataText.appendChild(document.createTextNode(maxBalanceCat));
-                totalAmount.appendChild(document.createTextNode(`$${maxBalance.toString()}`)); 
+                totalAmount.appendChild(document.createTextNode(`$${new Intl.NumberFormat('de-DE').format(maxBalance.toString())}`)); 
                 if (maxBalance > 0) {
                     totalAmount.classList.add("text-success", "ms-5", "text-end");
                 } else if (maxBalance < 0) {
@@ -301,17 +301,17 @@ const createTotalCatsTable = (total: string, tableHeads: string[]) => {
             tRow.appendChild(tdCat);
 
             let tdProfits = document.createElement('td');  
-            tdProfits.appendChild(document.createTextNode(`+$${category.totalProfits}`));  
+            tdProfits.appendChild(document.createTextNode(`$${new Intl.NumberFormat('de-DE').format(category.totalProfits)}`));  
             tdProfits.classList.add("text-success", "ms-5", "text-end");
             tRow.appendChild(tdProfits);
 
             let tdBills = document.createElement('td');  
-            tdBills.appendChild(document.createTextNode(`+$${category.totalBills}`));  
+            tdBills.appendChild(document.createTextNode(`$${new Intl.NumberFormat('de-DE').format(category.totalBills)}`));  
             tdBills.classList.add("text-danger", "ms-5", "text-end");
             tRow.appendChild(tdBills);
 
             let totalAmount = document.createElement('td');
-            totalAmount.appendChild(document.createTextNode(`${category.totalProfits - category.totalBills}`)); 
+            totalAmount.appendChild(document.createTextNode(`$${new Intl.NumberFormat('de-DE').format(category.totalProfits - category.totalBills)}`)); 
             totalAmount.classList.add("text-end");
             tRow.appendChild(totalAmount);
         }
@@ -399,7 +399,7 @@ const setReport = () => {
         summaryCard.classList.remove("display-none");
         
         
-        createTotalCatsTable("Categoria", tableHeads); 
+        createTotalCatsTable("Categoría", tableHeads); 
     }
 }
 

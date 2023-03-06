@@ -198,17 +198,17 @@ var createSummitTable = function (items) {
         switch (item) {
             case "Categoría con mayor ganancia":
                 tDataText.appendChild(document.createTextNode(maxProfitCat));
-                totalAmount.appendChild(document.createTextNode("+$".concat(maxProfit.toString())));
+                totalAmount.appendChild(document.createTextNode("+$".concat(new Intl.NumberFormat('de-DE').format(maxProfit.toString()))));
                 totalAmount.classList.add("text-success", "ms-5", "text-end");
                 break;
             case "Categoría con mayor gasto":
                 tDataText.appendChild(document.createTextNode(maxBillsCat));
-                totalAmount.appendChild(document.createTextNode("-$".concat(maxBills.toString())));
+                totalAmount.appendChild(document.createTextNode("-$".concat(new Intl.NumberFormat('de-DE').format(maxBills.toString()))));
                 totalAmount.classList.add("text-danger", "ms-5", "text-end");
                 break;
             case "Categoría con mayor balance":
                 tDataText.appendChild(document.createTextNode(maxBalanceCat));
-                totalAmount.appendChild(document.createTextNode("$".concat(maxBalance.toString())));
+                totalAmount.appendChild(document.createTextNode("$".concat(new Intl.NumberFormat('de-DE').format(maxBalance.toString()))));
                 if (maxBalance > 0) {
                     totalAmount.classList.add("text-success", "ms-5", "text-end");
                 }
@@ -261,15 +261,15 @@ var createTotalCatsTable = function (total, tableHeads) {
             tdCat.appendChild(document.createTextNode(category.name));
             tRow.appendChild(tdCat);
             var tdProfits = document.createElement('td');
-            tdProfits.appendChild(document.createTextNode("+$".concat(category.totalProfits)));
+            tdProfits.appendChild(document.createTextNode("$".concat(new Intl.NumberFormat('de-DE').format(category.totalProfits))));
             tdProfits.classList.add("text-success", "ms-5", "text-end");
             tRow.appendChild(tdProfits);
             var tdBills = document.createElement('td');
-            tdBills.appendChild(document.createTextNode("+$".concat(category.totalBills)));
+            tdBills.appendChild(document.createTextNode("$".concat(new Intl.NumberFormat('de-DE').format(category.totalBills))));
             tdBills.classList.add("text-danger", "ms-5", "text-end");
             tRow.appendChild(tdBills);
             var totalAmount = document.createElement('td');
-            totalAmount.appendChild(document.createTextNode("".concat(category.totalProfits - category.totalBills)));
+            totalAmount.appendChild(document.createTextNode("$".concat(new Intl.NumberFormat('de-DE').format(category.totalProfits - category.totalBills))));
             totalAmount.classList.add("text-end");
             tRow.appendChild(totalAmount);
         }
@@ -335,7 +335,7 @@ var setReport = function () {
         operationsTitle.style.display = "none";
         operationsText.style.display = "none";
         summaryCard.classList.remove("display-none");
-        createTotalCatsTable("Categoria", tableHeads);
+        createTotalCatsTable("Categoría", tableHeads);
     }
 };
 setReport();

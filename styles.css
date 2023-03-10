@@ -24,7 +24,7 @@
 }
 
 .card-operation{
-    min-width:661px;
+    width:642px;
     min-height: 600px;
 }
 
@@ -63,16 +63,38 @@
     } 
 
     
-    .card-balance{
+    .card-balance, .card-filters, .card-operation{
         width: 600px;
-       
+        margin: auto;
     }
-    .card-filters{
-        width:600px;
-    }
-    .card-operation{
-        width:600px;
-        margin-top: 10px;
+
+    .card-operation {    
+        margin-top: 10px !important;
     }
 }
+
+@media (max-width: 1100px){
+    .card-operation{
+        width:600px;
+    }
+}
+
+@media (max-width: 720px){
+    .card-operation, .card-balance, .card-filters {
+        width:500px;
+        margin: auto;
+    }
+
+    .card-newOp {
+        min-width:500px;
+    }
+}
+
+@media (max-width: 576px){
+    .card-operation, .card-balance, .card-filters, .card-newOp{
+        width:393px;
+    }
+
+}
+
 

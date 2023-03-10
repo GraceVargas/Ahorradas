@@ -27,7 +27,7 @@ const filters = {
 };
 
 const container = document.createElement("div")
-container.classList.add("p-5","container","container-md")
+container.classList.add("p-5","container","container-sm")
 const rowWrapper = document.createElement("div")
 rowWrapper.classList.add("row");
 container.appendChild(rowWrapper);

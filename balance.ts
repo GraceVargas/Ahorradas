@@ -123,7 +123,7 @@ boxTitleLink.appendChild(btnShowFilters);
 cardFilters.appendChild(boxTitleLink);
 
 const column = document.createElement("div");
-column.classList.add("col-4", "gx-5");
+column.classList.add("col-md-4", "col-sm-12","gx-5");
 column.appendChild(cardBalance);
 column.appendChild(cardFilters);
 rowWrapper.appendChild(column);
@@ -298,8 +298,19 @@ const btnNewOperation = document.createElement("button");
 btnNewOperation.appendChild(document.createTextNode("+ Nueva operación"));
 btnNewOperation.classList.add("btn", "btn-success");
 btnNewOperation.setAttribute("type", "button");
+btnNewOperation.setAttribute("id", "btnNewOperation");
 boxTitleBtn.appendChild(btnNewOperation);
 cardOperation.appendChild(boxTitleBtn);
+
+const btnNewOp_responsive = document.createElement("button");
+btnNewOp_responsive.appendChild(document.createTextNode("+"));
+btnNewOp_responsive.classList.add("btn", "btn-success");
+btnNewOp_responsive.setAttribute("type", "button");
+btnNewOp_responsive.setAttribute("id", "btnNewOp_responsive");
+btnNewOp_responsive.style.display = "none";
+boxTitleBtn.appendChild(btnNewOp_responsive);
+cardOperation.appendChild(boxTitleBtn);
+
 
 const imgOperation = document.createElement("img");
 imgOperation.setAttribute("src", "./assets/undraw_discount_d4bd.png");
@@ -542,6 +553,7 @@ const operationLabels = [
 ]; 
 
 const containerTable = document.createElement("div"); 
+containerTable.classList.add("table-responsive");
 cardOperation.appendChild(containerTable);
 const operationTable = document.createElement("table");
 operationTable.setAttribute('id', 'operationTable');
@@ -549,7 +561,7 @@ const operationTb = document.createElement("tbody");
 operationTb.setAttribute('id', 'operationTBody');
 operationTable.classList.add("table", "table-borderless","mt-5");
 
-
+ 
 const createOperationTable = (tableHeads: string[]) => {
 
 
@@ -603,6 +615,7 @@ const createOperationTable = (tableHeads: string[]) => {
     tRow.appendChild(tdProfits);
     let tdBills = document.createElement("td");
     tdBills.appendChild(document.createTextNode(operation.date)); 
+    tdBills.style.whiteSpace = "nowrap";
     tRow.appendChild(tdBills);
     let totalAmount = document.createElement("td");
     totalAmount.classList.add("text-end");
@@ -679,6 +692,15 @@ setTable();
 // Events
 
 btnNewOperation.addEventListener("click", (e) => {
+  e.preventDefault();
+  cardNewOperation.classList.remove("display-none");
+  rowWrapper.classList.add("display-none");
+  wrapperNewOp.classList.add("d-flex", "justify-content-center");
+  cardNewOperation.appendChild(boxButton);
+  createForm();
+})
+
+btnNewOp_responsive.addEventListener("click", (e) => {
   e.preventDefault();
   cardNewOperation.classList.remove("display-none");
   rowWrapper.classList.add("display-none");

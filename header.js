@@ -14,33 +14,40 @@ pageTitle.appendChild(iconWallet);
 pageTitle.appendChild(document.createTextNode("AhorrADAs"));
 homeLink.appendChild(pageTitle);
 var boxNav = document.createElement('div');
-boxNav.classList.add("d-none", "d-lg-block", "collapse", "navbar-collapse"); //"collapse",
+boxNav.setAttribute('id', "navbarSupportedContent");
+boxNav.classList.add("collapse", "navbar-collapse");
 var boxCollapse = document.createElement('div');
-boxCollapse.setAttribute('id', "navbarToggleExternalContent");
 boxCollapse.classList.add("pos-f-t");
 nav.appendChild(boxCollapse);
-boxCollapse.appendChild(boxNav);
-var listNav = document.createElement('ul');
-listNav.classList.add("nav");
-var liNav1 = document.createElement('li');
-listNav.appendChild(liNav1);
-var liNav2 = document.createElement('li');
-listNav.appendChild(liNav2);
-var liNav3 = document.createElement('li');
-listNav.appendChild(liNav3);
-boxNav.appendChild(listNav);
-//Responsive
 var btnCollapse = document.createElement('button');
-btnCollapse.classList.add("navbar-toggler", "d-block", "d-lg-none");
+btnCollapse.classList.add("navbar-toggler", "collapsed");
 btnCollapse.setAttribute('data-toggle', "collapse");
-btnCollapse.setAttribute("data-target", "#navbarToggleExternalContent");
-btnCollapse.setAttribute('aria-controls', "navbarToggleExternalContent");
+btnCollapse.setAttribute('type', "button");
+btnCollapse.setAttribute('data-bs-toggle', "collapse");
+btnCollapse.setAttribute('data-bs-target', "navbarSupportedContent");
+btnCollapse.setAttribute("data-target", "#navbarSupportedContent");
+btnCollapse.setAttribute('aria-controls', "navbarSupportedContent");
 btnCollapse.setAttribute('aria-expanded', "false");
 btnCollapse.setAttribute('aria-label', "Toggle navigation");
+btnCollapse.setAttribute('onclick', "toggleMenu()");
 var spanToggler = document.createElement('span');
 spanToggler.classList.add("fa-solid", "fa-bars", "text-white");
 btnCollapse.appendChild(spanToggler);
 boxCollapse.appendChild(btnCollapse);
+boxCollapse.appendChild(boxNav);
+var listNav = document.createElement('ul');
+listNav.classList.add("navbar-nav", "nav", "mr-auto");
+var liNav1 = document.createElement('li');
+liNav1.classList.add("nav-item", "active");
+listNav.appendChild(liNav1);
+var liNav2 = document.createElement('li');
+liNav2.classList.add("nav-item", "active");
+listNav.appendChild(liNav2);
+var liNav3 = document.createElement('li');
+liNav3.classList.add("nav-item", "active");
+listNav.appendChild(liNav3);
+boxNav.appendChild(listNav);
+//Responsive
 var iconBalance = document.createElement('i');
 iconBalance.classList.add("fa-solid", "fa-chart-column", "me-1");
 var iconCategory = document.createElement('i');
@@ -49,7 +56,7 @@ var iconReport = document.createElement('i');
 iconReport.classList.add("fa-solid", "fa-chart-pie", "me-1");
 var aBalance = document.createElement('a');
 aBalance.setAttribute("role", "button");
-aBalance.classList.add("btn", "btn-success");
+aBalance.classList.add("btn-success", "btn");
 aBalance.setAttribute('href', "./balance.html");
 aBalance.appendChild(iconBalance);
 aBalance.appendChild(document.createTextNode('Balance'));
@@ -68,6 +75,17 @@ aReport.setAttribute('href', "./reports.html");
 aReport.appendChild(iconReport);
 aReport.appendChild(document.createTextNode('Reportes'));
 liNav3.appendChild(aReport);
-// btnCollapse.addEventListener('click',()=>{
-// })
 header.appendChild(nav);
+var isOpen = false;
+function toggleMenu() {
+    isOpen = !isOpen;
+    var navbarCollapse = document.querySelector(".navbar-collapse");
+    if (isOpen) {
+        navbarCollapse.classList.add("show");
+        boxNav.classList.add("navbarSupportedContent_responsive");
+    }
+    else {
+        navbarCollapse.classList.remove("show");
+        boxNav.classList.remove("navbarSupportedContent_responsive");
+    }
+}

@@ -17,7 +17,7 @@ var filters = {
     ]
 };
 var container = document.createElement("div");
-container.classList.add("p-5", "container", "container-md");
+container.classList.add("p-5", "container", "container-sm");
 var rowWrapper = document.createElement("div");
 rowWrapper.classList.add("row");
 container.appendChild(rowWrapper);
@@ -96,7 +96,7 @@ boxTitleLink.appendChild(hideFilters);
 boxTitleLink.appendChild(btnShowFilters);
 cardFilters.appendChild(boxTitleLink);
 var column = document.createElement("div");
-column.classList.add("col-4", "gx-5");
+column.classList.add("col-md-4", "col-sm-12", "gx-5");
 column.appendChild(cardBalance);
 column.appendChild(cardFilters);
 rowWrapper.appendChild(column);
@@ -238,7 +238,16 @@ var btnNewOperation = document.createElement("button");
 btnNewOperation.appendChild(document.createTextNode("+ Nueva operación"));
 btnNewOperation.classList.add("btn", "btn-success");
 btnNewOperation.setAttribute("type", "button");
+btnNewOperation.setAttribute("id", "btnNewOperation");
 boxTitleBtn.appendChild(btnNewOperation);
+cardOperation.appendChild(boxTitleBtn);
+var btnNewOp_responsive = document.createElement("button");
+btnNewOp_responsive.appendChild(document.createTextNode("+"));
+btnNewOp_responsive.classList.add("btn", "btn-success");
+btnNewOp_responsive.setAttribute("type", "button");
+btnNewOp_responsive.setAttribute("id", "btnNewOp_responsive");
+btnNewOp_responsive.style.display = "none";
+boxTitleBtn.appendChild(btnNewOp_responsive);
 cardOperation.appendChild(boxTitleBtn);
 var imgOperation = document.createElement("img");
 imgOperation.setAttribute("src", "./assets/undraw_discount_d4bd.png");
@@ -417,6 +426,7 @@ var operationLabels = [
     "Acciones",
 ];
 var containerTable = document.createElement("div");
+containerTable.classList.add("table-responsive");
 cardOperation.appendChild(containerTable);
 var operationTable = document.createElement("table");
 operationTable.setAttribute('id', 'operationTable');
@@ -464,6 +474,7 @@ var createOperationTable = function (tableHeads) {
         tRow.appendChild(tdProfits);
         var tdBills = document.createElement("td");
         tdBills.appendChild(document.createTextNode(operation.date));
+        tdBills.style.whiteSpace = "nowrap";
         tRow.appendChild(tdBills);
         var totalAmount = document.createElement("td");
         totalAmount.classList.add("text-end");
@@ -527,6 +538,14 @@ var setTable = function () {
 setTable();
 // Events
 btnNewOperation.addEventListener("click", function (e) {
+    e.preventDefault();
+    cardNewOperation.classList.remove("display-none");
+    rowWrapper.classList.add("display-none");
+    wrapperNewOp.classList.add("d-flex", "justify-content-center");
+    cardNewOperation.appendChild(boxButton);
+    createForm();
+});
+btnNewOp_responsive.addEventListener("click", function (e) {
     e.preventDefault();
     cardNewOperation.classList.remove("display-none");
     rowWrapper.classList.add("display-none");

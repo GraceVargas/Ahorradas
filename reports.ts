@@ -211,6 +211,7 @@ const createSummitTable = (items: string[]) => {
     for (let item of items) {
 
         let tRow = document.createElement('tr');
+        tRow.classList.add('responsive_font')
         opTableBody.appendChild(tRow);
 
         // Items list
@@ -267,6 +268,7 @@ const createTotalCatsTable = (total: string, tableHeads: string[]) => {
 
     const totTable = document.createElement('table');
     totTable.classList.add("table", "table-borderless");
+    totTable.classList.add('responsive_font')
     totalCatCard.appendChild(totTable);
 
     const totTableTitle = document.createElement('caption');

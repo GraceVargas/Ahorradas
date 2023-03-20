@@ -61,6 +61,7 @@ const formSubmit = document.createElement('button');
 formSubmit.appendChild(document.createTextNode("Agregar"));
 formSubmit.classList.add("btn", "btn-primary", "btn-success");
 formSubmit.setAttribute("type", "submit");
+formSubmit.setAttribute("id", "addCat_btn");
 formColSubmit.appendChild(formSubmit);
 
 

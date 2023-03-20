@@ -187,6 +187,7 @@ var createSummitTable = function (items) {
     for (var _i = 0, items_1 = items; _i < items_1.length; _i++) {
         var item = items_1[_i];
         var tRow = document.createElement('tr');
+        tRow.classList.add('responsive_font');
         opTableBody.appendChild(tRow);
         // Items list
         var tDataItem = document.createElement('td');
@@ -232,6 +233,7 @@ var tableHeads = ["Ganancias", "Gastos", "Balance"];
 var createTotalCatsTable = function (total, tableHeads) {
     var totTable = document.createElement('table');
     totTable.classList.add("table", "table-borderless");
+    totTable.classList.add('responsive_font');
     totalCatCard.appendChild(totTable);
     var totTableTitle = document.createElement('caption');
     totTableTitle.appendChild(document.createTextNode("Totales por ".concat(total)));

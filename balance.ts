@@ -99,7 +99,7 @@ tdNumberSum.appendChild(spanSum);
 //Card Filters
 
 const cardFilters = document.createElement("div");
-cardFilters.classList.add("card-filters", "card", "p-3", "mt-3", "shadow","col-md-6","order-md-2");
+cardFilters.classList.add("card-filters", "card", "p-3", "mt-3", "shadow","col-lg-12","order-md-2");
 
 const cardTitle = document.createElement("h3");
 cardTitle.appendChild(document.createTextNode("Filtros"));

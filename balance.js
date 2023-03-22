@@ -76,7 +76,7 @@ spanSum.classList.add("fw-bold", "ms-5");
 tdNumberSum.appendChild(spanSum);
 //Card Filters
 var cardFilters = document.createElement("div");
-cardFilters.classList.add("card-filters", "card", "p-3", "mt-3", "shadow", "col-md-6", "order-md-2");
+cardFilters.classList.add("card-filters", "card", "p-3", "mt-3", "shadow", "col-lg-12", "order-md-2");
 var cardTitle = document.createElement("h3");
 cardTitle.appendChild(document.createTextNode("Filtros"));
 cardTitle.classList.add("fw-bolder", "text-dark", "text-opacity-75");

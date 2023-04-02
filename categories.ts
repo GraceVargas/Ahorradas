@@ -143,15 +143,11 @@ createCategoryList();
 
 form.addEventListener('submit', (e) =>{
     e.preventDefault();
-
     let stored = JSON.parse(localStorage.getItem('storedData'));
-
     stored.categories.push({id: stored.categories.length, name: formInput.value});
-
-
     localStorage.setItem('storedData', JSON.stringify(stored));
-    
     createCategoryList();
+    formInput.value = "";
 })
 
 

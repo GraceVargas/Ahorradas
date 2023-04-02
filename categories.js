@@ -97,4 +97,5 @@ form.addEventListener('submit', function (e) {
     stored.categories.push({ id: stored.categories.length, name: formInput.value });
     localStorage.setItem('storedData', JSON.stringify(stored));
     createCategoryList();
+    formInput.value = "";
 });

@@ -78,7 +78,7 @@ btnRow.appendChild(editSubmit);
 editSubmit.addEventListener("click", () => {
     category.name = formInput.value;
     localStorage.setItem('storedData', JSON.stringify(storage));
-    window.location.href = "file:///C:/Users/Gra/Desktop/Ada/ahorradas/categories.html";
+    window.location.href = "https://gracevargas.github.io/Ahorradas/categories.html";
 });
 
 
